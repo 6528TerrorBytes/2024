@@ -5,12 +5,12 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.subsystems.DriveSubsystem;
+// import frc.robot.subsystems.DriveSubsystem;
 
 public class ChangeSpeed extends SubsystemBase {
   private final double maxSpeed = 1.0;
-  private final double neutralSpeed = 0.8;
-  private final double lowerSpeed = 0.3;
+  private final double neutralSpeed = 0.5;
+  private final double lowerSpeed = 0.2;
 
   /** Creates a new ChangeSpeed. */
   public ChangeSpeed() {}

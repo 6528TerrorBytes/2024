@@ -75,9 +75,9 @@ public class RobotContainer {
     // Joystick buttons
 
     new JoystickButton(leftJoystick, 1).whileTrue(new DecreaseSpeed(m_changeSpeed));
-    new JoystickButton(rightJoystick, 1).whileTrue(new IncreaseSpeed(m_changeSpeed));
+    new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
   }
-
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
