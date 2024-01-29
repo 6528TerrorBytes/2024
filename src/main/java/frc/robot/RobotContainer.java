@@ -8,7 +8,6 @@ import frc.robot.Constants.OIConstants;
 // import frc.robot.commands.Autos;
 // import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -20,8 +19,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.commands.DecreaseSpeed;
 import frc.robot.commands.IncreaseSpeed;
-
 import frc.robot.subsystems.ChangeSpeed;
+
+import frc.robot.commands.IntakeCommand;
+import frc.robot.subsystems.IntakeSubsystem;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -30,14 +31,16 @@ import frc.robot.subsystems.ChangeSpeed;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public final ExampleSubsystem subsystem = new ExampleSubsystem();
-
   public final Joystick leftJoystick = new Joystick(1);
   public final Joystick rightJoystick = new Joystick(0);
 
-  private final DriveSubsystem robotDrive = new DriveSubsystem();
+  // intake, shooter, and other stuff (and aedan)
+  public final Joystick otherJoystick = new Joystick(2);
+
+  private final DriveSubsystem m_robotDrive = new DriveSubsystem();
 
   private final ChangeSpeed m_changeSpeed = new ChangeSpeed();
+  private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -60,22 +63,25 @@ public class RobotContainer {
 
     // front.whileTrue(new ExampleCommand(subsystem));
     
-    robotDrive.setDefaultCommand(
+    m_robotDrive.setDefaultCommand(
         // The left stick controls translation of the robot.
         // Turning is controlled by the X axis of the right stick.
         new RunCommand(
-            () -> robotDrive.drive(
+            () -> m_robotDrive.drive(
                 -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
                 -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
                 true, true),
-            robotDrive)
+            m_robotDrive)
+            // Call of duty (:<
     );
 
     // Joystick buttons
 
     new JoystickButton(leftJoystick, 1).whileTrue(new DecreaseSpeed(m_changeSpeed));
     new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
+
+    new JoystickButton(otherJoystick, 1).whileTrue(new IntakeCommand(m_intakeSubsystem));
   }
   
   /**

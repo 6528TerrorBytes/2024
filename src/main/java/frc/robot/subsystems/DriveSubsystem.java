@@ -126,7 +126,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
-    // System.out.println(m_gyro.getAngle());
+    System.out.println("Gyro: " + m_gyro.getAngle());
 
     double xSpeedCommanded;
     double ySpeedCommanded;
@@ -135,7 +135,7 @@ public class DriveSubsystem extends SubsystemBase {
     xSpeed *= speedMultiplier;
     ySpeed *= speedMultiplier;
 
-    System.out.println(speedMultiplier);
+    System.out.println("Speed: " + speedMultiplier);
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting

@@ -26,11 +26,9 @@ public final class Constants {
     public static final int kDriverControllerPort = 0;
   }
 
-  public static class Motors {
-    public static final CANSparkMax testMotor = new CANSparkMax(0, MotorType.kBrushless);
+  public static class MotorIDs {
+    public static final int intake = 1;
   }
-
-
 
   // default copy-pasted stuff here:
   // https://github.com/REVrobotics/MAXSwerve-Java-Template/blob/main/src/main/java/frc/robot/Constants.java
