@@ -8,11 +8,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeCommand extends Command {
+public class ReverseIntakeCommand extends Command {
   private final IntakeSubsystem m_intakeSubsystem;
 
-  /** Creates a new IntakeCommand. */
-  public IntakeCommand(IntakeSubsystem intakeSubsystem) {
+  /** Creates a new ReverseIntakeCommand. */
+  public ReverseIntakeCommand(IntakeSubsystem intakeSubsystem) {
+    System.out.println('h');
     m_intakeSubsystem = intakeSubsystem;
     addRequirements(m_intakeSubsystem);
   }
@@ -24,7 +25,7 @@ public class IntakeCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_intakeSubsystem.start();
+    m_intakeSubsystem.reverse();
   }
 
   // Called once the command ends or is interrupted.

@@ -22,6 +22,7 @@ import frc.robot.commands.IncreaseSpeed;
 import frc.robot.subsystems.ChangeSpeed;
 
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /**
@@ -59,6 +60,8 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
+
+    // this code is a mess but so am i (:)
     // JoystickButton front = new JoystickButton(joystick, 0);
 
     // front.whileTrue(new ExampleCommand(subsystem));
@@ -82,6 +85,7 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
 
     new JoystickButton(otherJoystick, 1).whileTrue(new IntakeCommand(m_intakeSubsystem));
+    new JoystickButton(otherJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
   }
   
   /**
