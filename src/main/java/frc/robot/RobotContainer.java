@@ -23,6 +23,7 @@ import frc.robot.subsystems.ChangeSpeed;
 
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.ReverseIntakeCommand;
+import frc.robot.commands.SlowIntakeCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
 /**
@@ -66,26 +67,27 @@ public class RobotContainer {
 
     // front.whileTrue(new ExampleCommand(subsystem));
     
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-                true, true),
-            m_robotDrive)
-            // Call of duty (:<
-    );
+    // m_robotDrive.setDefaultCommand(
+    //     // The left stick controls translation of the robot.
+    //     // Turning is controlled by the X axis of the right stick.
+    //     new RunCommand(
+    //         () -> m_robotDrive.drive(
+    //             -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
+    //             true, true),
+    //         m_robotDrive)
+    //         // Call of duty (:<
+    // );
 
     // Joystick buttons
 
     new JoystickButton(leftJoystick, 1).whileTrue(new DecreaseSpeed(m_changeSpeed));
     new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
 
-    new JoystickButton(otherJoystick, 1).whileTrue(new IntakeCommand(m_intakeSubsystem));
-    new JoystickButton(otherJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
+    new JoystickButton(leftJoystick, 1).whileTrue(new IntakeCommand(m_intakeSubsystem));
+    new JoystickButton(leftJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
+    new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
   }
   
   /**
