@@ -34,6 +34,7 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -124,8 +125,10 @@ public class RobotContainer {
     // Trajectory path of points that the robot will follow in autonomous
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(),
-      new Pose2d(1, 0, new Rotation2d(0)),
+      List.of(
+        new Translation2d(0.5, 0.5)
+      ),
+      new Pose2d(1, 0, Rotation2d.fromDegrees(-90)),
       trajectoryConfig
     );
 
