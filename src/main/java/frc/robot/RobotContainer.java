@@ -113,6 +113,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // Based heavily off of "FRC 0 to Autonomous"
+    System.out.println("Making Autonomous...");
 
     // Configuration for the trajectory (max speed and acceleration)
     TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
@@ -124,7 +125,7 @@ public class RobotContainer {
     Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
       new Pose2d(0, 0, new Rotation2d(0)),
       List.of(),
-      new Pose2d(0, 1, new Rotation2d(0)),
+      new Pose2d(1, 0, new Rotation2d(0)),
       trajectoryConfig
     );
 
@@ -147,6 +148,8 @@ public class RobotContainer {
       m_robotDrive::setModuleStates,
       m_robotDrive
     );
+
+    System.out.println("Finished");
     
     // Runs these three things in order as a single command
     return new SequentialCommandGroup(
