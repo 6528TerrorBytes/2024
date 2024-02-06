@@ -43,6 +43,8 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 
+import frc.robot.subsystems.ShooterTiltSubsystem;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -60,6 +62,8 @@ public class RobotContainer {
 
   private final ChangeSpeed m_changeSpeed = new ChangeSpeed();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
+
+  private final ShooterTiltSubsystem m_shooterTiltSubsystem = new ShooterTiltSubsystem();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
