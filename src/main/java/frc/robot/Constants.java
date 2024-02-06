@@ -28,6 +28,18 @@ public final class Constants {
 
   public static class MotorIDs {
     public static final int intake = 1;
+
+    public static final int shooterTilt = 2;
+  }
+
+  public static class ShooterConstants {
+    public static final float tiltP = 0;
+    public static final float tiltI = 0;
+    public static final float tiltD = 0;
+
+    // In meters
+    public static final float tiltMaxVelocity = 3;
+    public static final float tiltMaxAcceleration = 3;
   }
 
   // default copy-pasted stuff here:
