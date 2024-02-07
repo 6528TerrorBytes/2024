@@ -46,6 +46,10 @@ public final class Constants {
     public static final float tiltFeedForwardS = 1;
     public static final float tiltFeedForwardG = 1;
     public static final float tiltFeedForwardV = 1;
+
+    // Conversions
+    public static final double toRadians = 2 * Math.PI;
+    public static final double toRadiansPerSec = (2 * Math.PI) / 60;
   }
 
   // default copy-pasted stuff here:
