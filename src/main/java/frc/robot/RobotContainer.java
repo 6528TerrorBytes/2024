@@ -45,6 +45,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.ShooterTiltSubsystem;
 
+import frc.robot.commands.AutonRotate;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -68,6 +70,20 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    // Default command
+    // m_robotDrive.setDefaultCommand(
+    //     // The left stick controls translation of the robot.
+    //     // Turning is controlled by the X axis of the right stick.
+    //     new RunCommand(
+    //         () -> m_robotDrive.drive(
+    //             -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
+    //             true, true),
+    //         m_robotDrive)
+    //         // Call of duty (:<
+    // );
+
     // Configure the trigger bindings
     configureBindings();
   }
@@ -82,27 +98,7 @@ public class RobotContainer {
    * joysticks}.
    */
   private void configureBindings() {
-
-    // this code is a mess but so am i (:)
-    // JoystickButton front = new JoystickButton(joystick, 0);
-
-    // front.whileTrue(new ExampleCommand(subsystem));
-    
-    // m_robotDrive.setDefaultCommand(
-    //     // The left stick controls translation of the robot.
-    //     // Turning is controlled by the X axis of the right stick.
-    //     new RunCommand(
-    //         () -> m_robotDrive.drive(
-    //             -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-    //             true, true),
-    //         m_robotDrive)
-    //         // Call of duty (:<
-    // );
-
     // Joystick buttons
-
     new JoystickButton(leftJoystick, 1).whileTrue(new DecreaseSpeed(m_changeSpeed));
     new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
 
@@ -156,12 +152,15 @@ public class RobotContainer {
       m_robotDrive
     );
 
+    AutonRotate autonRotate = new AutonRotate(m_robotDrive);
+
     System.out.println("Finished");
     
     // Runs these three things in order as a single command
     return new SequentialCommandGroup(
       new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
       swerveCommand, // Run the swerve auton with the trajectory
+      autonRotate, // Rotates the bot 45 degrees maybe
       new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions
     );
   }

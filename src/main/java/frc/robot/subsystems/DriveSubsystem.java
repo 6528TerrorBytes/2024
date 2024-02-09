@@ -255,6 +255,15 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   /**
+   * Returns the raw gyro.getAngle() value.
+   * 
+   * @return the raw gyro angle from the lib.
+   */
+  public double getRawAngle() {
+    return m_gyro.getAngle();
+  }
+
+  /**
    * Returns the turn rate of the robot.
    *
    * @return The turn rate of the robot, in degrees per second
