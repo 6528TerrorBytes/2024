@@ -26,6 +26,10 @@ import frc.robot.commands.ReverseIntakeCommand;
 import frc.robot.commands.SlowIntakeCommand;
 import frc.robot.subsystems.IntakeSubsystem;
 
+import frc.robot.commands.ConveyerComand;
+import frc.robot.commands.ReverseConveyerCommand;
+import frc.robot.subsystems.ConveyerSubsystem;
+
 // Autonomous imports
 import java.util.List;
 import edu.wpi.first.math.trajectory.Trajectory;
@@ -65,7 +69,9 @@ public class RobotContainer {
   private final ChangeSpeed m_changeSpeed = new ChangeSpeed();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
-  private final ShooterTiltSubsystem m_shooterTiltSubsystem = new ShooterTiltSubsystem();
+  // private final ShooterTiltSubsystem m_shooterTiltSubsystem = new ShooterTiltSubsystem();
+
+  private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
@@ -99,11 +105,13 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Joystick buttons
-    new JoystickButton(leftJoystick, 1).whileTrue(new DecreaseSpeed(m_changeSpeed));
-    new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
+    // new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
 
-    new JoystickButton(leftJoystick, 1).whileTrue(new IntakeCommand(m_intakeSubsystem));
-    new JoystickButton(leftJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
+    new JoystickButton(leftJoystick, 1).whileTrue(new ConveyerComand(m_ConveyerSubsystem));
+    new JoystickButton(leftJoystick, 2).whileTrue(new ReverseConveyerCommand(m_ConveyerSubsystem));
+    
+    new JoystickButton(rightJoystick, 1).whileTrue(new IntakeCommand(m_intakeSubsystem));
+    new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
     new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
   }
   

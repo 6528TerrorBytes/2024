@@ -30,6 +30,9 @@ public final class Constants {
     public static final int intake = 1;
 
     public static final int shooterTilt = 2;
+
+    public static final int conveyerLeft = 3;
+    public static final int conveyerRight = 2;
   }
 
   public static class ShooterConstants {
