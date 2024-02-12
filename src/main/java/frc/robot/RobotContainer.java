@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
@@ -92,6 +93,8 @@ public class RobotContainer {
 
     // Configure the trigger bindings
     configureBindings();
+
+    // Configure information based on the driver station Team Station
   }
 
   /**
@@ -167,7 +170,7 @@ public class RobotContainer {
     // Runs these three things in order as a single command
     return new SequentialCommandGroup(
       new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
-      swerveCommand, // Run the swerve auton with the trajectory
+      // swerveCommand, // Run the swerve auton with the trajectory
       autonRotate, // Rotates the bot 45 degrees maybe
       new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions
     );

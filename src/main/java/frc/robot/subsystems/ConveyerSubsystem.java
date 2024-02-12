@@ -14,7 +14,7 @@ public class ConveyerSubsystem extends SubsystemBase {
   public final CANSparkMax conveyerLeft =  new CANSparkMax(Constants.MotorIDs.conveyerLeft,  MotorType.kBrushless);
   public final CANSparkMax conveyerRight = new CANSparkMax(Constants.MotorIDs.conveyerRight, MotorType.kBrushless);
 
-  private final double speed = 0.9;
+  private final double speed = 1;
 
   /** Creates a new ConveyerSubsystem. */
   public ConveyerSubsystem() {

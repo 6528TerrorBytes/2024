@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.DriveSubsystem;
 
+import frc.robot.LimelightHelpers;
+
 public class AutonRotate extends Command {
   private final DriveSubsystem m_driveSubsystem;
 
@@ -29,7 +31,9 @@ public class AutonRotate extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.drive(0, 0, 0.5, true, true);
+    // m_driveSubsystem.drive(0, 0, 0.5, true, true);
+
+    double tx = LimelightHelpers.getTX("");
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +43,7 @@ public class AutonRotate extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_driveSubsystem.getRawAngle() == angleGoal;
+    return false;
+    // return (int)(m_driveSubsystem.getRawAngle()) >= angleGoal;
   }
 }
