@@ -2,18 +2,18 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.ConveyerSubsystem;
+import frc.robot.subsystems.ChangeSpeed;
 
-public class ReverseConveyerCommand extends Command {
-  private final ConveyerSubsystem m_conveyerSubsystem;
+public class DecreaseSpeed extends Command {
+  private ChangeSpeed m_changeSpeed;
 
-  /** Creates a new ReverseConveyerCommand. */
-  public ReverseConveyerCommand(ConveyerSubsystem conveyerSubsystem) {
-    m_conveyerSubsystem = conveyerSubsystem;
-    addRequirements(m_conveyerSubsystem);
+  /** Creates a new DecreaseSpeed. */
+  public DecreaseSpeed(ChangeSpeed changeSpeed) {
+    m_changeSpeed = changeSpeed;
+    addRequirements(m_changeSpeed);
   }
 
   // Called when the command is initially scheduled.
@@ -23,13 +23,13 @@ public class ReverseConveyerCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_conveyerSubsystem.setReverse();
+    m_changeSpeed.setLower();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_conveyerSubsystem.stop();
+    m_changeSpeed.setNeutral();
   }
 
   // Returns true when the command should end.

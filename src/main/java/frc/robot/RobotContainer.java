@@ -17,18 +17,8 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-
-import frc.robot.commands.DecreaseSpeed;
-import frc.robot.commands.IncreaseSpeed;
 import frc.robot.subsystems.ChangeSpeed;
-
-import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.ReverseIntakeCommand;
-import frc.robot.commands.SlowIntakeCommand;
 import frc.robot.subsystems.IntakeSubsystem;
-
-import frc.robot.commands.ConveyerComand;
-import frc.robot.commands.ReverseConveyerCommand;
 import frc.robot.subsystems.ConveyerSubsystem;
 
 // Autonomous imports
@@ -45,12 +35,20 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 // import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.ShooterTilt;
 
 import frc.robot.commands.auton.AutonRotate;
+import frc.robot.commands.intake.ConveyerComand;
+import frc.robot.commands.intake.DecreaseSpeed;
+import frc.robot.commands.intake.IncreaseSpeed;
+import frc.robot.commands.intake.IntakeCommand;
+import frc.robot.commands.intake.ReverseConveyerCommand;
+import frc.robot.commands.intake.ReverseIntakeCommand;
+import frc.robot.commands.intake.SlowIntakeCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -85,18 +83,18 @@ public class RobotContainer {
     System.out.println(teamLocation);
 
     // Default command
-    m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-                true, true),
-            m_robotDrive)
-            // Call of duty (:<
-    );
+    // m_robotDrive.setDefaultCommand(
+    //     // The left stick controls translation of the robot.
+    //     // Turning is controlled by the X axis of the right stick.
+    //     new RunCommand(
+    //         () -> m_robotDrive.drive(
+    //             -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
+    //             -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
+    //             true, true),
+    //         m_robotDrive)
+    //         // Call of duty (:<
+    // );
 
     // Configure the trigger bindings
     configureBindings();
@@ -118,7 +116,11 @@ public class RobotContainer {
     new JoystickButton(leftJoystick, 1).whileTrue(new ConveyerComand(m_ConveyerSubsystem));
     new JoystickButton(leftJoystick, 2).whileTrue(new ReverseConveyerCommand(m_ConveyerSubsystem));
     
-    new JoystickButton(rightJoystick, 1).whileTrue(new IntakeCommand(m_intakeSubsystem));
+    new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
+        new IntakeCommand(m_intakeSubsystem),
+        new ConveyerComand(m_ConveyerSubsystem)
+    ));
+
     new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
     new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
   }
