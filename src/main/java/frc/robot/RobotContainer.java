@@ -4,13 +4,13 @@
 
 package frc.robot;
 
-// import frc.robot.Constants.OIConstants;
+import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-// import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-// import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -48,9 +48,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.subsystems.ShooterTiltSubsystem;
+import frc.robot.subsystems.ShooterTilt;
 
-import frc.robot.commands.AutonRotate;
+import frc.robot.commands.auton.AutonRotate;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -70,31 +70,36 @@ public class RobotContainer {
   private final ChangeSpeed m_changeSpeed = new ChangeSpeed();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
 
-  // private final ShooterTiltSubsystem m_shooterTiltSubsystem = new ShooterTiltSubsystem();
+  // private final ShooterTilt m_shooterTilt = new ShooterTilt();
 
   private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
+
+  // Configure information based on the driver station Team Station
+  public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
+  public static int teamLocation = DriverStation.getLocation().getAsInt();
 
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    System.out.println(teamColor == DriverStation.Alliance.Blue);
+    System.out.println(teamLocation);
+
     // Default command
-    // m_robotDrive.setDefaultCommand(
-    //     // The left stick controls translation of the robot.
-    //     // Turning is controlled by the X axis of the right stick.
-    //     new RunCommand(
-    //         () -> m_robotDrive.drive(
-    //             -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-    //             true, true),
-    //         m_robotDrive)
-    //         // Call of duty (:<
-    // );
+    m_robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
+                true, true),
+            m_robotDrive)
+            // Call of duty (:<
+    );
 
     // Configure the trigger bindings
     configureBindings();
-
-    // Configure information based on the driver station Team Station
   }
 
   /**
@@ -124,6 +129,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
+    return new AutonRotate(m_robotDrive);
+    /* 
     // Based heavily off of "FRC 0 to Autonomous"
     System.out.println("Making Autonomous...");
 
@@ -169,10 +176,11 @@ public class RobotContainer {
     
     // Runs these three things in order as a single command
     return new SequentialCommandGroup(
-      new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
+      // new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
       // swerveCommand, // Run the swerve auton with the trajectory
-      autonRotate, // Rotates the bot 45 degrees maybe
-      new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions
+      // autonRotate // Rotates the bot 45 degrees maybe
+      // new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions
     );
+    */
   }
 }
