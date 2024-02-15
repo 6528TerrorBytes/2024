@@ -19,6 +19,7 @@ import frc.robot.Constants;
 public class ShooterTiltSubsystem extends ProfiledPIDSubsystem {
   private final CANSparkMax tiltMotor = new CANSparkMax(Constants.MotorIDs.shooterTilt, MotorType.kBrushless);
   
+  
   // Duty Cycle Encoder for Rev-11-1271 Through Bore Encoder/
   // from the "DIO Pin 0"
   private final DutyCycleEncoder tiltEncoder = new DutyCycleEncoder(0);
@@ -50,8 +51,8 @@ public class ShooterTiltSubsystem extends ProfiledPIDSubsystem {
     // Set encoder to output radians when calling getDistance (2pi = one rotation)
     tiltEncoder.setDistancePerRotation(Constants.ShooterConstants.toRadians);
     
-    // Set initial goal of 0
-    setGoal(0);
+    // Set initial goal of the horizontal neutral position
+    setGoal(Constants.ShooterConstants.tiltHorizontalOffset);
     
     System.out.println("Shooter Tilt Subsystem enabled: ");
     System.out.println(isEnabled());
@@ -71,8 +72,8 @@ public class ShooterTiltSubsystem extends ProfiledPIDSubsystem {
 
   @Override
   public double getMeasurement() {
-    // Return the process variable measurement here
-    return tiltEncoder.getDistance(); // Distance rotated (radians)
+    return tiltEncoder.getDistance() + // Distance rotated (radians)
+      Constants.ShooterConstants.tiltHorizontalOffset; 
   }
 
   // Sets the offsets of position and velocity around the goal

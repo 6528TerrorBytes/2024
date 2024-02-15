@@ -45,6 +45,9 @@ public final class Constants {
     public static final double tiltMaxVelocity = 3;
     public static final double tiltMaxAcceleration = 3;
 
+    // Neutral, horizontal position offset in radians
+    public static final double tiltHorizontalOffset = 0;
+
     // Feedforward parameters
     public static final double tiltFeedforwardkSVolts = 1;
     public static final double tiltFeedforwardkGVolts = 0;

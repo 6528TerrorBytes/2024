@@ -40,7 +40,7 @@ public class ShooterTilt extends SubsystemBase {
     tiltEncoder.setVelocityConversionFactor(Constants.ShooterConstants.toRadiansPerSec);
     
     tiltMotor.setIdleMode(IdleMode.kBrake);
-    tiltMotor.setSmartCurrentLimit(20);
+    tiltMotor.setSmartCurrentLimit(50);
 
     tiltMotor.burnFlash(); // Save settings
   }
@@ -52,5 +52,10 @@ public class ShooterTilt extends SubsystemBase {
 
   public double getAngle() {
     return tiltEncoder.getPosition();
+  }
+
+  public boolean angleBetween(double minAngle, double maxAngle) {
+    double angle = getAngle();
+    return minAngle <= angle && angle <= maxAngle;
   }
 }
