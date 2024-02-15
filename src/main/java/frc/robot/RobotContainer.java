@@ -40,15 +40,15 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.ShooterTilt;
-
+import frc.robot.commands.OutputLimelight;
 import frc.robot.commands.auton.AutonRotate;
 import frc.robot.commands.intake.ConveyerComand;
-import frc.robot.commands.intake.DecreaseSpeed;
-import frc.robot.commands.intake.IncreaseSpeed;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.ReverseConveyerCommand;
 import frc.robot.commands.intake.ReverseIntakeCommand;
 import frc.robot.commands.intake.SlowIntakeCommand;
+import frc.robot.commands.teleop.DecreaseSpeed;
+import frc.robot.commands.teleop.IncreaseSpeed;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -131,7 +131,10 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new AutonRotate(m_robotDrive);
+    return new OutputLimelight();
+
+    // return new AutonRotate(m_robotDrive);
+
     /* 
     // Based heavily off of "FRC 0 to Autonomous"
     System.out.println("Making Autonomous...");

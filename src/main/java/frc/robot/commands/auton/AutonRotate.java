@@ -8,13 +8,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.DriveSubsystem;
 
-import frc.robot.LimelightHelpers;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.geometry.Pose3d;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableEntry;
-import edu.wpi.first.networktables.NetworkTableInstance;
-
 public class AutonRotate extends Command {
   private final DriveSubsystem m_driveSubsystem;
 
@@ -22,7 +15,6 @@ public class AutonRotate extends Command {
 
   /** Creates a new AutonRotate. */
   public AutonRotate(DriveSubsystem driveSubsystem) {
-    // Use addRequirements() here to declare subsystem dependencies.
     m_driveSubsystem = driveSubsystem;
     addRequirements(driveSubsystem);
   }
@@ -36,39 +28,17 @@ public class AutonRotate extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // m_driveSubsystem.drive(0, 0, 0.5, true, true);
-
-    boolean canSee = LimelightHelpers.getTV("limelight");
-    double tx = LimelightHelpers.getTX("limelight");
-    double ty = LimelightHelpers.getTY("limelight");
-    double ta = LimelightHelpers.getTA("limelight");
-
-    double id = LimelightHelpers.getFiducialID("limelight");
-
-    Pose3d botpose = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
-    
-    SmartDashboard.putBoolean("Can see limelight: ", canSee);
-    SmartDashboard.putNumber("limelight id ", id);
-
-    SmartDashboard.putNumber("limelight tx ", tx);
-    SmartDashboard.putNumber("limelight ty ", ty);
-    SmartDashboard.putNumber("limelight ta ", ta);
-
-    SmartDashboard.putNumber("limelight X ", botpose.getX());
-    SmartDashboard.putNumber("limelight Y ", botpose.getY());
-    SmartDashboard.putNumber("limelight Z ", botpose.getZ());
-    SmartDashboard.putNumber("limelight angle ", botpose.getRotation().getAngle() * (180 / Math.PI));
+    m_driveSubsystem.drive(0, 0, 0.5, true, true);
   }
 
   // Called once the command ends or is interrupted.
-  //call of duty
+  // Call of Duty
   @Override
   public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
-    // return (int)(m_driveSubsystem.getRawAngle()) >= angleGoal;
+    return (int)(m_driveSubsystem.getRawAngle()) >= angleGoal;
   }
 }

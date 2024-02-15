@@ -11,19 +11,22 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkLowLevel.MotorType;
-import com.revrobotics.AbsoluteEncoder;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 // import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkAbsoluteEncoder.Type;
+// import com.revrobotics.SparkAbsoluteEncoder.Type;
 import frc.robot.Constants;
 
 public class ShooterTiltSubsystem extends ProfiledPIDSubsystem {
   private final CANSparkMax tiltMotor = new CANSparkMax(Constants.MotorIDs.shooterTilt, MotorType.kBrushless);
-  private final AbsoluteEncoder tiltEncoder = tiltMotor.getAbsoluteEncoder(Type.kDutyCycle);
+  
+  // Duty Cycle Encoder for Rev-11-1271 Through Bore Encoder/
+  // from the "DIO Pin 0"
+  private final DutyCycleEncoder tiltEncoder = new DutyCycleEncoder(0);
 
   private final ArmFeedforward tiltFeedforward = new ArmFeedforward(
-    Constants.ShooterConstants.tiltFeedForwardS,
-    Constants.ShooterConstants.tiltFeedForwardG,
-    Constants.ShooterConstants.tiltFeedForwardV
+    Constants.ShooterConstants.tiltFeedforwardkSVolts,
+    Constants.ShooterConstants.tiltFeedforwardkGVolts,
+    Constants.ShooterConstants.tiltFeedforwardkVVoltsSecPerRad
   );
 
   /** Creates a new ShooterTiltSubsystem. */
@@ -43,9 +46,16 @@ public class ShooterTiltSubsystem extends ProfiledPIDSubsystem {
       ),
       0
     );
+
+    // Set encoder to output radians when calling getDistance (2pi = one rotation)
+    tiltEncoder.setDistancePerRotation(Constants.ShooterConstants.toRadians);
     
     // Set initial goal of 0
     setGoal(0);
+    
+    System.out.println("Shooter Tilt Subsystem enabled: ");
+    System.out.println(isEnabled());
+    // If it isn't enabled, then call enable();
   }
 
   @Override
@@ -62,16 +72,18 @@ public class ShooterTiltSubsystem extends ProfiledPIDSubsystem {
   @Override
   public double getMeasurement() {
     // Return the process variable measurement here
-    return tiltEncoder.getPosition();
+    return tiltEncoder.getDistance(); // Distance rotated (radians)
   }
 
+  // Sets the offsets of position and velocity around the goal
+  // ie. if position tolerance is 
   public void setTolerance(double positionTolerance, double velocityTolerance) {
     getController().setTolerance(positionTolerance, velocityTolerance);
   }
 
   // Reached the goal within the set tolerance.
-  // Set the goal by calling .setGoal()
-  public boolean reachedGoal() {
+  // (Set the goal by calling .setGoal())
+  public boolean atGoal() {
     return getController().atGoal();
   }
 }

@@ -37,18 +37,18 @@ public final class Constants {
 
   public static class ShooterConstants {
     // PID controller
-    public static final float tiltP = 1;
-    public static final float tiltI = 0;
-    public static final float tiltD = 0;
+    public static final double tiltP = 1;
+    public static final double tiltI = 0;
+    public static final double tiltD = 0;
 
     // In meters
-    public static final float tiltMaxVelocity = 3;
-    public static final float tiltMaxAcceleration = 3;
+    public static final double tiltMaxVelocity = 3;
+    public static final double tiltMaxAcceleration = 3;
 
     // Feedforward parameters
-    public static final float tiltFeedForwardS = 1;
-    public static final float tiltFeedForwardG = 1;
-    public static final float tiltFeedForwardV = 1;
+    public static final double tiltFeedforwardkSVolts = 1;
+    public static final double tiltFeedforwardkGVolts = 0;
+    public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
 
     // Conversions
     public static final double toRadians = 2 * Math.PI;
