@@ -21,8 +21,8 @@ public class TiltShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterTiltSubsystem.setGoal(Math.PI); // Sets the shooter to tilt 180 degrees
-    m_shooterTiltSubsystem.setTolerance(0.2, 0.4); // in radians
+    m_shooterTiltSubsystem.setGoal(60);
+    m_shooterTiltSubsystem.setTolerance(10, 20);
     m_shooterTiltSubsystem.enable(); // Enable the subsystem to move the motor
   }
 

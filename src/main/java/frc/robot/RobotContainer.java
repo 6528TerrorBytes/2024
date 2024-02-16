@@ -39,8 +39,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.subsystems.ShooterTilt;
-import frc.robot.commands.OutputLimelight;
+import frc.robot.commands.OutputSmartdashboard;
 import frc.robot.commands.auton.AutonRotate;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
@@ -50,6 +49,11 @@ import frc.robot.commands.intake.SlowIntakeCommand;
 import frc.robot.commands.teleop.DecreaseSpeed;
 import frc.robot.commands.teleop.IncreaseSpeed;
 
+import frc.robot.subsystems.ShooterTilt;
+import frc.robot.commands.teleop.TiltShooterAlternate;
+import frc.robot.subsystems.ShooterTiltSubsystem;
+import frc.robot.commands.teleop.TiltShooter;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -57,8 +61,8 @@ import frc.robot.commands.teleop.IncreaseSpeed;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public final Joystick leftJoystick = new Joystick(1);
   public final Joystick rightJoystick = new Joystick(0);
+  public final Joystick leftJoystick = new Joystick(1);
 
   // intake, shooter, and other stuff (and aedan)
   public final Joystick otherJoystick = new Joystick(2);
@@ -67,11 +71,12 @@ public class RobotContainer {
 
   private final ChangeSpeed m_changeSpeed = new ChangeSpeed();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
-
-  // private final ShooterTilt m_shooterTilt = new ShooterTilt();
-
+  
+  private final ShooterTilt m_shooterTilt = new ShooterTilt();
+  // private final ShooterTiltSubsystem m_shooterTilt = new ShooterTiltSubsystem();
+  
   private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
-
+  
   // Configure information based on the driver station Team Station
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
   public static int teamLocation = DriverStation.getLocation().getAsInt();
@@ -123,6 +128,8 @@ public class RobotContainer {
 
     new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
     new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
+
+    new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterAlternate(m_shooterTilt));
   }
   
   /**
@@ -131,7 +138,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new OutputLimelight();
+    return new OutputSmartdashboard(m_shooterTilt);
 
     // return new AutonRotate(m_robotDrive);
 

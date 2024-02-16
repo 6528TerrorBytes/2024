@@ -11,7 +11,7 @@ import frc.robot.subsystems.ShooterTilt;
 public class TiltShooterAlternate extends Command {
   private final ShooterTilt m_shooterTilt;
 
-  private final double angle = Math.PI;
+  private final double angleTo = 90;
 
   /** Creates a new TiltShooterAlternate. */
   public TiltShooterAlternate(ShooterTilt shooterTilt) {
@@ -23,20 +23,13 @@ public class TiltShooterAlternate extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterTilt.setAngle(angle);
+    m_shooterTilt.setGoal(angleTo);
+    m_shooterTilt.setTolerance(10);
   }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_shooterTilt.angleBetween(angle - 0.1, angle + 0.1);
+    return m_shooterTilt.atGoal();
   }
 }

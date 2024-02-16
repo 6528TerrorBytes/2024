@@ -29,10 +29,10 @@ public final class Constants {
   public static class MotorIDs {
     public static final int intake = 1;
 
-    public static final int shooterTilt = 2;
-
     public static final int conveyerLeft = 3;
     public static final int conveyerRight = 2;
+
+    public static final int shooterTilt = 4;
   }
 
   public static class ShooterConstants {
@@ -45,17 +45,14 @@ public final class Constants {
     public static final double tiltMaxVelocity = 3;
     public static final double tiltMaxAcceleration = 3;
 
-    // Neutral, horizontal position offset in radians
-    public static final double tiltHorizontalOffset = 0;
-
     // Feedforward parameters
     public static final double tiltFeedforwardkSVolts = 1;
     public static final double tiltFeedforwardkGVolts = 0;
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
 
     // Conversions
-    public static final double toRadians = 2 * Math.PI;
-    public static final double toRadiansPerSec = (2 * Math.PI) / 60;
+    public static final double toDegrees = 360;
+    public static final double toDegreesPerSec = 360 / 60;
   }
 
   // default copy-pasted stuff here:
