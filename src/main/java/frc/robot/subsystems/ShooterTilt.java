@@ -40,6 +40,8 @@ public class ShooterTilt extends SubsystemBase {
     pidController.setFF(0, 0); // Feedforward gains (?)
     pidController.setOutputRange(-1, 1);
 
+    // pidController.setSmartMotionMaxVelocity(10, 0);
+
     // pidController.setSmartMotionMaxVelocity(, 0);
     // pidController.setSmartMotionMaxAccel(, 0)
 

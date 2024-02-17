@@ -33,6 +33,9 @@ public final class Constants {
     public static final int conveyerRight = 2;
 
     public static final int shooterTilt = 4;
+
+    public static final int shooterLeft = 5;
+    public static final int shooterRight = 6;
   }
 
   public static class ShooterConstants {
@@ -41,7 +44,7 @@ public final class Constants {
     public static final double maxAngle = 150;
 
     // PID controller
-    public static final double tiltP = 0.5;
+    public static final double tiltP = 0.2;
     public static final double tiltI = 0;
     public static final double tiltD = 0;
 
