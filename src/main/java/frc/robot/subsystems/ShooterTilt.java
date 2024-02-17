@@ -38,12 +38,10 @@ public class ShooterTilt extends SubsystemBase {
     pidController.setI(Constants.ShooterConstants.tiltI, 0);
     pidController.setD(Constants.ShooterConstants.tiltD, 0);
     pidController.setFF(0, 0); // Feedforward gains (?)
-    pidController.setOutputRange(-1, 1);
+    pidController.setOutputRange(-0.25, 0.25); // Control speed -1 to 1 (motor output)
 
-    // pidController.setSmartMotionMaxVelocity(10, 0);
-
-    // pidController.setSmartMotionMaxVelocity(, 0);
-    // pidController.setSmartMotionMaxAccel(, 0)
+    // pidController.setSmartMotionMaxAccel(1, 0);
+    // pidController.setSmartMotionMaxVelocity(5, 0);
 
     pidController.setPositionPIDWrappingEnabled(true);
     pidController.setPositionPIDWrappingMinInput(0);

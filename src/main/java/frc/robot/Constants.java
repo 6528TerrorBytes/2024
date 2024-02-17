@@ -44,7 +44,7 @@ public final class Constants {
     public static final double maxAngle = 150;
 
     // PID controller
-    public static final double tiltP = 0.2;
+    public static final double tiltP = 1;
     public static final double tiltI = 0;
     public static final double tiltD = 0;
 

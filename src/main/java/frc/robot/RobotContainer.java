@@ -75,7 +75,7 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   
   private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
-  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  // private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
   private final ShooterTilt m_shooterTilt = new ShooterTilt();
   
@@ -132,15 +132,16 @@ public class RobotContainer {
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
     // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 0));
+    new JoystickButton(otherJoystick, 2).onTrue(new TiltShooterCommand(m_shooterTilt, 33));
     new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 40));
     new JoystickButton(otherJoystick, 9).onTrue(new TiltShooterCommand(m_shooterTilt, 60));
     new JoystickButton(otherJoystick, 11).onTrue(new TiltShooterCommand(m_shooterTilt, 70));
     new JoystickButton(otherJoystick, 10).onTrue(new TiltShooterCommand(m_shooterTilt, 80));
     new JoystickButton(otherJoystick, 12).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
 
-    new JoystickButton(leftJoystick, 3).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
-    new JoystickButton(leftJoystick, 4).whileTrue(new ShooterCommand(m_shooterSubsystem, 1/8));
-    new JoystickButton(leftJoystick, 5).whileTrue(new ReverseShooterCommand(m_shooterSubsystem));
+    // new JoystickButton(leftJoystick, 3).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
+    // new JoystickButton(leftJoystick, 4).whileTrue(new ShooterCommand(m_shooterSubsystem, 1/8));
+    // new JoystickButton(leftJoystick, 5).whileTrue(new ReverseShooterCommand(m_shooterSubsystem));
   }
   
   /**
