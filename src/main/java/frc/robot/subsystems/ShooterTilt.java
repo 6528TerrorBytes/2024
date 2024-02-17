@@ -53,7 +53,7 @@ public class ShooterTilt extends SubsystemBase {
     
     tiltMotor.setInverted(true);
     tiltMotor.setIdleMode(IdleMode.kBrake);
-    tiltMotor.setSmartCurrentLimit(50);
+    tiltMotor.setSmartCurrentLimit(30);
 
     tiltMotor.burnFlash(); // Save settings
 
@@ -63,8 +63,17 @@ public class ShooterTilt extends SubsystemBase {
 
   // Moves to the given angle (in degrees)
   public void setGoal(double angle) {
-    angleGoal = angle;
-    pidController.setReference(angle, CANSparkMax.ControlType.kPosition);
+    angleGoal = angle + Constants.ShooterConstants.angleOffset;
+
+    // Clamp the angle goal between the angle limits
+    if (angleGoal < Constants.ShooterConstants.minAngle) {
+      angleGoal = Constants.ShooterConstants.minAngle;
+    } else if (angleGoal > Constants.ShooterConstants.maxAngle) {
+      angleGoal = Constants.ShooterConstants.maxAngle;
+    }
+
+    // Set the PID controller to move to the angle
+    pidController.setReference(angleGoal, CANSparkMax.ControlType.kPosition);
   }
 
   public void setTolerance(double angleOffset) {
@@ -83,6 +92,16 @@ public class ShooterTilt extends SubsystemBase {
    */
   public boolean atGoal() {
     double angle = getAngle();
-    return ((angleGoal - tolerance) <= angle) && (angle <= (angleGoal + tolerance));
+    SmartDashboard.putNumber("Angle Goal: ", angleGoal);
+    SmartDashboard.putNumber("Tolerance: ", tolerance);
+
+    boolean success = ((angleGoal - tolerance) <= angle) && (angle <= (angleGoal + tolerance));
+    SmartDashboard.putBoolean("Reached goal: ", success);
+
+    return success;
+  }
+
+  public void disable() {
+    tiltMotor.set(0);
   }
 }

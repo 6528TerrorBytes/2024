@@ -8,15 +8,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.ShooterTilt;
 
-public class TiltShooterAlternate extends Command {
+public class TiltShooterCommand extends Command {
   private final ShooterTilt m_shooterTilt;
 
-  private final double angleTo = 90;
+  private double angleTo = 90;
 
   /** Creates a new TiltShooterAlternate. */
-  public TiltShooterAlternate(ShooterTilt shooterTilt) {
+  public TiltShooterCommand(ShooterTilt shooterTilt, double angle) {
     // Use addRequirements() here to declare subsystem dependencies.
     m_shooterTilt = shooterTilt;
+    angleTo = angle;
     addRequirements(m_shooterTilt);
   }
 
@@ -25,6 +26,11 @@ public class TiltShooterAlternate extends Command {
   public void initialize() {
     m_shooterTilt.setGoal(angleTo);
     m_shooterTilt.setTolerance(10);
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_shooterTilt.disable();
   }
 
   // Returns true when the command should end.

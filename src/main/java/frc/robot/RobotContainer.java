@@ -50,9 +50,7 @@ import frc.robot.commands.teleop.DecreaseSpeed;
 import frc.robot.commands.teleop.IncreaseSpeed;
 
 import frc.robot.subsystems.ShooterTilt;
-import frc.robot.commands.teleop.TiltShooterAlternate;
-import frc.robot.subsystems.ShooterTiltSubsystem;
-import frc.robot.commands.teleop.TiltShooter;
+import frc.robot.commands.teleop.TiltShooterCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -127,9 +125,10 @@ public class RobotContainer {
     ));
 
     new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
-    new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
+    // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
-    new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterAlternate(m_shooterTilt));
+    new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 0));
+    new JoystickButton(otherJoystick, 2).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
   }
   
   /**
