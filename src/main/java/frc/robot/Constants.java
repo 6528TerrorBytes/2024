@@ -64,12 +64,12 @@ public final class Constants {
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
   }
 
-  public static class HangerConstants {
+  public static class StopNoteConstants {
     public static final double minAngle = 0;
     public static final double maxAngle = 90;
 
-    public static final double closedAngle = 5;
-    public static final double extendedAngle = 85;
+    public static final double openAngle = 2;
+    public static final double closedAngle = 88;
   }
 
   // default copy-pasted stuff here:

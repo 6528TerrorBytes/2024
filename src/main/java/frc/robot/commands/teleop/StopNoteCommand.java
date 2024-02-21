@@ -5,27 +5,27 @@
 package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.HangerArm;
+import frc.robot.subsystems.StopNote;
 
-public class HangerArmCommand extends Command {
-  private final HangerArm m_hangerArm;
+public class StopNoteCommand extends Command {
+  private final StopNote m_stopNote;
 
   private final boolean goToEnd;
 
   /** Creates a new HangerArmCommand. */
-  public HangerArmCommand(HangerArm hangerArm, boolean goToEnd) {
-    m_hangerArm = hangerArm;
-    addRequirements(m_hangerArm);
+  public StopNoteCommand(StopNote hangerArm, boolean goToEnd) {
+    m_stopNote = hangerArm;
+    addRequirements(m_stopNote);
     this.goToEnd = goToEnd;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_hangerArm.setTolerance(10);
+    m_stopNote.setTolerance(10);
 
-    if (goToEnd) { m_hangerArm.setExtended(); }
-    else { m_hangerArm.setClosed(); }
+    if (goToEnd) { m_stopNote.setExtended(); }
+    else { m_stopNote.setClosed(); }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -35,12 +35,12 @@ public class HangerArmCommand extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_hangerArm.disable();
+    m_stopNote.disable();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return m_hangerArm.atGoal();
+    return m_stopNote.atGoal();
   }
 }

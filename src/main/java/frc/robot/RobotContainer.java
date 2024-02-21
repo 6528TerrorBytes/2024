@@ -6,7 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.HangerArm;
+import frc.robot.subsystems.StopNote;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -48,7 +48,7 @@ import frc.robot.commands.intake.ReverseConveyerCommand;
 import frc.robot.commands.intake.ReverseIntakeCommand;
 import frc.robot.commands.intake.SlowIntakeCommand;
 import frc.robot.commands.teleop.DecreaseSpeed;
-import frc.robot.commands.teleop.HangerArmCommand;
+import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.IncreaseSpeed;
 
 import frc.robot.subsystems.ShooterTilt;
@@ -80,7 +80,7 @@ public class RobotContainer {
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
   private final ShooterTilt m_shooterTilt = new ShooterTilt();
-  private final HangerArm m_hangerArm = new HangerArm();
+  private final StopNote m_stopNote = new StopNote();
   
   // Configure information based on the driver station Team Station
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
@@ -144,8 +144,8 @@ public class RobotContainer {
     new JoystickButton(leftJoystick, 12).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));
     new JoystickButton(leftJoystick, 13).whileTrue(new ReverseShooterCommand(m_shooterSubsystem));
     
-    new JoystickButton(rightJoystick, 3).whileTrue(new HangerArmCommand(m_hangerArm, true));
-    new JoystickButton(rightJoystick, 4).whileTrue(new HangerArmCommand(m_hangerArm, false));
+    new JoystickButton(rightJoystick, 3).onTrue(new StopNoteCommand(m_stopNote, true));
+    new JoystickButton(rightJoystick, 4).onTrue(new StopNoteCommand(m_stopNote, false));
   }
   
   /**

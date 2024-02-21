@@ -8,12 +8,12 @@ import com.revrobotics.CANSparkBase.IdleMode;
 
 import frc.robot.Constants;
 
-public class HangerArm extends AngleMotor {
-    public HangerArm() {
+public class StopNote extends AngleMotor {
+    public StopNote() {
         super(
             Constants.MotorIDs.hangerArm,
-            Constants.HangerConstants.minAngle,
-            Constants.HangerConstants.maxAngle
+            Constants.StopNoteConstants.minAngle,
+            Constants.StopNoteConstants.maxAngle
         );
 
         getController().setP(1, 0);
@@ -24,16 +24,16 @@ public class HangerArm extends AngleMotor {
         
         getMotor().setInverted(true);
         getMotor().setIdleMode(IdleMode.kBrake);
-        getMotor().setSmartCurrentLimit(30); // Just torque (strength), not speed
+        getMotor().setSmartCurrentLimit(10); // Just torque (strength), not speed
 
         burnFlash(); // Save settings
     }
 
-    public void setExtended() {
-        setGoal(Constants.HangerConstants.extendedAngle);
+    public void setClosed() {
+        setGoal(Constants.StopNoteConstants.closedAngle);
     }
     
-    public void setClosed() {
-        setGoal(Constants.HangerConstants.closedAngle);
+    public void setOpen() {
+        setGoal(Constants.StopNoteConstants.openAngle);
     }
 }
