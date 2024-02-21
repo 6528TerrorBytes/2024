@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HangerArm;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
@@ -47,6 +48,7 @@ import frc.robot.commands.intake.ReverseConveyerCommand;
 import frc.robot.commands.intake.ReverseIntakeCommand;
 import frc.robot.commands.intake.SlowIntakeCommand;
 import frc.robot.commands.teleop.DecreaseSpeed;
+import frc.robot.commands.teleop.HangerArmCommand;
 import frc.robot.commands.teleop.IncreaseSpeed;
 
 import frc.robot.subsystems.ShooterTilt;
@@ -63,8 +65,8 @@ import frc.robot.commands.teleop.ReverseShooterCommand;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public final Joystick rightJoystick = new Joystick(0);
-  public final Joystick leftJoystick = new Joystick(1);
+  public final Joystick leftJoystick = new Joystick(0);
+  public final Joystick rightJoystick = new Joystick(1);
 
   // intake, shooter, and other stuff (and aedan)
   public final Joystick otherJoystick = new Joystick(2);
@@ -75,9 +77,10 @@ public class RobotContainer {
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   
   private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
-  // private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
+  private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
   private final ShooterTilt m_shooterTilt = new ShooterTilt();
+  private final HangerArm m_hangerArm = new HangerArm();
   
   // Configure information based on the driver station Team Station
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
@@ -118,8 +121,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
     // Joystick buttons
-    // new JoystickButton(rightJoystick, 2).whileTrue(new IncreaseSpeed(m_changeSpeed));
-
     new JoystickButton(leftJoystick, 1).whileTrue(new ConveyerComand(m_ConveyerSubsystem));
     new JoystickButton(leftJoystick, 2).whileTrue(new ReverseConveyerCommand(m_ConveyerSubsystem));
     
@@ -131,17 +132,20 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
-    // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 0));
-    new JoystickButton(otherJoystick, 2).onTrue(new TiltShooterCommand(m_shooterTilt, 33));
+    // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 20));
+    new JoystickButton(otherJoystick, 2).onTrue(new TiltShooterCommand(m_shooterTilt, 28));
     new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 40));
     new JoystickButton(otherJoystick, 9).onTrue(new TiltShooterCommand(m_shooterTilt, 60));
     new JoystickButton(otherJoystick, 11).onTrue(new TiltShooterCommand(m_shooterTilt, 70));
     new JoystickButton(otherJoystick, 10).onTrue(new TiltShooterCommand(m_shooterTilt, 80));
     new JoystickButton(otherJoystick, 12).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
 
-    // new JoystickButton(leftJoystick, 3).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
-    // new JoystickButton(leftJoystick, 4).whileTrue(new ShooterCommand(m_shooterSubsystem, 1/8));
-    // new JoystickButton(leftJoystick, 5).whileTrue(new ReverseShooterCommand(m_shooterSubsystem));
+    new JoystickButton(leftJoystick, 11).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
+    new JoystickButton(leftJoystick, 12).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));
+    new JoystickButton(leftJoystick, 13).whileTrue(new ReverseShooterCommand(m_shooterSubsystem));
+    
+    new JoystickButton(rightJoystick, 3).whileTrue(new HangerArmCommand(m_hangerArm, true));
+    new JoystickButton(rightJoystick, 4).whileTrue(new HangerArmCommand(m_hangerArm, false));
   }
   
   /**

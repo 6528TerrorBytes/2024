@@ -22,6 +22,10 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
+  // Conversions
+  public static final double toDegrees = 360;
+  public static final double toDegreesPerSec = 360 / 60;
+
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
@@ -36,6 +40,8 @@ public final class Constants {
 
     public static final int shooterLeft = 5;
     public static final int shooterRight = 6;
+
+    public static final int hangerArm = 7;
   }
 
   public static class ShooterConstants {
@@ -56,10 +62,14 @@ public final class Constants {
     public static final double tiltFeedforwardkSVolts = 1;
     public static final double tiltFeedforwardkGVolts = 0;
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
+  }
 
-    // Conversions
-    public static final double toDegrees = 360;
-    public static final double toDegreesPerSec = 360 / 60;
+  public static class HangerConstants {
+    public static final double minAngle = 0;
+    public static final double maxAngle = 90;
+
+    public static final double closedAngle = 5;
+    public static final double extendedAngle = 85;
   }
 
   // default copy-pasted stuff here:
