@@ -65,6 +65,12 @@ public final class Constants {
   }
 
   public static class StopNoteConstants {
+    public static final double p = 0.01;
+    public static final double i = 0;
+    public static final double d = 0;
+    public static final double speed = 0.5;
+    public static final double tolerance = 1;
+
     public static final double minAngle = 0;
     public static final double maxAngle = 90;
 

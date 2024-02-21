@@ -144,7 +144,10 @@ public class RobotContainer {
     new JoystickButton(leftJoystick, 12).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));
     new JoystickButton(leftJoystick, 13).whileTrue(new ReverseShooterCommand(m_shooterSubsystem));
     
-    new JoystickButton(rightJoystick, 3).onTrue(new StopNoteCommand(m_stopNote, true));
+    new JoystickButton(rightJoystick, 3).onTrue(new SequentialCommandGroup(
+      new StopNoteCommand(m_stopNote, true),
+      new StopNoteCommand(m_stopNote, false)
+    ));
     new JoystickButton(rightJoystick, 4).onTrue(new StopNoteCommand(m_stopNote, false));
   }
   

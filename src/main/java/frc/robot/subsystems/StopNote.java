@@ -16,17 +16,22 @@ public class StopNote extends AngleMotor {
             Constants.StopNoteConstants.maxAngle
         );
 
-        getController().setP(1, 0);
-        getController().setI(0, 0);
-        getController().setD(0, 0);
+        getController().setP(Constants.StopNoteConstants.p, 0);
+        getController().setI(Constants.StopNoteConstants.i, 0);
+        getController().setD(Constants.StopNoteConstants.d, 0);
         getController().setFF(0, 0); // Feedforward gains (?)
-        getController().setOutputRange(-0.25, 0.25); // Control speed -1 to 1 (motor output)
+        getController().setOutputRange(
+            -Constants.StopNoteConstants.speed,
+            Constants.StopNoteConstants.speed
+        ); // Control speed -1 to 1 (motor output)
         
         getMotor().setInverted(true);
         getMotor().setIdleMode(IdleMode.kBrake);
         getMotor().setSmartCurrentLimit(10); // Just torque (strength), not speed
 
         burnFlash(); // Save settings
+
+        setTolerance(Constants.StopNoteConstants.tolerance);
     }
 
     public void setClosed() {

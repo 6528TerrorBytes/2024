@@ -4,33 +4,34 @@
 
 package frc.robot.commands.teleop;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.StopNote;
 
 public class StopNoteCommand extends Command {
   private final StopNote m_stopNote;
 
-  private final boolean goToEnd;
+  private final boolean m_close;
 
   /** Creates a new HangerArmCommand. */
-  public StopNoteCommand(StopNote hangerArm, boolean goToEnd) {
-    m_stopNote = hangerArm;
+  public StopNoteCommand(StopNote stopNote, boolean close) {
+    m_stopNote = stopNote;
+    m_close = close;
     addRequirements(m_stopNote);
-    this.goToEnd = goToEnd;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_stopNote.setTolerance(10);
-
-    if (goToEnd) { m_stopNote.setExtended(); }
-    else { m_stopNote.setClosed(); }
+    if (m_close) { m_stopNote.setClosed(); }
+    else { m_stopNote.setOpen(); }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
+  public void execute() {
+    SmartDashboard.putNumber("stop note encoder angle", m_stopNote.getAngle());
+  }
 
   // Called once the command ends or is interrupted.
   @Override
