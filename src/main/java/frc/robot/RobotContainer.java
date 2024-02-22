@@ -6,6 +6,7 @@ package frc.robot;
 
 import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.HangerArm;
 import frc.robot.subsystems.StopNote;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -48,6 +49,7 @@ import frc.robot.commands.intake.ReverseConveyerCommand;
 import frc.robot.commands.intake.ReverseIntakeCommand;
 import frc.robot.commands.intake.SlowIntakeCommand;
 import frc.robot.commands.teleop.DecreaseSpeed;
+import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.IncreaseSpeed;
 
@@ -81,6 +83,8 @@ public class RobotContainer {
 
   private final ShooterTilt m_shooterTilt = new ShooterTilt();
   private final StopNote m_stopNote = new StopNote();
+
+  private final HangerArm m_hangerArm = new HangerArm();
   
   // Configure information based on the driver station Team Station
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
@@ -149,6 +153,8 @@ public class RobotContainer {
       new StopNoteCommand(m_stopNote, false)
     ));
     new JoystickButton(rightJoystick, 4).onTrue(new StopNoteCommand(m_stopNote, false));
+
+    new JoystickButton(rightJoystick, 10).whileTrue(new ExtendHangerArms(m_hangerArm));
   }
   
   /**

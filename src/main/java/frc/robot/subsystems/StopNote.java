@@ -11,7 +11,7 @@ import frc.robot.Constants;
 public class StopNote extends AngleMotor {
     public StopNote() {
         super(
-            Constants.MotorIDs.hangerArm,
+            Constants.MotorIDs.stopNote,
             Constants.StopNoteConstants.minAngle,
             Constants.StopNoteConstants.maxAngle
         );

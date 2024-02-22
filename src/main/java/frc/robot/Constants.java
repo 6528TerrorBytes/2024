@@ -41,7 +41,10 @@ public final class Constants {
     public static final int shooterLeft = 5;
     public static final int shooterRight = 6;
 
-    public static final int hangerArm = 7;
+    public static final int stopNote = 7;
+
+    public static final int hangerArmLeft = 8;
+    public static final int hangerArmRight = 9;
   }
 
   public static class ShooterConstants {
@@ -50,7 +53,7 @@ public final class Constants {
     public static final double maxAngle = 150;
 
     // PID controller
-    public static final double tiltP = 1;
+    public static final double tiltP = 0.01;
     public static final double tiltI = 0;
     public static final double tiltD = 0;
 
@@ -65,17 +68,30 @@ public final class Constants {
   }
 
   public static class StopNoteConstants {
+    // Typically has a 3 degree offset from the goal for some reason.
     public static final double p = 0.01;
     public static final double i = 0;
     public static final double d = 0;
     public static final double speed = 0.5;
-    public static final double tolerance = 1;
+    public static final double tolerance = 5;
 
     public static final double minAngle = 0;
     public static final double maxAngle = 90;
 
-    public static final double openAngle = 2;
+    public static final double openAngle = 5;
     public static final double closedAngle = 88;
+  }
+
+  public static class HangerArmConstants {
+    public static final double p = 1;
+    public static final double i = 0;
+    public static final double d = 0;
+    public static final double speed = 1;
+    public static final double tolerance = 10;
+
+    public static final double minAngle = 0;
+    public static final double maxAngle = 90;
+
   }
 
   // default copy-pasted stuff here:
