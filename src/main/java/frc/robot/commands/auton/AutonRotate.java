@@ -28,7 +28,7 @@ public class AutonRotate extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.drive(0, 0, 0.5, true, true);
+    m_driveSubsystem.drive(0, 0, -0.5, true, true);
   }
 
   // Called once the command ends or is interrupted.

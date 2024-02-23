@@ -40,8 +40,9 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.OutputSmartdashboard;
+import frc.robot.commands.auton.AutonFaceAprilTag;
 import frc.robot.commands.auton.AutonRotate;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
@@ -51,8 +52,9 @@ import frc.robot.commands.intake.SlowIntakeCommand;
 import frc.robot.commands.teleop.DecreaseSpeed;
 import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.StopNoteCommand;
+import frc.robot.commands.teleop.TeleopFaceAprilTag;
 import frc.robot.commands.teleop.IncreaseSpeed;
-
+import frc.robot.commands.teleop.LimitSwitchDetector;
 import frc.robot.subsystems.ShooterTilt;
 import frc.robot.commands.teleop.TiltShooterCommand;
 
@@ -97,18 +99,21 @@ public class RobotContainer {
     System.out.println(teamLocation);
 
     // Default command
-    // m_robotDrive.setDefaultCommand(
-    //     // The left stick controls translation of the robot.
-    //     // Turning is controlled by the X axis of the right stick.
-    //     new RunCommand(
-    //         () -> m_robotDrive.drive(
-    //             -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
-    //             -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-    //             true, true),
-    //         m_robotDrive)
-    //         // Call of duty (:<
-    // );
+    m_robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+            () -> m_robotDrive.drive(
+                -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
+                -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
+                true, true),
+            m_robotDrive)
+            // Call of duty (:<
+    );
+
+    // Limit Switch detector command
+    m_hangerArm.setDefaultCommand(new LimitSwitchDetector(m_hangerArm));
 
     // Configure the trigger bindings
     configureBindings();
@@ -154,7 +159,9 @@ public class RobotContainer {
     ));
     new JoystickButton(rightJoystick, 4).onTrue(new StopNoteCommand(m_stopNote, false));
 
-    new JoystickButton(rightJoystick, 10).whileTrue(new ExtendHangerArms(m_hangerArm));
+    new JoystickButton(rightJoystick, 10).whileTrue(new ExtendHangerArms(m_hangerArm, true));
+    new JoystickButton(rightJoystick, 9).whileTrue(new ExtendHangerArms(m_hangerArm, false));
+    new JoystickButton(rightJoystick, 8).onTrue(new TeleopFaceAprilTag());
   }
   
   /**
@@ -163,9 +170,12 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    return new OutputSmartdashboard(m_shooterTilt);
+    // return new OutputSmartdashboard(m_shooterTilt);
 
-    // return new AutonRotate(m_robotDrive);
+    return new ParallelCommandGroup(
+      new AutonFaceAprilTag(m_robotDrive),
+      new OutputSmartdashboard()
+    );
 
     /* 
     // Based heavily off of "FRC 0 to Autonomous"

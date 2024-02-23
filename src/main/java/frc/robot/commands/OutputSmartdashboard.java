@@ -8,17 +8,17 @@ import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
-import frc.robot.subsystems.ShooterTilt;
+// import frc.robot.subsystems.ShooterTilt;
 
 public class OutputSmartdashboard extends Command {
   // Updates the values displayed in the SmartDashboard
-  private final ShooterTilt m_shooterTilt;
+  // private final ShooterTilt m_shooterTilt;
   
   /** Creates a new TiltShooterAlternate. */
-  public OutputSmartdashboard(ShooterTilt shooterTilt) {
+  public OutputSmartdashboard() {
     // Use addRequirements() here to declare subsystem dependencies.
-    m_shooterTilt = shooterTilt;
-    addRequirements(m_shooterTilt);
+    // m_shooterTilt = shooterTilt;
+    // addRequirements(m_shooterTilt);
   }
 
   @Override
@@ -43,7 +43,5 @@ public class OutputSmartdashboard extends Command {
     SmartDashboard.putNumber("limelight Y ", botpose.getY());
     SmartDashboard.putNumber("limelight Z ", botpose.getZ());
     SmartDashboard.putNumber("limelight angle ", botpose.getRotation().getAngle() * (180 / Math.PI));
-
-    SmartDashboard.putNumber("Encoder value ", m_shooterTilt.getAngle());
   }
 }

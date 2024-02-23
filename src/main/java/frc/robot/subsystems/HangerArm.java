@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
@@ -20,18 +21,26 @@ public class HangerArm extends SubsystemBase {
 
   /** Creates a new HangerArm. */
   public HangerArm() {
+    m_leftArmMotor.setIdleMode(IdleMode.kBrake);
+    m_rightArmMotor.setIdleMode(IdleMode.kBrake);
+
+    m_leftArmMotor.burnFlash();
+    m_rightArmMotor.burnFlash();
+
     zeroEncoders(); // ---- TEMPORARY ----
   }
 
   public void setSpeed(double speed) {
-    m_leftArmMotor.set(speed);
+    m_leftArmMotor.set(-speed);
     m_rightArmMotor.set(speed);
+  }
 
-    System.out.println("left speed " + Double.toString(m_leftArmMotor.get()));
-    System.out.println("right speed " + Double.toString(m_rightArmMotor.get()));
+  public void setSpeedLeft(double speed) {
+    m_leftArmMotor.set(-speed);
+  }
 
-    System.out.println("left encoder " + Double.toString(m_leftRelativeEncoder.getPosition()));
-    System.out.println("right encoder " + Double.toString(m_rightRelativeEncoder.getPosition()));
+  public void setSpeedRight(double speed) {
+    m_rightArmMotor.set(speed);
   }
 
   public void zeroEncoders() {
@@ -39,8 +48,40 @@ public class HangerArm extends SubsystemBase {
     m_rightRelativeEncoder.setPosition(0);
   }
 
+  public void zeroEncoderLeft() {
+    m_leftRelativeEncoder.setPosition(0);
+  }
+
+  public void zeroEncoderRight() {
+    m_leftRelativeEncoder.setPosition(0);
+  }
+
+  public void getEncoderLeft() {
+    m_leftRelativeEncoder.getPosition();
+  }
+
+  public void getEncoderRight() {
+    m_rightRelativeEncoder.getPosition();
+  }
+
   public void stop() {
     m_leftArmMotor.set(0);
     m_rightArmMotor.set(0);
+  }
+
+  public void stopLeft() {
+    m_leftArmMotor.set(0);
+  }
+
+  public void stopRight() {
+    m_rightArmMotor.set(0);
+  }
+
+  public double getSpeedLeft() {
+    return m_leftArmMotor.get();
+  }
+
+  public double getSpeedRight() {
+    return m_rightArmMotor.get();
   }
 }

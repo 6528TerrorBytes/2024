@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj.ADIS16470_IMU;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
@@ -60,6 +61,9 @@ public class DriveSubsystem extends SubsystemBase {
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
   public static double speedMultiplier = 0.5;
+
+  public static boolean overrideRotation = false;
+  public static double newRotation = 0; 
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -126,7 +130,11 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
-    System.out.println("Gyro: " + m_gyro.getAngle());
+    SmartDashboard.putNumber("Gyro Angle ", m_gyro.getAngle());
+
+    if (overrideRotation) {
+      rot = newRotation;
+    }
 
     double xSpeedCommanded;
     double ySpeedCommanded;
@@ -134,8 +142,6 @@ public class DriveSubsystem extends SubsystemBase {
     // Speed multiplier
     xSpeed *= speedMultiplier;
     ySpeed *= speedMultiplier;
-
-    System.out.println("Speed: " + speedMultiplier);
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
