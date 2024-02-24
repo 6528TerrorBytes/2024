@@ -40,12 +40,12 @@ public class ExtendHangerArms extends Command {
 
   @Override
   public void execute() {
-    if (!m_reversed) {
-      if (m_leftStopped) {
-        m_hangerArm.stopLeft();
-      } else if (m_rightStopped) {
-        m_hangerArm.stopRight();
-      }
+    if (m_reversed) { return; }
+
+    if (m_leftStopped) {
+      m_hangerArm.stopLeft();
+    } else if (m_rightStopped) {
+      m_hangerArm.stopRight();
     }
   }
 

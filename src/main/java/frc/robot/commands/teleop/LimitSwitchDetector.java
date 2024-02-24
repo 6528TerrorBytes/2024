@@ -7,18 +7,18 @@ package frc.robot.commands.teleop;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.HangerArm;
+// import frc.robot.subsystems.HangerArm;
 
 public class LimitSwitchDetector extends Command {
   DigitalInput leftLimitSwitch = new DigitalInput(1);
   DigitalInput rightLimitSwitch = new DigitalInput(0);
 
-  private HangerArm m_hangerArm;
+  // private HangerArm m_hangerArm;
 
   /** Creates a new LimitSwitchDetector. */
-  public LimitSwitchDetector(HangerArm hangerArm) {
-    m_hangerArm = hangerArm;
-    addRequirements(m_hangerArm);
+  public LimitSwitchDetector() {
+    // m_hangerArm = hangerArm;
+    // addRequirements(m_hangerArm);
   }
 
   // Called when the command is initially scheduled.

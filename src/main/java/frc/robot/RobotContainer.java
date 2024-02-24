@@ -41,6 +41,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 // import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.commands.AimShooter;
 import frc.robot.commands.OutputSmartdashboard;
 import frc.robot.commands.auton.AutonFaceAprilTag;
 import frc.robot.commands.auton.AutonRotate;
@@ -60,7 +61,6 @@ import frc.robot.commands.teleop.TiltShooterCommand;
 
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.commands.teleop.ShooterCommand;
-import frc.robot.commands.teleop.ReverseShooterCommand;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -113,69 +113,64 @@ public class RobotContainer {
     );
 
     // Limit Switch detector command
-    m_hangerArm.setDefaultCommand(new LimitSwitchDetector(m_hangerArm));
+    new LimitSwitchDetector().schedule();
+    new OutputSmartdashboard().schedule();
 
     // Configure the trigger bindings
     configureBindings();
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary
-   * predicate, or via the named factories in {@link
-   * edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for {@link
-   * CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller
-   * PS4} controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight
-   * joysticks}.
-   */
   private void configureBindings() {
     // Joystick buttons
-    new JoystickButton(leftJoystick, 1).whileTrue(new ConveyerComand(m_ConveyerSubsystem));
+    new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
+      new ConveyerComand(m_ConveyerSubsystem),
+      new StopNoteCommand(m_stopNote, false)
+    ));
     new JoystickButton(leftJoystick, 2).whileTrue(new ReverseConveyerCommand(m_ConveyerSubsystem));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
         new IntakeCommand(m_intakeSubsystem),
-        new ConveyerComand(m_ConveyerSubsystem)
+        new ConveyerComand(m_ConveyerSubsystem),
+        new StopNoteCommand(m_stopNote, true)
     ));
 
     new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
     // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 20));
-    new JoystickButton(otherJoystick, 2).onTrue(new TiltShooterCommand(m_shooterTilt, 28));
-    new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 40));
+    new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 28));
+    new JoystickButton(otherJoystick, 8).onTrue(new TiltShooterCommand(m_shooterTilt, 40));
     new JoystickButton(otherJoystick, 9).onTrue(new TiltShooterCommand(m_shooterTilt, 60));
-    new JoystickButton(otherJoystick, 11).onTrue(new TiltShooterCommand(m_shooterTilt, 70));
-    new JoystickButton(otherJoystick, 10).onTrue(new TiltShooterCommand(m_shooterTilt, 80));
+    new JoystickButton(otherJoystick, 10).onTrue(new TiltShooterCommand(m_shooterTilt, 70));
+    new JoystickButton(otherJoystick, 11).onTrue(new TiltShooterCommand(m_shooterTilt, 80));
     new JoystickButton(otherJoystick, 12).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
 
     new JoystickButton(leftJoystick, 11).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
     new JoystickButton(leftJoystick, 12).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));
-    new JoystickButton(leftJoystick, 13).whileTrue(new ReverseShooterCommand(m_shooterSubsystem));
+    new JoystickButton(leftJoystick, 13).whileTrue(new ShooterCommand(m_shooterSubsystem, -0.5));
     
-    new JoystickButton(rightJoystick, 3).onTrue(new SequentialCommandGroup(
-      new StopNoteCommand(m_stopNote, true),
-      new StopNoteCommand(m_stopNote, false)
-    ));
+    new JoystickButton(rightJoystick, 3).onTrue(new StopNoteCommand(m_stopNote, true));
     new JoystickButton(rightJoystick, 4).onTrue(new StopNoteCommand(m_stopNote, false));
 
     new JoystickButton(rightJoystick, 10).whileTrue(new ExtendHangerArms(m_hangerArm, true));
     new JoystickButton(rightJoystick, 9).whileTrue(new ExtendHangerArms(m_hangerArm, false));
     new JoystickButton(rightJoystick, 8).onTrue(new TeleopFaceAprilTag());
+    new JoystickButton(rightJoystick, 7).onTrue(new ParallelCommandGroup(
+      new AimShooter(m_shooterTilt),
+      new StopNoteCommand(m_stopNote, false)
+    ));
   }
-  
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // return new OutputSmartdashboard(m_shooterTilt);
 
+  public Command getAutonomousCommand() {
     return new ParallelCommandGroup(
-      new AutonFaceAprilTag(m_robotDrive),
-      new OutputSmartdashboard()
+      new OutputSmartdashboard(),
+      new AimShooter(m_shooterTilt)
     );
+
+    // return new ParallelCommandGroup(
+    //   new AutonFaceAprilTag(m_robotDrive),
+    //   new OutputSmartdashboard()
+    // );
 
     /* 
     // Based heavily off of "FRC 0 to Autonomous"

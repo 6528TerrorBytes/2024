@@ -6,7 +6,10 @@ package frc.robot.commands.teleop;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
+import frc.robot.RobotContainer;
+import frc.robot.Utility;
 import frc.robot.subsystems.DriveSubsystem;
+import edu.wpi.first.wpilibj.DriverStation;
 
 public class TeleopFaceAprilTag extends Command {
   /** Creates a new TeleopFaceAprilTag. */
@@ -21,21 +24,22 @@ public class TeleopFaceAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    DriveSubsystem.overrideRotation = LimelightHelpers.getTV("limelight");
+    DriveSubsystem.overrideRotation = Utility.aprilTagInView();
+    if (!DriveSubsystem.overrideRotation) { return; } // Check for AprilTag in view 
+    if (!Utility.testShooterID()) { return; } // Check tag ID
 
-    if (DriveSubsystem.overrideRotation) {      
-      double tx = LimelightHelpers.getTX("limelight"); 
-      double rotationSpeed = -tx / 30;
-      
-      // Clamp between -1 and 1
-      if (rotationSpeed > 0.5) {
-        rotationSpeed = 0.5;
-      } else if (rotationSpeed < -0.5) {
-        rotationSpeed = -0.5;
-      }
-
-      DriveSubsystem.newRotation = rotationSpeed * 0.5;
+    // Rotate to face limelight
+    double tx = LimelightHelpers.getTX("limelight"); 
+    double rotationSpeed = -tx / 30;
+    
+    // Clamp between -1 and 1
+    if (rotationSpeed > 0.5) {
+      rotationSpeed = 0.5;
+    } else if (rotationSpeed < -0.5) {
+      rotationSpeed = -0.5;
     }
+
+    DriveSubsystem.newRotation = rotationSpeed * 0.5;
   }
 
   // Called once the command ends or is interrupted.

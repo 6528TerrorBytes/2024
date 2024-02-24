@@ -7,6 +7,7 @@ package frc.robot.commands.auton;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
+import frc.robot.Utility;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutonFaceAprilTag extends Command {
@@ -28,8 +29,8 @@ public class AutonFaceAprilTag extends Command {
   @Override
   public void execute() {
     double rotationSpeed;
-    // If see a limelight,
-    if (LimelightHelpers.getTV("limelight")) {
+    // If see a limelight and correct speaker ID
+    if (Utility.aprilTagInView() && Utility.testShooterID()) {
       // Tx is the offset from the center of the camera (2d not 3d) 
       double tx = LimelightHelpers.getTX("limelight"); 
       rotationSpeed = -tx / 30;

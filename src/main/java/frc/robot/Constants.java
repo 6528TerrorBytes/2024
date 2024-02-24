@@ -48,9 +48,9 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final double angleOffset = 21; // Angle offset to vertical arm
-    public static final double minAngle = 21;
-    public static final double maxAngle = 150;
+    public static final double angleOffset = 0; // Angle offset to vertical arm
+    public static final double minAngle = 15;
+    public static final double maxAngle = 100;
 
     // PID controller
     public static final double tiltP = 0.01;
@@ -65,6 +65,11 @@ public final class Constants {
     public static final double tiltFeedforwardkSVolts = 1;
     public static final double tiltFeedforwardkGVolts = 0;
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
+    
+    // Limelight constants in degrees
+    public static final double limelightOffsetFromHorizontal = 25;
+    // Angle of the arm when the apriltag is directly horizontal
+    public static final double limelightZeroArmAngle = 90;
   }
 
   public static class StopNoteConstants {

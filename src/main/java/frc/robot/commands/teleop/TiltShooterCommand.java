@@ -25,7 +25,7 @@ public class TiltShooterCommand extends Command {
   @Override
   public void initialize() {
     m_shooterTilt.setGoal(angleTo);
-    m_shooterTilt.setTolerance(10);
+    m_shooterTilt.setTolerance(5);
   }
 
   @Override

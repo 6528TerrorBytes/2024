@@ -142,6 +142,7 @@ public class DriveSubsystem extends SubsystemBase {
     // Speed multiplier
     xSpeed *= speedMultiplier;
     ySpeed *= speedMultiplier;
+    rot *= speedMultiplier;
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting
