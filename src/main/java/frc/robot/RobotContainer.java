@@ -100,20 +100,19 @@ public class RobotContainer {
 
     // Default command
     m_robotDrive.setDefaultCommand(
-        // The left stick controls translation of the robot.
-        // Turning is controlled by the X axis of the right stick.
-        new RunCommand(
-            () -> m_robotDrive.drive(
-                -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
-                -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-                true, true),
-            m_robotDrive)
-            // Call of duty (:<
-    );
+      // The left stick controls translation of the robot.
+      // Turning is controlled by the X axis of the right stick.
+      new RunCommand(
+        () -> m_robotDrive.drive(
+          -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
+          -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
+          true, true),
+        m_robotDrive
+      )
+    ); // Call of duty (:<
 
-    // Limit Switch detector command
-    new LimitSwitchDetector().schedule();
+    // Updates the SmartDashboard with limelight info
     new OutputSmartdashboard().schedule();
 
     // Configure the trigger bindings
@@ -121,7 +120,6 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
-    // Joystick buttons
     new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
       new ConveyerComand(m_ConveyerSubsystem),
       new StopNoteCommand(m_stopNote, false)
@@ -129,9 +127,9 @@ public class RobotContainer {
     new JoystickButton(leftJoystick, 2).whileTrue(new ReverseConveyerCommand(m_ConveyerSubsystem));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
-        new IntakeCommand(m_intakeSubsystem),
-        new ConveyerComand(m_ConveyerSubsystem),
-        new StopNoteCommand(m_stopNote, true)
+      new IntakeCommand(m_intakeSubsystem),
+      new ConveyerComand(m_ConveyerSubsystem),
+      new StopNoteCommand(m_stopNote, true)
     ));
 
     new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));

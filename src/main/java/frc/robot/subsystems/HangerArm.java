@@ -8,6 +8,7 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
+import edu.wpi.first.wpilibj.DigitalInput;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -18,6 +19,9 @@ public class HangerArm extends SubsystemBase {
 
   private final RelativeEncoder m_leftRelativeEncoder = m_leftArmMotor.getEncoder();
   private final RelativeEncoder m_rightRelativeEncoder = m_rightArmMotor.getEncoder();
+
+  private final DigitalInput m_leftLimitSwitch = new DigitalInput(1);
+  private final DigitalInput m_rightLimitSwitch = new DigitalInput(0);
 
   /** Creates a new HangerArm. */
   public HangerArm() {
@@ -30,6 +34,21 @@ public class HangerArm extends SubsystemBase {
     zeroEncoders(); // ---- TEMPORARY ----
   }
 
+  // Call periodically to check limit switches and the encoders
+  // Only stops the motors if they're moving downward
+  public void checkLimitSwitches() {
+    if (!m_leftLimitSwitch.get() && getSpeedLeft() > 0) {
+        stopLeft();
+        zeroEncoderLeft();
+    }
+
+    if (!m_rightLimitSwitch.get() && getSpeedRight() < 0) {
+        stopRight();
+        zeroEncoderRight();
+    }
+  }
+
+  // Set speeds
   public void setSpeed(double speed) {
     m_leftArmMotor.set(-speed);
     m_rightArmMotor.set(speed);
@@ -43,6 +62,7 @@ public class HangerArm extends SubsystemBase {
     m_rightArmMotor.set(speed);
   }
 
+  // Encoders
   public void zeroEncoders() {
     m_leftRelativeEncoder.setPosition(0);
     m_rightRelativeEncoder.setPosition(0);
@@ -64,17 +84,17 @@ public class HangerArm extends SubsystemBase {
     m_rightRelativeEncoder.getPosition();
   }
 
+  // Other motor functions
   public void stop() {
-    m_leftArmMotor.set(0);
-    m_rightArmMotor.set(0);
+    setSpeed(0);
   }
 
   public void stopLeft() {
-    m_leftArmMotor.set(0);
+    setSpeedLeft(0);
   }
 
   public void stopRight() {
-    m_rightArmMotor.set(0);
+    setSpeedRight(0);
   }
 
   public double getSpeedLeft() {

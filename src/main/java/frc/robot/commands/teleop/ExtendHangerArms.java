@@ -10,13 +10,8 @@ import frc.robot.subsystems.HangerArm;
 
 public class ExtendHangerArms extends Command {
   private final HangerArm m_hangerArm;
-
-  private boolean m_reversed;
-
   private final double m_speed = 0.5;
-
-  public static boolean m_leftStopped = false;
-  public static boolean m_rightStopped = false;
+  private boolean m_reversed;
 
   /** Creates a new ExtendHangerArms. */
   public ExtendHangerArms(HangerArm hangerArm, boolean reversed) {
@@ -33,20 +28,11 @@ public class ExtendHangerArms extends Command {
     } else {
       m_hangerArm.setSpeed(-m_speed);
     }
-
-    System.out.println("setSpeed");
-    System.out.println(m_hangerArm.getSpeedLeft());
   }
 
   @Override
   public void execute() {
-    if (m_reversed) { return; }
-
-    if (m_leftStopped) {
-      m_hangerArm.stopLeft();
-    } else if (m_rightStopped) {
-      m_hangerArm.stopRight();
-    }
+    m_hangerArm.checkLimitSwitches();
   }
 
   // Called once the command ends or is interrupted.
