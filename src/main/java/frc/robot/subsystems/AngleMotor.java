@@ -94,4 +94,5 @@ public class AngleMotor extends SubsystemBase {
   protected CANSparkMax getMotor() { return motor; }
   protected SparkPIDController getController() { return pidController; }
   protected AbsoluteEncoder getEncoder() { return encoder; }
+  public double getEncoderAngle() { return encoder.getPosition(); }
 }

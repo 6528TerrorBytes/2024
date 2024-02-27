@@ -19,9 +19,11 @@ import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.ChangeSpeed;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ConveyerSubsystem;
+import frc.robot.subsystems.DetectNote;
 
 // Autonomous imports
 import java.util.List;
@@ -55,7 +57,6 @@ import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TeleopFaceAprilTag;
 import frc.robot.commands.teleop.IncreaseSpeed;
-import frc.robot.commands.teleop.LimitSwitchDetector;
 import frc.robot.subsystems.ShooterTilt;
 import frc.robot.commands.teleop.TiltShooterCommand;
 
@@ -87,6 +88,10 @@ public class RobotContainer {
   private final StopNote m_stopNote = new StopNote();
 
   private final HangerArm m_hangerArm = new HangerArm();
+
+  private final DetectNote m_detectNote = new DetectNote();
+
+  private final Blinkin m_blinkin = new Blinkin();
   
   // Configure information based on the driver station Team Station
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
@@ -113,7 +118,9 @@ public class RobotContainer {
     ); // Call of duty (:<
 
     // Updates the SmartDashboard with limelight info
-    new OutputSmartdashboard().schedule();
+    new OutputSmartdashboard(m_shooterTilt).schedule();
+
+    m_blinkin.resetToTeamColor();
 
     // Configure the trigger bindings
     configureBindings();
@@ -121,15 +128,15 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new ConveyerComand(m_ConveyerSubsystem),
-      new StopNoteCommand(m_stopNote, false)
+      new ConveyerComand(m_ConveyerSubsystem)
+      // new StopNoteCommand(m_stopNote, false)
     ));
     new JoystickButton(leftJoystick, 2).whileTrue(new ReverseConveyerCommand(m_ConveyerSubsystem));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new IntakeCommand(m_intakeSubsystem),
-      new ConveyerComand(m_ConveyerSubsystem),
-      new StopNoteCommand(m_stopNote, true)
+      new ConveyerComand(m_ConveyerSubsystem)
+      // new StopNoteCommand(m_stopNote, true)
     ));
 
     new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
@@ -137,11 +144,14 @@ public class RobotContainer {
 
     // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 20));
     new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 28));
+    new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 28));
     new JoystickButton(otherJoystick, 8).onTrue(new TiltShooterCommand(m_shooterTilt, 40));
     new JoystickButton(otherJoystick, 9).onTrue(new TiltShooterCommand(m_shooterTilt, 60));
     new JoystickButton(otherJoystick, 10).onTrue(new TiltShooterCommand(m_shooterTilt, 70));
     new JoystickButton(otherJoystick, 11).onTrue(new TiltShooterCommand(m_shooterTilt, 80));
     new JoystickButton(otherJoystick, 12).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
+    
+    new JoystickButton(rightJoystick, 14).onTrue(new TiltShooterCommand(m_shooterTilt, 3));
 
     new JoystickButton(leftJoystick, 11).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
     new JoystickButton(leftJoystick, 12).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));
@@ -160,10 +170,14 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    return new ParallelCommandGroup(
-      new OutputSmartdashboard(),
-      new AimShooter(m_shooterTilt)
-    );
+    m_blinkin.resetToTeamColor();
+
+    return new OutputSmartdashboard(m_shooterTilt);
+
+    // return new ParallelCommandGroup(
+    //   new OutputSmartdashboard(),
+    //   new AimShooter(m_shooterTilt)
+    // );
 
     // return new ParallelCommandGroup(
     //   new AutonFaceAprilTag(m_robotDrive),

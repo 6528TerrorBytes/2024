@@ -4,13 +4,12 @@
 
 package frc.robot.commands.teleop;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.HangerArm;
 
 public class ExtendHangerArms extends Command {
   private final HangerArm m_hangerArm;
-  private final double m_speed = 0.5;
+  private final double m_speed = 0.8;
   private boolean m_reversed;
 
   /** Creates a new ExtendHangerArms. */

@@ -49,13 +49,14 @@ public final class Constants {
 
   public static class ShooterConstants {
     public static final double angleOffset = 0; // Angle offset to vertical arm
-    public static final double minAngle = 15;
+    public static final double minAngle = 0;
     public static final double maxAngle = 100;
 
     // PID controller
     public static final double tiltP = 0.01;
     public static final double tiltI = 0;
     public static final double tiltD = 0;
+    public static final double tolerance = 5;
 
     // In meters
     public static final double tiltMaxVelocity = 3;
@@ -67,9 +68,11 @@ public final class Constants {
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
     
     // Limelight constants in degrees
-    public static final double limelightOffsetFromHorizontal = 25;
+    public static final double limelightHorizontal = 88;
+    public static final double limelightDetectAngle = 60;
     // Angle of the arm when the apriltag is directly horizontal
     public static final double limelightZeroArmAngle = 90;
+    public static final double distTagToSpeaker = 1.3;
   }
 
   public static class StopNoteConstants {
@@ -96,7 +99,15 @@ public final class Constants {
 
     public static final double minAngle = 0;
     public static final double maxAngle = 90;
+  }
 
+  public static class BlinkinConstants {
+    public static final int id = 0;
+
+    // Color numbers PDF at the bottom of: https://www.revrobotics.com/content/docs/REV-11-1105-UM.pdf
+    public static final double blue = 0.87;
+    public static final double red = 0.61;
+    public static final double green = 0.77;
   }
 
   // default copy-pasted stuff here:

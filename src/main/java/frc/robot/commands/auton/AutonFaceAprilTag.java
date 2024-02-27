@@ -4,7 +4,6 @@
 
 package frc.robot.commands.auton;
 
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.LimelightHelpers;
 import frc.robot.Utility;
@@ -42,13 +41,11 @@ public class AutonFaceAprilTag extends Command {
       //   rotationSpeed = -DriveSubsystem.speedMultiplier;
       // }
 
-      if (rotationSpeed > 0.5) {
-        rotationSpeed = 0.5;
-      } else if (rotationSpeed < -0.5) {
-        rotationSpeed = -0.5;
+      if (rotationSpeed > 0.25) {
+        rotationSpeed = 0.25;
+      } else if (rotationSpeed < -0.25) {
+        rotationSpeed = -0.25;
       }
-
-      rotationSpeed *= 0.5;
     } else {
       rotationSpeed = 0.2;
     }

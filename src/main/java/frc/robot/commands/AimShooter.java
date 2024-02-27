@@ -15,6 +15,7 @@ import java.lang.Math;
 public class AimShooter extends Command {
   private final ShooterTilt m_shooterTilt;
 
+  private boolean atHorizontal = false;
   private boolean detected = false;
 
   /** Creates a new AimShooter. */
@@ -26,12 +27,16 @@ public class AimShooter extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    m_shooterTilt.setGoal(Constants.ShooterConstants.limelightDetectAngle);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    atHorizontal = m_shooterTilt.atGoal();
+    SmartDashboard.putBoolean("athorizontal", atHorizontal);
+    if (!atHorizontal) { return; }
+
     if (!detected) {
       // Test for april tag in view and correct speaker ID
       if (!Utility.aprilTagInView()) { return; }
@@ -46,17 +51,17 @@ public class AimShooter extends Command {
   private double calcShooterAngle() {
     Pose3d pos = Utility.aprilTagPos();
 
-    double y = -pos.getY() * 1.1;
+    double y = -pos.getY() + Constants.ShooterConstants.distTagToSpeaker;
     double z = pos.getZ();
 
     // Using arctan to get the angle that the shooter would need to be at
     double angle = Math.atan(y / z) * (180 / Math.PI); // Convert to degrees
 
+    // Makes the angle equal to the angle from horizontal
+    angle += Constants.ShooterConstants.limelightHorizontal - Constants.ShooterConstants.limelightDetectAngle;
+
     SmartDashboard.putNumber("Limelight offset angle ", angle);
-
-    angle += Constants.ShooterConstants.limelightOffsetFromHorizontal;
-    angle = Constants.ShooterConstants.limelightZeroArmAngle - angle - 30;
-
+    angle = Constants.ShooterConstants.limelightZeroArmAngle - angle;
     SmartDashboard.putNumber("Calculated arm angle ", angle);
     
     return angle;

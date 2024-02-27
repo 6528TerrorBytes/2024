@@ -29,5 +29,7 @@ public class ShooterTilt extends AngleMotor {
     getMotor().setSmartCurrentLimit(30); // Just torque (strength), not speed
 
     burnFlash(); // Save settings
+
+    setTolerance(Constants.ShooterConstants.tolerance);
   }
 }

@@ -19,9 +19,11 @@ public final class Utility {
 
         SmartDashboard.putBoolean("red ", RobotContainer.teamColor == DriverStation.Alliance.Red);
 
+        DriverStation.Alliance alliance = getAlliance();
+
         return (
-            (RobotContainer.teamColor == DriverStation.Alliance.Blue && id == 7) ||
-            (RobotContainer.teamColor == DriverStation.Alliance.Red && id == 4)
+            (alliance == DriverStation.Alliance.Blue && id == 7) ||
+            (alliance == DriverStation.Alliance.Red && id == 4)
         );
     }
 
@@ -31,5 +33,13 @@ public final class Utility {
 
     public static Pose3d aprilTagPos() {
         return LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
+    }
+
+    public static DriverStation.Alliance getAlliance() {
+        return DriverStation.getAlliance().get();
+    }
+
+    public static int getTeamLocation() {
+        return DriverStation.getLocation().getAsInt();
     }
 }
