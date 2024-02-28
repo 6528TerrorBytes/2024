@@ -68,10 +68,13 @@ public final class Constants {
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
     
     // Limelight constants in degrees
+    // Angle of the arm when the limelight is horizontal
     public static final double limelightHorizontal = 88;
+    // Angle the arm goes to before trying to detect AprilTags
     public static final double limelightDetectAngle = 60;
-    // Angle of the arm when the apriltag is directly horizontal
+    // Horizontal arm angle
     public static final double limelightZeroArmAngle = 90;
+    // In meters, the distance from the AprilTag to the speaker
     public static final double distTagToSpeaker = 1.3;
   }
 

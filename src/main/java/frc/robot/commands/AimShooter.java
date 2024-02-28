@@ -51,20 +51,34 @@ public class AimShooter extends Command {
   private double calcShooterAngle() {
     Pose3d pos = Utility.aprilTagPos();
 
-    double y = -pos.getY() + Constants.ShooterConstants.distTagToSpeaker;
+    double y = -pos.getY(); // Constants.ShooterConstants.distTagToSpeaker
     double z = pos.getZ();
 
-    // Using arctan to get the angle that the shooter would need to be at
-    double angle = Math.atan(y / z) * (180 / Math.PI); // Convert to degrees
+    // For convenience, the angle that the shooter is at to detect the tag in radians:
+    double angleSet = Constants.ShooterConstants.limelightDetectAngle * (Math.PI / 180);
+    double wallAngle = Math.PI - angleSet;
 
-    // Makes the angle equal to the angle from horizontal
-    angle += Constants.ShooterConstants.limelightHorizontal - Constants.ShooterConstants.limelightDetectAngle;
+    // Vertical distance from the center of the speaker the limelight faces up to the AprilTag
+    double heightToTag = y / Math.sin(angleSet);
+    // Added distance from the AprilTag to the speaker center, where the arm should aim
+    double heightToSpeaker = heightToTag + Constants.ShooterConstants.distTagToSpeaker;
 
-    SmartDashboard.putNumber("Limelight offset angle ", angle);
-    angle = Constants.ShooterConstants.limelightZeroArmAngle - angle;
-    SmartDashboard.putNumber("Calculated arm angle ", angle);
-    
-    return angle;
+    // Distance from the limelight to the wall
+    double depthToWall = z - (heightToTag * Math.cos(angleSet));
+
+    // Length from the limelight to the speaker center, using law of cosines
+    double lengthToSpeaker = Math.sqrt(
+        (Math.pow(heightToSpeaker, 2) + Math.pow(depthToWall, 2)) -
+        (2 * heightToSpeaker * depthToWall * Math.cos(wallAngle))
+    );
+
+    // Using law of sines, find the angle from the limelight face to the speaker center in degrees
+    double angle = Math.asin(
+        heightToSpeaker * (Math.sin(wallAngle) / lengthToSpeaker)
+    ) * (180 / Math.PI);
+
+    // Inverse the angle for use with the arm
+    return Constants.ShooterConstants.limelightDetectAngle - angle;
   }
 
   // Called once the command ends or is interrupted.
