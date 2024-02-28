@@ -42,4 +42,27 @@ public final class Utility {
     public static int getTeamLocation() {
         return DriverStation.getLocation().getAsInt();
     }
+
+  public static void updateSmartDashboard() {
+    boolean canSee = LimelightHelpers.getTV("limelight");
+    double tx = LimelightHelpers.getTX("limelight");
+    double ty = LimelightHelpers.getTY("limelight");
+    double ta = LimelightHelpers.getTA("limelight");
+
+    double id = LimelightHelpers.getFiducialID("limelight");
+
+    Pose3d botpose = LimelightHelpers.getTargetPose3d_RobotSpace("limelight");
+    
+    SmartDashboard.putBoolean("Can see limelight: ", canSee);
+    SmartDashboard.putNumber("limelight id ", id);
+
+    SmartDashboard.putNumber("limelight tx ", tx);
+    SmartDashboard.putNumber("limelight ty ", ty);
+    SmartDashboard.putNumber("limelight ta ", ta);
+
+    SmartDashboard.putNumber("limelight X ", botpose.getX());
+    SmartDashboard.putNumber("limelight Y ", botpose.getY());
+    SmartDashboard.putNumber("limelight Z ", botpose.getZ());
+    SmartDashboard.putNumber("limelight angle ", botpose.getRotation().getAngle() * (180 / Math.PI));
+  }
 }

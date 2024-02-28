@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class DetectNote extends SubsystemBase {
   private final DigitalInput m_limitSwitch = new DigitalInput(Constants.LimitSwitches.detectNote);

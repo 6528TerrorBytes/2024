@@ -44,7 +44,6 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.AimShooter;
-import frc.robot.commands.OutputSmartdashboard;
 import frc.robot.commands.auton.AutonFaceAprilTag;
 import frc.robot.commands.auton.AutonRotate;
 import frc.robot.commands.intake.ConveyerComand;
@@ -120,11 +119,6 @@ public class RobotContainer {
       ); // Call of duty (:<
     }
 
-    // Updates the SmartDashboard with limelight info
-    new OutputSmartdashboard(m_shooterTilt).schedule();
-    // Try if the above doesn't work:
-    // m_shooterTilt.setDefaultCommand(new OutputSmartdashboard(m_shooterTilt));
-
     m_blinkin.resetToTeamColor();
 
     // Configure the trigger bindings
@@ -148,8 +142,6 @@ public class RobotContainer {
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
     // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 20));
-    new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 28));
-    new JoystickButton(otherJoystick, 7).onTrue(new TiltShooterCommand(m_shooterTilt, 28));
     new JoystickButton(otherJoystick, 8).onTrue(new TiltShooterCommand(m_shooterTilt, 40));
     new JoystickButton(otherJoystick, 9).onTrue(new TiltShooterCommand(m_shooterTilt, 60));
     new JoystickButton(otherJoystick, 10).onTrue(new TiltShooterCommand(m_shooterTilt, 70));
@@ -172,6 +164,7 @@ public class RobotContainer {
       new AimShooter(m_shooterTilt),
       new StopNoteCommand(m_stopNote, false)
     ));
+
   }
 
   public Command getAutonomousCommand() {
@@ -222,7 +215,7 @@ public class RobotContainer {
     return new SequentialCommandGroup(
       new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
       swerveCommand, // Run the swerve auton with the trajectory
-      autonRotate // Rotates the bot 45 degrees maybe
+      autonRotate, // Rotates the bot 45 degrees maybe
       new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions after
     );
   }
@@ -230,12 +223,7 @@ public class RobotContainer {
   public Command getTestCommand() {
     m_blinkin.resetToTeamColor();
 
-    return new OutputSmartdashboard(m_shooterTilt);
-
-    // return new ParallelCommandGroup(
-    //   new OutputSmartdashboard(),
-    //   new AimShooter(m_shooterTilt)
-    // );
+    return new AimShooter(m_shooterTilt);
 
     // return new ParallelCommandGroup(
     //   new AutonFaceAprilTag(m_robotDrive),
