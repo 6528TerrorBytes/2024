@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_testCommand;
 
   private RobotContainer m_robotContainer;
 
@@ -48,7 +49,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    System.out.println("Entering disabled mode...");
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -56,12 +59,10 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    stopAll();
 
-    // schedule the autonomous command (example)
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.schedule();
-    }
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand.schedule();
   }
 
   /** This function is called periodically during autonomous. */
@@ -70,13 +71,8 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
-    // This makes sure that the autonomous stops running when
-    // teleop starts running. If you want the autonomous to
-    // continue until interrupted by another command, remove
-    // this line or comment it out.
-    if (m_autonomousCommand != null) {
-      m_autonomousCommand.cancel();
-    }
+    stopAutonomousCommand();
+    stopTestCommand();
   }
 
   /** This function is called periodically during operator control. */
@@ -85,8 +81,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void testInit() {
-    // Cancels all running commands at the start of test mode.
-    CommandScheduler.getInstance().cancelAll();
+    System.out.println("Entering test mode...");
+    stopAll();
+
+    m_testCommand = m_robotContainer.getTestCommand();
+    m_testCommand.schedule();
   }
 
   /** This function is called periodically during test mode. */
@@ -100,4 +99,21 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  // Stop functions
+  public void stopAutonomousCommand() {
+    if (m_autonomousCommand != null) {
+      m_autonomousCommand.cancel();
+    }
+  }
+
+  public void stopTestCommand() {
+    if (m_testCommand != null) {
+      m_testCommand.cancel();
+    }
+  }
+
+  public void stopAll() {
+    CommandScheduler.getInstance().cancelAll();
+  }
 }

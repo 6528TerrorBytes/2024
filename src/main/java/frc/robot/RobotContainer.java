@@ -77,6 +77,7 @@ public class RobotContainer {
   public final Joystick otherJoystick = new Joystick(2);
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
+  private final boolean teleopDrive = true;
 
   private final ChangeSpeed m_changeSpeed = new ChangeSpeed();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
@@ -103,19 +104,21 @@ public class RobotContainer {
     System.out.println(teamColor == DriverStation.Alliance.Blue);
     System.out.println(teamLocation);
 
-    // Default command
-    m_robotDrive.setDefaultCommand(
-      // The left stick controls translation of the robot.
-      // Turning is controlled by the X axis of the right stick.
-      new RunCommand(
-        () -> m_robotDrive.drive(
-          -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
-          -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-          true, true),
-        m_robotDrive
-      )
-    ); // Call of duty (:<
+    // Drive command
+    if (teleopDrive) {
+      m_robotDrive.setDefaultCommand(
+        // The left stick controls translation of the robot.
+        // Turning is controlled by the X axis of the right stick.
+        new RunCommand(
+          () -> m_robotDrive.drive(
+            -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
+            -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
+            -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
+            true, true),
+          m_robotDrive
+        )
+      ); // Call of duty (:<
+    }
 
     // Updates the SmartDashboard with limelight info
     new OutputSmartdashboard(m_shooterTilt).schedule();
@@ -172,22 +175,7 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    m_blinkin.resetToTeamColor();
-
-    return new OutputSmartdashboard(m_shooterTilt);
-
-    // return new ParallelCommandGroup(
-    //   new OutputSmartdashboard(),
-    //   new AimShooter(m_shooterTilt)
-    // );
-
-    // return new ParallelCommandGroup(
-    //   new AutonFaceAprilTag(m_robotDrive),
-    //   new OutputSmartdashboard()
-    // );
-
-    /* 
-    // Based heavily off of "FRC 0 to Autonomous"
+    // Based heavily off of "FRC 0 to Autonomous" (on Youtube)
     System.out.println("Making Autonomous...");
 
     // Configuration for the trajectory (max speed and acceleration)
@@ -232,11 +220,26 @@ public class RobotContainer {
     
     // Runs these three things in order as a single command
     return new SequentialCommandGroup(
-      // new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
-      // swerveCommand, // Run the swerve auton with the trajectory
-      // autonRotate // Rotates the bot 45 degrees maybe
-      // new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions
+      new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
+      swerveCommand, // Run the swerve auton with the trajectory
+      autonRotate // Rotates the bot 45 degrees maybe
+      new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions after
     );
-    */
+  }
+
+  public Command getTestCommand() {
+    m_blinkin.resetToTeamColor();
+
+    return new OutputSmartdashboard(m_shooterTilt);
+
+    // return new ParallelCommandGroup(
+    //   new OutputSmartdashboard(),
+    //   new AimShooter(m_shooterTilt)
+    // );
+
+    // return new ParallelCommandGroup(
+    //   new AutonFaceAprilTag(m_robotDrive),
+    //   new OutputSmartdashboard()
+    // );
   }
 }
