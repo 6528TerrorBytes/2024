@@ -20,10 +20,7 @@ public class StopNote extends AngleMotor {
         getController().setI(Constants.StopNoteConstants.i, 0);
         getController().setD(Constants.StopNoteConstants.d, 0);
         getController().setFF(0, 0); // Feedforward gains (?)
-        getController().setOutputRange(
-            -Constants.StopNoteConstants.speed,
-            Constants.StopNoteConstants.speed
-        ); // Control speed -1 to 1 (motor output)
+        setSpeed(Constants.StopNoteConstants.speed);
         
         getMotor().setInverted(true);
         getMotor().setIdleMode(IdleMode.kBrake);

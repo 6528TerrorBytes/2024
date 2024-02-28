@@ -119,6 +119,8 @@ public class RobotContainer {
 
     // Updates the SmartDashboard with limelight info
     new OutputSmartdashboard(m_shooterTilt).schedule();
+    // Try if the above doesn't work:
+    // m_shooterTilt.setDefaultCommand(new OutputSmartdashboard(m_shooterTilt));
 
     m_blinkin.resetToTeamColor();
 

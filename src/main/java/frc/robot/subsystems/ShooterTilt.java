@@ -19,7 +19,7 @@ public class ShooterTilt extends AngleMotor {
     getController().setI(Constants.ShooterConstants.tiltI, 0);
     getController().setD(Constants.ShooterConstants.tiltD, 0);
     getController().setFF(0, 0); // Feedforward gains (?)
-    getController().setOutputRange(-0.2, 0.2); // Control speed -1 to 1 (motor output)
+    setSpeed(Constants.ShooterConstants.speed);
 
     // getController().setSmartMotionMaxAccel(1, 0);
     // getController().setSmartMotionMaxVelocity(5, 0);

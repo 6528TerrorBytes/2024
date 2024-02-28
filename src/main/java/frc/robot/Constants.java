@@ -47,6 +47,12 @@ public final class Constants {
     public static final int hangerArmRight = 9;
   }
 
+  public static class LimitSwitches {
+    public static final int rightHangerArm = 0;
+    public static final int leftHangerArm = 1;
+    public static final int detectNote = 2;
+  }
+
   public static class ShooterConstants {
     public static final double angleOffset = 0; // Angle offset to vertical arm
     public static final double minAngle = 0;
@@ -56,6 +62,7 @@ public final class Constants {
     public static final double tiltP = 0.01;
     public static final double tiltI = 0;
     public static final double tiltD = 0;
+    public static final double speed = 0.2;
     public static final double tolerance = 5;
 
     // In meters

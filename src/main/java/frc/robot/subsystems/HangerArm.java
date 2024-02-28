@@ -20,8 +20,8 @@ public class HangerArm extends SubsystemBase {
   private final RelativeEncoder m_leftRelativeEncoder = m_leftArmMotor.getEncoder();
   private final RelativeEncoder m_rightRelativeEncoder = m_rightArmMotor.getEncoder();
 
-  private final DigitalInput m_leftLimitSwitch = new DigitalInput(1);
-  private final DigitalInput m_rightLimitSwitch = new DigitalInput(0);
+  private final DigitalInput m_rightLimitSwitch = new DigitalInput(Constants.LimitSwitches.rightHangerArm);
+  private final DigitalInput m_leftLimitSwitch = new DigitalInput(Constants.LimitSwitches.leftHangerArm);
 
   /** Creates a new HangerArm. */
   public HangerArm() {

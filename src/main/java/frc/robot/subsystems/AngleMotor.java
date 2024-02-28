@@ -53,6 +53,12 @@ public class AngleMotor extends SubsystemBase {
     startingOffset = offset;
   }
 
+  // Need to burn flash after running this function
+  public void setSpeed(double speed) {
+    // Control speed from -1 to 1 (min/max motor speed)
+    pidController.setOutputRange(-speed, speed);
+  }
+
   // Moves to the given angle (in degrees)
   public void setGoal(double angle) {
     angleGoal = angle + startingOffset;
