@@ -68,13 +68,13 @@ public class AimShooter extends Command {
 
     // Length from the limelight to the speaker center, using law of cosines
     double lengthToSpeaker = Math.sqrt(
-        (Math.pow(heightToSpeaker, 2) + Math.pow(depthToWall, 2)) -
-        (2 * heightToSpeaker * depthToWall * Math.cos(wallAngle))
+      (Math.pow(heightToSpeaker, 2) + Math.pow(depthToWall, 2)) -
+      (2 * heightToSpeaker * depthToWall * Math.cos(wallAngle))
     );
 
     // Using law of sines, find the angle from the limelight face to the speaker center in degrees
     double angle = Math.asin(
-        heightToSpeaker * (Math.sin(wallAngle) / lengthToSpeaker)
+      heightToSpeaker * (Math.sin(wallAngle) / lengthToSpeaker)
     ) * (180 / Math.PI);
 
     // Inverse the angle for use with the arm
