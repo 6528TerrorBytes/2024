@@ -51,7 +51,7 @@ public class AimShooter extends Command {
   private double calcShooterAngle() {
     Pose3d pos = Utility.aprilTagPos();
 
-    double y = -pos.getY(); // Constants.ShooterConstants.distTagToSpeaker
+    double y = -pos.getY();
     double z = pos.getZ();
 
     // For convenience, the angle that the shooter is at to detect the tag in radians:
@@ -78,7 +78,10 @@ public class AimShooter extends Command {
     ) * (180 / Math.PI);
 
     // Inverse the angle for use with the arm
-    return Constants.ShooterConstants.limelightDetectAngle - angle;
+    angle = Constants.ShooterConstants.limelightDetectAngle - angle;
+
+    SmartDashboard.putNumber("Suggested Arm Angle", angle);
+    return angle;
   }
 
   // Called once the command ends or is interrupted.
