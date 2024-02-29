@@ -11,20 +11,19 @@ import frc.robot.subsystems.ConveyerSubsystem;
 public class ConveyerComand extends Command {
   private final ConveyerSubsystem m_conveyerSubsystem;
 
+  private double m_speed;
+
   /** Creates a new ConveyerComand. */
-  public ConveyerComand(ConveyerSubsystem conveyerSubsystem) {
+  public ConveyerComand(ConveyerSubsystem conveyerSubsystem, double speed) {
     m_conveyerSubsystem = conveyerSubsystem;
+    m_speed = speed;
     addRequirements(m_conveyerSubsystem);
   }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_conveyerSubsystem.setForward();
+    m_conveyerSubsystem.setSpeed(m_speed);
   }
 
   // Called once the command ends or is interrupted.

@@ -49,9 +49,7 @@ import frc.robot.commands.auton.AutonRotate;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.intake.ReverseConveyerCommand;
-import frc.robot.commands.intake.ReverseIntakeCommand;
 import frc.robot.commands.intake.SlowIntakeCommand;
-import frc.robot.commands.teleop.DecreaseSpeed;
 import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TeleopFaceAprilTag;
@@ -127,18 +125,18 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new ConveyerComand(m_ConveyerSubsystem)
+      new ConveyerComand(m_ConveyerSubsystem, 1)
       // new StopNoteCommand(m_stopNote, false)
     ));
-    new JoystickButton(leftJoystick, 2).whileTrue(new ReverseConveyerCommand(m_ConveyerSubsystem));
+    new JoystickButton(leftJoystick, 2).whileTrue(new ConveyerComand(m_ConveyerSubsystem, -1));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new IntakeCommand(m_intakeSubsystem),
+      new IntakeCommand(m_intakeSubsystem, 1),
       new ConveyerComand(m_ConveyerSubsystem)
       // new StopNoteCommand(m_stopNote, true)
     ));
 
-    new JoystickButton(rightJoystick, 2).whileTrue(new ReverseIntakeCommand(m_intakeSubsystem));
+    new JoystickButton(rightJoystick, 2).whileTrue(new IntakeCommand(m_intakeSubsystem, -1));
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
     // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 20));

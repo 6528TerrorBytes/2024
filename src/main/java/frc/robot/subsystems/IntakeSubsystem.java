@@ -17,25 +17,12 @@ public class IntakeSubsystem extends SubsystemBase {
   public IntakeSubsystem() {
     stop();
   }
-
-  public void start() {
-    intakeMotor.set(-1);
-  }
-
-  public void reverse() {
-    intakeMotor.set(1);
-  }
-
-  public void slow() {
-    intakeMotor.set(-0.2);
+  
+  public void setSpeed(double speed) {
+    intakeMotor.set(-speed);
   }
 
   public void stop() {
     intakeMotor.set(0);
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

@@ -14,26 +14,14 @@ public class ConveyerSubsystem extends SubsystemBase {
   public final CANSparkMax conveyerLeft =  new CANSparkMax(Constants.MotorIDs.conveyerLeft,  MotorType.kBrushless);
   public final CANSparkMax conveyerRight = new CANSparkMax(Constants.MotorIDs.conveyerRight, MotorType.kBrushless);
 
-  private final double speed = 1;
-
   /** Creates a new ConveyerSubsystem. */
   public ConveyerSubsystem() {
     stop();
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  public void setForward() {
+  public void setSpeed(double speed) {
     conveyerLeft.set(-speed);
     conveyerRight.set(speed);
-  }
-
-  public void setReverse() {
-    conveyerLeft.set(speed);
-    conveyerRight.set(-speed);
   }
 
   public void stop() {
