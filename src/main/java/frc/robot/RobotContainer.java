@@ -127,13 +127,16 @@ public class RobotContainer {
       new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, false),
       new StopNoteCommand(m_stopNote, false)
     ));
-    // new JoystickButton(leftJoystick, 2).whileTrue(new ConveyerComand(m_ConveyerSubsystem, -1));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, true),
       new IntakeCommand(m_intakeSubsystem, 1),
       new StopNoteCommand(m_stopNote, true)
     ));
+
+    new JoystickButton(leftJoystick, 2).whileTrue(
+      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, -1, false)
+    );
 
     new JoystickButton(rightJoystick, 2).whileTrue(new IntakeCommand(m_intakeSubsystem, -1));
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
@@ -147,8 +150,8 @@ public class RobotContainer {
     
     new JoystickButton(rightJoystick, 14).onTrue(new TiltShooterCommand(m_shooterTilt, 3));
 
-    new JoystickButton(leftJoystick, 11).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
-    new JoystickButton(leftJoystick, 12).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));
+    new JoystickButton(leftJoystick, 4).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
+    new JoystickButton(leftJoystick, 3).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));
     new JoystickButton(leftJoystick, 13).whileTrue(new ShooterCommand(m_shooterSubsystem, -0.5));
     
     new JoystickButton(rightJoystick, 3).onTrue(new StopNoteCommand(m_stopNote, true));

@@ -36,15 +36,24 @@ public class HangerArm extends SubsystemBase {
 
   // Call periodically to check limit switches and the encoders
   // Only stops the motors if they're moving downward
-  public void checkLimitSwitches() {
-    if (!m_leftLimitSwitch.get() && getSpeedLeft() > 0) {
+  // Also checks upper bounds for the arms
+  public void checkBoundaries() {
+    if (getSpeedLeft() > 0) { // When moving down
+      if (!m_leftLimitSwitch.get()) {
         stopLeft();
         zeroEncoderLeft();
+      }
+    } else if (getEncoderLeft() < -Constants.HangerArmConstants.upperEncoderLimit) { // When moving up
+      stopLeft();
     }
 
-    if (!m_rightLimitSwitch.get() && getSpeedRight() < 0) {
+    if (getSpeedRight() < 0) { // When moving down
+      if (!m_rightLimitSwitch.get()) {
         stopRight();
         zeroEncoderRight();
+      }
+    } else if (getEncoderRight() > Constants.HangerArmConstants.upperEncoderLimit) {
+      stopRight();
     }
   }
 
@@ -76,12 +85,12 @@ public class HangerArm extends SubsystemBase {
     m_leftRelativeEncoder.setPosition(0);
   }
 
-  public void getEncoderLeft() {
-    m_leftRelativeEncoder.getPosition();
+  public double getEncoderLeft() {
+    return m_leftRelativeEncoder.getPosition();
   }
 
-  public void getEncoderRight() {
-    m_rightRelativeEncoder.getPosition();
+  public double getEncoderRight() {
+    return m_rightRelativeEncoder.getPosition();
   }
 
   // Other motor functions

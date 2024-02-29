@@ -15,7 +15,6 @@ import java.lang.Math;
 public class AimShooter extends Command {
   private final ShooterTilt m_shooterTilt;
 
-  private boolean atHorizontal = false;
   private boolean detected = false;
 
   /** Creates a new AimShooter. */
@@ -24,19 +23,9 @@ public class AimShooter extends Command {
     addRequirements(m_shooterTilt);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    m_shooterTilt.setGoal(Constants.ShooterConstants.limelightDetectAngle);
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    atHorizontal = m_shooterTilt.atGoal();
-    SmartDashboard.putBoolean("athorizontal", atHorizontal);
-    // if (!atHorizontal) { return; }
-
     if (!detected) {
       // Test for april tag in view and correct speaker ID
       if (!Utility.aprilTagInView()) { return; }
@@ -54,13 +43,8 @@ public class AimShooter extends Command {
     double y = -pos.getY();
     double z = pos.getZ();
 
-    // Since the limelight is horizontal when the shooter is 88 degrees, this is the small offset needed
-    double angleFromHorizontal = 90 - Constants.ShooterConstants.limelightHorizontal;
-    // The angle of the shooter adjusted for the angle from horizontal in radians
-    double currentAngle = (m_shooterTilt.getAngle() + angleFromHorizontal) * (Math.PI / 180);
-
     // Gets the robot's shooter tilt angle needed to face the tag directly
-    double angleOffsetFromTag = currentAngle - Math.atan(y / z);
+    double angleOffsetFromTag = Constants.ShooterConstants.limelightAngle - Math.atan(y / z);
     // Angle above the line from the limelight to the AprilTag
     double angleAboveTag = Math.PI - angleOffsetFromTag;
 
@@ -83,6 +67,14 @@ public class AimShooter extends Command {
 
     // Angle of the arm to face the speaker!
     double angle = angleOffsetFromTag * (180 / Math.PI) - angleOffset;
+
+    // Distance across the ground from the robot to the wall
+    double groundDistance = z / Math.sin(Constants.ShooterConstants.limelightAngle);
+
+    System.out.println(groundDistance);
+
+    // Adjust for distance (for gravity)
+    // angle -= 1.35 * Math.pow((groundDistance - 1.4), 2);
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;

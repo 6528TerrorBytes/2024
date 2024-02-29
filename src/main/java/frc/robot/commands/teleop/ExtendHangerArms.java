@@ -27,11 +27,14 @@ public class ExtendHangerArms extends Command {
     } else {
       m_hangerArm.setSpeed(-m_speed);
     }
+
+    System.out.println(m_hangerArm.getEncoderLeft());
+    System.out.println(m_hangerArm.getEncoderRight());
   }
 
   @Override
   public void execute() {
-    m_hangerArm.checkLimitSwitches();
+    m_hangerArm.checkBoundaries();
   }
 
   // Called once the command ends or is interrupted.
