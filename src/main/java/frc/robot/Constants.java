@@ -82,7 +82,7 @@ public final class Constants {
     // Horizontal arm angle
     public static final double limelightZeroArmAngle = 90;
     // In meters, the distance from the AprilTag to the speaker
-    public static final double distTagToSpeaker = 1.9;
+    public static final double distTagToSpeaker = 1.7;
   }
 
   public static class StopNoteConstants {

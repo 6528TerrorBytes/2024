@@ -29,25 +29,18 @@ public class AutonFaceAprilTag extends Command {
   public void execute() {
     double rotationSpeed;
     // If see a limelight and correct speaker ID
-    if (Utility.aprilTagInView() && Utility.testShooterID()) {
+    if (Utility.aprilTagInView()) { // && Utility.testShooterID()
       // Tx is the offset from the center of the camera (2d not 3d) 
       double tx = LimelightHelpers.getTX("limelight"); 
-      rotationSpeed = -tx / 30;
+      rotationSpeed = -Math.pow(tx, 3) / 1000;
 
-      // Clamp
-      // if (rotationSpeed > DriveSubsystem.speedMultiplier) {
-      //   rotationSpeed = DriveSubsystem.speedMultiplier;
-      // } else if (rotationSpeed < -DriveSubsystem.speedMultiplier) {
-      //   rotationSpeed = -DriveSubsystem.speedMultiplier;
-      // }
-
-      if (rotationSpeed > 0.25) {
-        rotationSpeed = 0.25;
-      } else if (rotationSpeed < -0.25) {
-        rotationSpeed = -0.25;
+      if (rotationSpeed > 1) {
+        rotationSpeed = 1;
+      } else if (rotationSpeed < -1) {
+        rotationSpeed = -1;
       }
     } else {
-      rotationSpeed = 0.2;
+      rotationSpeed = 0;
     }
 
     m_driveSubsystem.drive(0, 0, rotationSpeed, true, true);

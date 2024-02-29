@@ -7,23 +7,38 @@ package frc.robot.commands.intake;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.ConveyerSubsystem;
+import frc.robot.subsystems.DetectNote;
 
 public class ConveyerComand extends Command {
   private final ConveyerSubsystem m_conveyerSubsystem;
+  private final DetectNote m_detectNote;
 
   private double m_speed;
+  private boolean m_stopWhenDetected; // Whether or not to stop when a ring has been detected
 
   /** Creates a new ConveyerComand. */
-  public ConveyerComand(ConveyerSubsystem conveyerSubsystem, double speed) {
+  public ConveyerComand(ConveyerSubsystem conveyerSubsystem, DetectNote detectNote, double speed, boolean stopWhenDetected) {
     m_conveyerSubsystem = conveyerSubsystem;
+    m_detectNote = detectNote;
     m_speed = speed;
-    addRequirements(m_conveyerSubsystem);
+    m_stopWhenDetected = stopWhenDetected;
+
+    addRequirements(m_conveyerSubsystem); // never require the DetectNote class
+  }
+
+  @Override
+  public void initialize() {
+    if (!m_stopWhenDetected || (m_stopWhenDetected && !m_detectNote.activated())) {
+      m_conveyerSubsystem.setSpeed(m_speed);
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_conveyerSubsystem.setSpeed(m_speed);
+    // if (m_stopWhenDetected && m_detectNote.activated()) {
+    //   m_conveyerSubsystem.stop();
+    // }
   }
 
   // Called once the command ends or is interrupted.
@@ -35,6 +50,7 @@ public class ConveyerComand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    if (!m_stopWhenDetected) { return false; } // Only finishes when you stop pressing the joystick button
+    else { return m_detectNote.activated(); } // Ends when a note has been detected
   }
 }

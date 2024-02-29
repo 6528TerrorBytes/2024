@@ -63,6 +63,6 @@ public final class Utility {
     SmartDashboard.putNumber("limelight X ", botpose.getX());
     SmartDashboard.putNumber("limelight Y ", botpose.getY());
     SmartDashboard.putNumber("limelight Z ", botpose.getZ());
-    SmartDashboard.putNumber("limelight angle ", botpose.getRotation().getAngle() * (180 / Math.PI));
+    SmartDashboard.putNumber("limelight angle ", botpose.getRotation().getZ() * (180 / Math.PI));
   }
 }

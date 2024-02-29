@@ -20,7 +20,6 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Blinkin;
-import frc.robot.subsystems.ChangeSpeed;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ConveyerSubsystem;
 import frc.robot.subsystems.DetectNote;
@@ -44,16 +43,14 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.AimShooter;
+import frc.robot.commands.NoteBlinkinColor;
 import frc.robot.commands.auton.AutonFaceAprilTag;
 import frc.robot.commands.auton.AutonRotate;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
-import frc.robot.commands.intake.ReverseConveyerCommand;
-import frc.robot.commands.intake.SlowIntakeCommand;
 import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TeleopFaceAprilTag;
-import frc.robot.commands.teleop.IncreaseSpeed;
 import frc.robot.subsystems.ShooterTilt;
 import frc.robot.commands.teleop.TiltShooterCommand;
 
@@ -76,7 +73,6 @@ public class RobotContainer {
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final boolean teleopDrive = true;
 
-  private final ChangeSpeed m_changeSpeed = new ChangeSpeed();
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   
   private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
@@ -117,6 +113,9 @@ public class RobotContainer {
       ); // Call of duty (:<
     }
 
+    // Updates the blinkin color depending on whether there's a note in it
+    m_blinkin.setDefaultCommand(new NoteBlinkinColor(m_blinkin, m_detectNote));
+
     m_blinkin.resetToTeamColor();
 
     // Configure the trigger bindings
@@ -125,15 +124,15 @@ public class RobotContainer {
 
   private void configureBindings() {
     new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new ConveyerComand(m_ConveyerSubsystem, 1)
-      // new StopNoteCommand(m_stopNote, false)
+      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, false),
+      new StopNoteCommand(m_stopNote, false)
     ));
-    new JoystickButton(leftJoystick, 2).whileTrue(new ConveyerComand(m_ConveyerSubsystem, -1));
+    // new JoystickButton(leftJoystick, 2).whileTrue(new ConveyerComand(m_ConveyerSubsystem, -1));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
+      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, true),
       new IntakeCommand(m_intakeSubsystem, 1),
-      new ConveyerComand(m_ConveyerSubsystem)
-      // new StopNoteCommand(m_stopNote, true)
+      new StopNoteCommand(m_stopNote, true)
     ));
 
     new JoystickButton(rightJoystick, 2).whileTrue(new IntakeCommand(m_intakeSubsystem, -1));
@@ -166,62 +165,66 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // Based heavily off of "FRC 0 to Autonomous" (on Youtube)
-    System.out.println("Making Autonomous...");
+    m_blinkin.resetToTeamColor();
 
-    // Configuration for the trajectory (max speed and acceleration)
-    TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-      AutoConstants.kMaxSpeedMetersPerSecond,
-      AutoConstants.kMaxAccelerationMetersPerSecondSquared
-    ).setKinematics(DriveConstants.kDriveKinematics);
-
-    // Trajectory path of points that the robot will follow in autonomous
-    Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(
-        new Translation2d(0.5, 0.5)
-      ),
-      new Pose2d(1, 0, Rotation2d.fromDegrees(-90)),
-      trajectoryConfig
-    );
-
-    // PID controllers used for following the trajectory (correcting errors)
-    PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-    PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-    // Angle correction PID Controller
-    ProfiledPIDController thetaController = new ProfiledPIDController(
-      AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints
-    );
-    thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    // Handles the swerve trajectory stuff
-    SwerveControllerCommand swerveCommand = new SwerveControllerCommand(
-      trajectory,
-      m_robotDrive::getPose,
-      DriveConstants.kDriveKinematics,
-      xController, yController,
-      thetaController,
-      m_robotDrive::setModuleStates,
-      m_robotDrive
-    );
-
-    AutonRotate autonRotate = new AutonRotate(m_robotDrive);
-
-    System.out.println("Finished");
+    return new AutonFaceAprilTag(m_robotDrive);
     
-    // Runs these three things in order as a single command
-    return new SequentialCommandGroup(
-      new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
-      swerveCommand, // Run the swerve auton with the trajectory
-      autonRotate, // Rotates the bot 45 degrees maybe
-      new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions after
-    );
+    // Based heavily off of "FRC 0 to Autonomous" (on Youtube)
+    // System.out.println("Making Autonomous...");
+
+    // // Configuration for the trajectory (max speed and acceleration)
+    // TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
+    //   AutoConstants.kMaxSpeedMetersPerSecond,
+    //   AutoConstants.kMaxAccelerationMetersPerSecondSquared
+    // ).setKinematics(DriveConstants.kDriveKinematics);
+
+    // // Trajectory path of points that the robot will follow in autonomous
+    // Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
+    //   new Pose2d(0, 0, new Rotation2d(0)),
+    //   List.of(
+    //     new Translation2d(0.5, 0.5)
+    //   ),
+    //   new Pose2d(1, 0, Rotation2d.fromDegrees(-90)),
+    //   trajectoryConfig
+    // );
+
+    // // PID controllers used for following the trajectory (correcting errors)
+    // PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
+    // PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+    // // Angle correction PID Controller
+    // ProfiledPIDController thetaController = new ProfiledPIDController(
+    //   AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints
+    // );
+    // thetaController.enableContinuousInput(-Math.PI, Math.PI);
+
+    // // Handles the swerve trajectory stuff
+    // SwerveControllerCommand swerveCommand = new SwerveControllerCommand(
+    //   trajectory,
+    //   m_robotDrive::getPose,
+    //   DriveConstants.kDriveKinematics,
+    //   xController, yController,
+    //   thetaController,
+    //   m_robotDrive::setModuleStates,
+    //   m_robotDrive
+    // );
+
+    // AutonRotate autonRotate = new AutonRotate(m_robotDrive);
+
+    // System.out.println("Finished");
+    
+    // // Runs these three things in order as a single command
+    // return new SequentialCommandGroup(
+    //   new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
+    //   swerveCommand, // Run the swerve auton with the trajectory
+    //   autonRotate, // Rotates the bot 45 degrees maybe
+    //   new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions after
+    // );
   }
 
   public Command getTestCommand() {
     m_blinkin.resetToTeamColor();
 
-    return new AimShooter(m_shooterTilt);
+    return new AutonFaceAprilTag(m_robotDrive);
 
     // return new ParallelCommandGroup(
     //   new AutonFaceAprilTag(m_robotDrive),

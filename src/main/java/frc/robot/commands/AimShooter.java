@@ -35,7 +35,7 @@ public class AimShooter extends Command {
   public void execute() {
     atHorizontal = m_shooterTilt.atGoal();
     SmartDashboard.putBoolean("athorizontal", atHorizontal);
-    if (!atHorizontal) { return; }
+    // if (!atHorizontal) { return; }
 
     if (!detected) {
       // Test for april tag in view and correct speaker ID
@@ -55,7 +55,7 @@ public class AimShooter extends Command {
     double z = pos.getZ();
 
     // Since the limelight is horizontal when the shooter is 88 degrees, this is the small offset needed
-    double angleFromHorizontal = 90 - Constants.ShooterCommand.limelightHorizontal;
+    double angleFromHorizontal = 90 - Constants.ShooterConstants.limelightHorizontal;
     // The angle of the shooter adjusted for the angle from horizontal in radians
     double currentAngle = (m_shooterTilt.getAngle() + angleFromHorizontal) * (Math.PI / 180);
 
