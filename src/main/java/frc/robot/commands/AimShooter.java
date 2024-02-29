@@ -54,31 +54,35 @@ public class AimShooter extends Command {
     double y = -pos.getY();
     double z = pos.getZ();
 
-    // For convenience, the angle that the shooter is at to detect the tag in radians:
-    double angleSet = Constants.ShooterConstants.limelightDetectAngle * (Math.PI / 180);
-    double wallAngle = Math.PI - angleSet;
+    // Since the limelight is horizontal when the shooter is 88 degrees, this is the small offset needed
+    double angleFromHorizontal = 90 - Constants.ShooterCommand.limelightHorizontal;
+    // The angle of the shooter adjusted for the angle from horizontal in radians
+    double currentAngle = (m_shooterTilt.getAngle() + angleFromHorizontal) * (Math.PI / 180);
 
-    // Vertical distance from the center of the speaker the limelight faces up to the AprilTag
-    double heightToTag = y / Math.sin(angleSet);
-    // Added distance from the AprilTag to the speaker center, where the arm should aim
-    double heightToSpeaker = heightToTag + Constants.ShooterConstants.distTagToSpeaker;
+    // Gets the robot's shooter tilt angle needed to face the tag directly
+    double angleOffsetFromTag = currentAngle - Math.atan(y / z);
+    // Angle above the line from the limelight to the AprilTag
+    double angleAboveTag = Math.PI - angleOffsetFromTag;
 
-    // Distance from the limelight to the wall
-    double depthToWall = z - (heightToTag * Math.cos(angleSet));
+    // Pythagorean theorem to find depth to AprilTag from the camera
+    double depthToTag = Math.sqrt(Math.pow(y, 2) + Math.pow(z, 2));
 
-    // Length from the limelight to the speaker center, using law of cosines
+    // USING the above values to calculate the angle offset from the AprilTag
+    // to the speaker, using law of cosines and then law of sines:
+
+    // Find the length from limelight to the speaker based on the above and the law of cosines
     double lengthToSpeaker = Math.sqrt(
-      (Math.pow(heightToSpeaker, 2) + Math.pow(depthToWall, 2)) -
-      (2 * heightToSpeaker * depthToWall * Math.cos(wallAngle))
+      (Math.pow(depthToTag, 2) + Math.pow(Constants.ShooterConstants.distTagToSpeaker, 2)) -
+      (2 * depthToTag * Constants.ShooterConstants.distTagToSpeaker * Math.cos(angleAboveTag))
     );
 
-    // Using law of sines, find the angle from the limelight face to the speaker center in degrees
-    double angle = Math.asin(
-      heightToSpeaker * (Math.sin(wallAngle) / lengthToSpeaker)
+    // Using law of sines, find the angle offset needed to aim the arm from the tag to the speaker instead
+    double angleOffset = Math.asin(
+      (Math.sin(angleAboveTag) / lengthToSpeaker) * Constants.ShooterConstants.distTagToSpeaker
     ) * (180 / Math.PI);
 
-    // Inverse the angle for use with the arm
-    angle = Constants.ShooterConstants.limelightDetectAngle - angle;
+    // Angle of the arm to face the speaker!
+    double angle = angleOffsetFromTag * (180 / Math.PI) - angleOffset;
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
