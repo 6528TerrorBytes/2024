@@ -73,7 +73,8 @@ public final class Constants {
     public static final double tiltFeedforwardkSVolts = 1;
     public static final double tiltFeedforwardkGVolts = 0;
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
-    
+
+
     // Limelight constants in degrees
     // Angle of the arm from vertical in radians
     public static final double limelightAngle = 60 * (Math.PI / 180);
@@ -84,6 +85,7 @@ public final class Constants {
     // In meters, the distance from the AprilTag to the speaker
     public static final double distTagToSpeaker = 1.7;
 
+
     // Constants for rotating the bot horizontally to face AprilTag
     // Dividers for the cubic and linear parts, respectively
     public static final double cubicDivider = 1000;
@@ -91,6 +93,9 @@ public final class Constants {
     
     // Place at which the two functions would cross
     public static final double crossPoint = Math.sqrt(cubicDivider / linearDivider); 
+
+    // After calculations, multiply the speed by this speed scale
+    public static final double speedScale = 0.5;
   }
 
   public static class StopNoteConstants {

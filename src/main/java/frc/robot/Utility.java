@@ -91,6 +91,6 @@ public final class Utility {
       rotationSpeed = -Math.pow(tx, 3) / Constants.ShooterConstants.cubicDivider;
     }
 
-    return clampNum(rotationSpeed, -1, 1);
+    return clampNum(rotationSpeed, -1, 1) * Constants.ShooterConstants.speedScale;
   }
 }
