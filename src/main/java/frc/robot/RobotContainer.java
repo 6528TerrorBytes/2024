@@ -140,8 +140,8 @@ public class RobotContainer {
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
     // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 20));
-    new JoystickButton(otherJoystick, 8).onTrue(new TiltShooterCommand(m_shooterTilt, 40));
-    new JoystickButton(otherJoystick, 9).onTrue(new TiltShooterCommand(m_shooterTilt, 60));
+    new JoystickButton(otherJoystick, 8).onTrue(new TiltShooterCommand(m_shooterTilt, 45));
+    new JoystickButton(otherJoystick, 9).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
     new JoystickButton(otherJoystick, 10).onTrue(new TiltShooterCommand(m_shooterTilt, 70));
     new JoystickButton(otherJoystick, 11).onTrue(new TiltShooterCommand(m_shooterTilt, 80));
     new JoystickButton(otherJoystick, 12).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
@@ -157,11 +157,8 @@ public class RobotContainer {
 
     new JoystickButton(rightJoystick, 10).whileTrue(new ExtendHangerArms(m_hangerArm, true));
     new JoystickButton(rightJoystick, 9).whileTrue(new ExtendHangerArms(m_hangerArm, false));
-    new JoystickButton(rightJoystick, 8).onTrue(new TeleopFaceAprilTag());
-    new JoystickButton(rightJoystick, 7).onTrue(new ParallelCommandGroup(
-      new AimShooter(m_shooterTilt),
-      new StopNoteCommand(m_stopNote, false)
-    ));
+    new JoystickButton(rightJoystick, 6).onTrue(new TeleopFaceAprilTag());
+    new JoystickButton(rightJoystick, 7).onTrue(new AimShooter(m_shooterTilt));
 
   }
 

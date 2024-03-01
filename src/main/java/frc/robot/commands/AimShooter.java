@@ -26,6 +26,8 @@ public class AimShooter extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    m_shooterTilt.check();
+
     if (!detected) {
       // Test for april tag in view and correct speaker ID
       if (!Utility.aprilTagInView()) { return; }
@@ -74,8 +76,8 @@ public class AimShooter extends Command {
     System.out.println(groundDistance);
 
     // Adjust for distance (for gravity)
-    if (groundDistance > 1) { // Only begins 1 meter away from the AprilTag
-      angle -= 2 * (groundDistance - 1);
+    if (groundDistance > Constants.ShooterConstants.gravityBeginning) { // Only begins 1 meter away from the AprilTag
+      angle -= Constants.ShooterConstants.gravityScale * (groundDistance - Constants.ShooterConstants.gravityBeginning);
     }
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);

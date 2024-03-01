@@ -28,8 +28,13 @@ public class TiltShooterCommand extends Command {
   }
 
   @Override
+  public void execute() {
+    m_shooterTilt.check();
+  }
+
+  @Override
   public void end(boolean interrupted) {
-    m_shooterTilt.disable();
+    // m_shooterTilt.disable();
   }
 
   // Returns true when the command should end.

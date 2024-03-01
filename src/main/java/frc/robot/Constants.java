@@ -58,12 +58,21 @@ public final class Constants {
     public static final double minAngle = 0;
     public static final double maxAngle = 100;
 
+    // Things to do here:
+    // PID Values for shooter tilt (Mar 1):
+    // - Set P to 0.01, put I at like 0.00000001 and test it
+    // - Also test Smart Current Limit to 1 and work my way up
+    //   to limit the torque (power) of the motor
+
+    // You can see graphs in REV Hardware Client, Run -> View graph,
+    // with Duty Cycle Position and Duty Cycle Velocity
+
     // PID controller
     public static final double tiltP = 0.01;
     public static final double tiltI = 0;
     public static final double tiltD = 0;
-    public static final double speed = 0.2;
-    public static final double tolerance = 5;
+    public static final double speed = 1;
+    public static final double tolerance = 1;
 
     // In meters
     public static final double tiltMaxVelocity = 3;
@@ -83,19 +92,24 @@ public final class Constants {
     // Horizontal arm angle
     public static final double limelightZeroArmAngle = 90;
     // In meters, the distance from the AprilTag to the speaker
-    public static final double distTagToSpeaker = 1.7;
+    public static final double distTagToSpeaker = 1.6;
+
+    
+    // Gravity adjustment for shooter tilt
+    public static final double gravityBeginning = 1; // Beginning 1 meter away from the wall
+    public static final double gravityScale = 1.7;
 
 
     // Constants for rotating the bot horizontally to face AprilTag
     // Dividers for the cubic and linear parts, respectively
-    public static final double cubicDivider = 1000;
-    public static final double linearDivider = 30;
+    public static final double cubicDivider = 5000;
+    public static final double linearDivider = 25;
     
     // Place at which the two functions would cross
     public static final double crossPoint = Math.sqrt(cubicDivider / linearDivider); 
 
     // After calculations, multiply the speed by this speed scale
-    public static final double speedScale = 0.5;
+    public static final double speedScale = 0.25;
   }
 
   public static class StopNoteConstants {

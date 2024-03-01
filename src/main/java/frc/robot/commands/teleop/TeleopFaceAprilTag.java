@@ -26,18 +26,7 @@ public class TeleopFaceAprilTag extends Command {
     if (!DriveSubsystem.overrideRotation) { return; } // Check for AprilTag in view 
     if (!Utility.testShooterID()) { return; } // Check tag ID
 
-    // Rotate to face limelight
-    double tx = LimelightHelpers.getTX("limelight"); 
-    double rotationSpeed = -tx / 30;
-    
-    // Clamp between -1 and 1
-    if (rotationSpeed > 0.5) {
-      rotationSpeed = 0.5;
-    } else if (rotationSpeed < -0.5) {
-      rotationSpeed = -0.5;
-    }
-
-    DriveSubsystem.newRotation = rotationSpeed * 0.5;
+    DriveSubsystem.newRotation = Utility.calcSpeedFaceTag();
   }
 
   // Called once the command ends or is interrupted.
