@@ -69,12 +69,14 @@ public class AimShooter extends Command {
     double angle = angleOffsetFromTag * (180 / Math.PI) - angleOffset;
 
     // Distance across the ground from the robot to the wall
-    double groundDistance = z / Math.sin(Constants.ShooterConstants.limelightAngle);
+    double groundDistance = z * Math.sin(Constants.ShooterConstants.limelightAngle);
 
     System.out.println(groundDistance);
 
     // Adjust for distance (for gravity)
-    // angle -= 1.35 * Math.pow((groundDistance - 1.4), 2);
+    if (groundDistance > 1) { // Only begins 1 meter away from the AprilTag
+      angle -= 2 * (groundDistance - 1);
+    }
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
