@@ -27,18 +27,12 @@ public class AutonFaceAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+
     double rotationSpeed;
+
     // If see a limelight and correct speaker ID
     if (Utility.aprilTagInView()) { // && Utility.testShooterID()
-      // Tx is the offset from the center of the camera (2d not 3d) 
-      double tx = LimelightHelpers.getTX("limelight"); 
-      rotationSpeed = -Math.pow(tx, 3) / 1000;
-
-      if (rotationSpeed > 1) {
-        rotationSpeed = 1;
-      } else if (rotationSpeed < -1) {
-        rotationSpeed = -1;
-      }
+      rotationSpeed = Utility.calcSpeedFaceTag();
     } else {
       rotationSpeed = 0;
     }

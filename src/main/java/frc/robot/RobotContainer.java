@@ -116,8 +116,6 @@ public class RobotContainer {
     // Updates the blinkin color depending on whether there's a note in it
     m_blinkin.setDefaultCommand(new NoteBlinkinColor(m_blinkin, m_detectNote));
 
-    m_blinkin.resetToTeamColor();
-
     // Configure the trigger bindings
     configureBindings();
   }
@@ -168,8 +166,6 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    m_blinkin.resetToTeamColor();
-
     return new AutonFaceAprilTag(m_robotDrive);
     
     // Based heavily off of "FRC 0 to Autonomous" (on Youtube)

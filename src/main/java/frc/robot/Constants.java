@@ -83,6 +83,14 @@ public final class Constants {
     public static final double limelightZeroArmAngle = 90;
     // In meters, the distance from the AprilTag to the speaker
     public static final double distTagToSpeaker = 1.7;
+
+    // Constants for rotating the bot horizontally to face AprilTag
+    // Dividers for the cubic and linear parts, respectively
+    public static final double cubicDivider = 1000;
+    public static final double linearDivider = 30;
+    
+    // Place at which the two functions would cross
+    public static final double crossPoint = Math.sqrt(cubicDivider / linearDivider); 
   }
 
   public static class StopNoteConstants {
