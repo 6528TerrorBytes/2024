@@ -18,14 +18,19 @@ import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AimShooter;
+import frc.robot.commands.intake.ConveyerComand;
+import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.subsystems.ConveyerSubsystem;
+import frc.robot.subsystems.DetectNote;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ShooterTilt;
 import frc.robot.subsystems.StopNote;
@@ -95,17 +100,25 @@ public final class AutonPaths {
     );
   }
 
-  public static Command createMainAuton(DriveSubsystem robotDrive, ShooterTilt shooterTilt, StopNote stopNote, ConveyerSubsystem conveyerSubsystem, ShooterSubsystem shooterSubsystem) {
+  public static Command createMainAuton(
+    DriveSubsystem robotDrive,
+    ShooterTilt shooterTilt,
+    StopNote stopNote,
+    ConveyerSubsystem conveyerSubsystem,
+    ShooterSubsystem shooterSubsystem,
+    DetectNote detectNote,
+    IntakeSubsystem intakeSubsystem
+  ) {
     // Generate trajectories
     Trajectory moveOneMeter = genTrajectory(
       new Pose2d(0, 0, new Rotation2d(0)),
       List.of(),
-      new Pose2d(1, 0, Rotation2d.fromDegrees(30))
+      new Pose2d(1, 0, Rotation2d.fromDegrees(45))
     );
     SwerveControllerCommand moveOneMeterCommand = genSwerveCommand(moveOneMeter, robotDrive);
 
     Trajectory moveTwoMeters = genTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
+      new Pose2d(0, 0, new Rotation2d(45)),
       List.of(),
       new Pose2d(2, 0, Rotation2d.fromDegrees(0))
     );
@@ -131,7 +144,14 @@ public final class AutonPaths {
       new FireShooter(conveyerSubsystem, shooterSubsystem),
 
       resetOdometry,
-      moveTwoMetersCommand
+
+      new ParallelDeadlineGroup( // Ends when the conveyer command ends, when a note has been detected
+        new ConveyerComand(conveyerSubsystem, detectNote, 1, true),
+
+        new StopNoteCommand(stopNote, true), // Brings note stopper down
+        new IntakeCommand(intakeSubsystem, 1), // Run intake
+        moveTwoMetersCommand // Move 2 meters back
+      )
     );
   }
 }

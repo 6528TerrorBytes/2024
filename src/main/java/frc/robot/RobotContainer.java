@@ -147,7 +147,15 @@ public class RobotContainer {
     System.out.println("Making Autonomous...");
     m_blinkin.resetToTeamColor();
 
-    return AutonPaths.createMainAuton(m_robotDrive, m_shooterTilt, m_stopNote, m_ConveyerSubsystem, m_shooterSubsystem);
+    return AutonPaths.createMainAuton(
+      m_robotDrive,
+      m_shooterTilt,
+      m_stopNote,
+      m_ConveyerSubsystem,
+      m_shooterSubsystem,
+      m_detectNote,
+      m_intakeSubsystem
+    );
   }
 
   public Command getTestCommand() {
