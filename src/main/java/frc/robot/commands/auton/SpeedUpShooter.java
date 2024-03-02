@@ -15,16 +15,19 @@ public class SpeedUpShooter extends Command {
 
   private double timeToFinish;
 
+  private double m_speed;
+
   /** Creates a new SpeedUpShooter. */
-  public SpeedUpShooter(ShooterSubsystem shooterSubsystem) {
+  public SpeedUpShooter(ShooterSubsystem shooterSubsystem, double speed) {
     m_shooterSubsystem = shooterSubsystem;
+    m_speed = speed;
     addRequirements(m_shooterSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_shooterSubsystem.setSpeed(1);
+    m_shooterSubsystem.setSpeed(m_speed);
     timeToFinish = Utility.getTime() + Constants.AutonConstants.speedUpShooterSeconds;
   }
 

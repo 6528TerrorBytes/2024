@@ -9,14 +9,7 @@ import frc.robot.Utility;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class TeleopFaceAprilTag extends Command {
-  /** Creates a new TeleopFaceAprilTag. */
-  public TeleopFaceAprilTag() {
-    // Use addRequirements() here to declare subsystem dependencies.
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {}
+  public static boolean disable = false;
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -32,11 +25,12 @@ public class TeleopFaceAprilTag extends Command {
   @Override
   public void end(boolean interrupted) {
     DriveSubsystem.overrideRotation = false;
+    disable = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return disable;
   }
 }

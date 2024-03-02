@@ -27,6 +27,7 @@ import frc.robot.commands.AimShooter;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.StopNoteCommand;
+import frc.robot.commands.teleop.TiltShooterCommand;
 import frc.robot.subsystems.ConveyerSubsystem;
 import frc.robot.subsystems.DetectNote;
 import frc.robot.subsystems.DriveSubsystem;
@@ -137,11 +138,12 @@ public final class AutonPaths {
       ),
 
       new ParallelCommandGroup(
-        new SpeedUpShooter(shooterSubsystem),
+        new SpeedUpShooter(shooterSubsystem, 1),
         new AimShooter(shooterTilt) // Then aims the shooter up to the speaker
       ),
       
       new FireShooter(conveyerSubsystem, shooterSubsystem),
+      new TiltShooterCommand(shooterTilt, 3),
 
       resetOdometry,
 

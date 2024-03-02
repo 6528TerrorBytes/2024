@@ -9,6 +9,7 @@ import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangerArm;
 import frc.robot.subsystems.StopNote;
 import edu.wpi.first.wpilibj2.command.RunCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,10 +23,13 @@ import frc.robot.subsystems.DetectNote;
 // Autonomous imports
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.AimShooter;
 import frc.robot.commands.NoteBlinkinColor;
 import frc.robot.commands.auton.AutonFaceAprilTag;
 import frc.robot.commands.auton.AutonPaths;
+import frc.robot.commands.auton.FireShooter;
+import frc.robot.commands.auton.SpeedUpShooter;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.ExtendHangerArms;
@@ -97,10 +101,91 @@ public class RobotContainer {
     m_blinkin.setDefaultCommand(new NoteBlinkinColor(m_blinkin, m_detectNote));
 
     // Configure the trigger bindings
-    configureBindings();
+    finalControllerBindings();
   }
 
-  private void configureBindings() {
+  private void finalControllerBindings() {
+    // ---------- LEFT  JOYSTICK ----------
+
+    // Runs intake, conveyer, and stop note down (back button)
+    new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
+      new StopNoteCommand(m_stopNote, true),
+      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, true),
+      new IntakeCommand(m_intakeSubsystem, 1)
+    ));
+    
+    // Reverse intake (front bottom center button)
+    new JoystickButton(rightJoystick, 2).whileTrue(new ParallelCommandGroup(
+      new StopNoteCommand(m_stopNote, false),
+      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, -1, false),
+      new IntakeCommand(m_intakeSubsystem, -0.75)
+    ));
+
+    // Climbers (up: front left button, retract: front right button)
+    new JoystickButton(rightJoystick, 3).whileTrue(new ExtendHangerArms(m_hangerArm, false));
+    new JoystickButton(rightJoystick, 4).whileTrue(new ExtendHangerArms(m_hangerArm, true));
+
+    // ---------- RIGHT JOYSTICK ----------
+
+    // Teleop face AprilTag (back button), and disable (front bottom center)
+    new JoystickButton(leftJoystick, 1).onTrue(new TeleopFaceAprilTag());
+    new JoystickButton(leftJoystick, 2).onTrue(new InstantCommand(() -> TeleopFaceAprilTag.disable = true));
+
+    // Make wheels into X (bottom of controller, left side, top right button)
+    new JoystickButton(leftJoystick, 13).onTrue(new InstantCommand(() -> m_robotDrive.setX()));
+
+    // Stop note up (bottom of controller, left side, bottom right button)
+    new JoystickButton(leftJoystick, 14).onTrue(new StopNoteCommand(m_stopNote, false));
+
+    // ---------- OTHER JOYSTICK ----------
+
+    // Other driver auto shooter tilt aim (thumb button)
+    new JoystickButton(otherJoystick, 2).onTrue(new AimShooter(m_shooterTilt));
+
+    // Hold back button to shoot
+    new JoystickButton(otherJoystick, 1).whileTrue(new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new StopNoteCommand(m_stopNote, false),
+        new SpeedUpShooter(m_shooterSubsystem, 1)
+      ),
+
+      new FireShooter(m_ConveyerSubsystem, m_shooterSubsystem),
+      new TiltShooterCommand(m_shooterTilt, 3)
+    ));
+
+    // Slow shoot for amp (front top left button)
+    new JoystickButton(otherJoystick, 5).whileTrue(new SequentialCommandGroup(
+      new ParallelCommandGroup(
+        new StopNoteCommand(m_stopNote, false),
+        new SpeedUpShooter(m_shooterSubsystem, 0.2)
+      ),
+
+      new FireShooter(m_ConveyerSubsystem, m_shooterSubsystem),
+      new TiltShooterCommand(m_shooterTilt, 3)
+    ));
+
+    // Bring the shooter up to vertical (front bottom right button)
+    new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 3));
+
+    // Manual conveyer forward (controller bottom top right)
+    new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
+      new StopNoteCommand(m_stopNote, false),
+      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, false)
+    ));
+
+    // Manual conveyer backward (controller bottom top left)
+    new JoystickButton(otherJoystick, 7).whileTrue(new ParallelCommandGroup(
+      new StopNoteCommand(m_stopNote, false),
+      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, -1, false)
+    ));
+
+    // Manual aim to speaker (front top right button)
+    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 20));
+    // Manual aim to amp (front bottom right button)
+    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 10));
+  }
+
+  private void oldControllerBindings() {
     new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
       new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, false),
       new StopNoteCommand(m_stopNote, false)
