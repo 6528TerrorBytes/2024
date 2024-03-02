@@ -13,7 +13,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 public class SpeedUpShooter extends Command {
   private final ShooterSubsystem m_shooterSubsystem;
 
-  private double timeToFinish;
+  private double m_timeToFinish;
 
   private double m_speed;
 
@@ -29,12 +29,19 @@ public class SpeedUpShooter extends Command {
   public void initialize() {
     m_shooterSubsystem.setSpeed(m_speed);
     m_shooterSubsystem.setForward();
-    timeToFinish = Utility.getTime() + Constants.AutonConstants.speedUpShooterSeconds;
+    m_timeToFinish = Utility.getTime() + Constants.AutonConstants.speedUpShooterSeconds;
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    if (interrupted) { // Joystick button let go of
+      m_shooterSubsystem.stop();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Utility.getTime() >= timeToFinish;
+    return Utility.getTime() >= m_timeToFinish;
   }
 }
