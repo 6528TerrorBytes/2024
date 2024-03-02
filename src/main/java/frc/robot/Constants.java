@@ -53,6 +53,15 @@ public final class Constants {
     public static final int detectNote = 2;
   }
 
+  public static class AutonConstants {
+    // +- TX value for which the auton horizontal rotate will stop when it reaches 
+    public static final double aprilTagHorizontalEndRange = 2.5;
+
+    // The time allowed to speed up the shooter in seconds before it fires
+    public static final double speedUpShooterSeconds = 3;
+    public static final double conveyerRunSeconds = 2;
+  }
+
   public static class ShooterConstants {
     public static final double angleOffset = 0; // Angle offset to vertical arm
     public static final double minAngle = 0;
@@ -69,7 +78,7 @@ public final class Constants {
 
     // PID controller
     public static final double tiltP = 0.01;
-    public static final double tiltI = 0;
+    public static final double tiltI = 0; // 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000001
     public static final double tiltD = 0;
     public static final double speed = 1;
     public static final double tolerance = 1;

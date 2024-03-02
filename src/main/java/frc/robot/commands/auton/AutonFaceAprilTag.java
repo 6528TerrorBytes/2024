@@ -5,11 +5,14 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.Utility;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutonFaceAprilTag extends Command {
   private final DriveSubsystem m_driveSubsystem;
+
+  private double tagTX;
 
   /** Creates a new AutonFaceAprilTag. */
   public AutonFaceAprilTag(DriveSubsystem driveSubsystem) {
@@ -17,21 +20,15 @@ public class AutonFaceAprilTag extends Command {
     addRequirements(driveSubsystem);
   }
 
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-
-  }
-
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     double rotationSpeed;
 
     // If see a limelight and correct speaker ID
     if (Utility.aprilTagInView()) { // && Utility.testShooterID()
-      rotationSpeed = Utility.calcSpeedFaceTag();
+      tagTX = Utility.getTX();
+      rotationSpeed = Utility.calcSpeedFaceTag(tagTX);
     } else {
       rotationSpeed = 0;
     }
@@ -39,13 +36,9 @@ public class AutonFaceAprilTag extends Command {
     m_driveSubsystem.drive(0, 0, rotationSpeed, true, true);
   }
 
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {}
-
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(tagTX) <= Constants.AutonConstants.aprilTagHorizontalEndRange;
   }
 }

@@ -24,8 +24,8 @@ public class TeleopFaceAprilTag extends Command {
     DriveSubsystem.overrideRotation = Utility.aprilTagInView();
     if (!DriveSubsystem.overrideRotation) { return; } // Check for AprilTag in view 
     if (!Utility.testShooterID()) { return; } // Check tag ID
-
-    DriveSubsystem.newRotation = Utility.calcSpeedFaceTag();
+    
+    DriveSubsystem.newRotation = Utility.calcSpeedFaceTag(Utility.getTX());
   }
 
   // Called once the command ends or is interrupted.

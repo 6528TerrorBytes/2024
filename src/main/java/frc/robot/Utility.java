@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /** Add your docs here. */
@@ -17,14 +18,17 @@ public final class Utility {
   public static boolean testShooterID() {
     double id = LimelightHelpers.getFiducialID("limelight");
 
-    SmartDashboard.putBoolean("red ", RobotContainer.teamColor == DriverStation.Alliance.Red);
+    boolean isRed = teamColorIsRed();
+    SmartDashboard.putBoolean("is team color red? ", isRed);
 
-    DriverStation.Alliance alliance = getAlliance();
-
-    return (
-      (alliance == DriverStation.Alliance.Blue && id == 7) ||
-      (alliance == DriverStation.Alliance.Red && id == 4)
+    return (  
+      (isRed && id == 4) ||
+      (isRed && id == 7)
     );
+  }
+
+  public static boolean teamColorIsRed() {
+    return getAlliance() == DriverStation.Alliance.Red; 
   }
 
   public static boolean aprilTagInView() {
@@ -47,6 +51,10 @@ public final class Utility {
     if (num > max)      { return max; }
     else if (num < min) { return min; }
     else                { return num; }
+  }
+
+  public static double getTime() {
+    return Timer.getFPGATimestamp();
   }
 
   public static void updateSmartDashboard() {
@@ -72,15 +80,16 @@ public final class Utility {
     SmartDashboard.putNumber("limelight angle ", botpose.getRotation().getZ() * (180 / Math.PI));
   }
 
+  public static double getTX() {
+    return LimelightHelpers.getTX("limelight");
+  }
+
   /**
    * Calculates the speed rotation for the DriveSubsystem needed
    * to face the currently visible AprilTag.
    * @return drive speed rotation to face AprilTag
    */
-  public static double calcSpeedFaceTag() {
-    // Tx is the offset from the center of the camera (2d not 3d) 
-    double tx = LimelightHelpers.getTX("limelight"); 
-
+  public static double calcSpeedFaceTag(double tx) {
     double rotationSpeed;
 
     if (Math.abs(tx) <= Constants.ShooterConstants.crossPoint) {
@@ -92,9 +101,6 @@ public final class Utility {
     }
 
     rotationSpeed *= Constants.ShooterConstants.speedScale;
-
-    System.out.println(tx);
-    System.out.println(rotationSpeed);
 
     return clampNum(rotationSpeed, -1, 1);
   }

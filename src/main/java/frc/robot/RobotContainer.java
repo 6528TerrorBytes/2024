@@ -8,44 +8,24 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangerArm;
 import frc.robot.subsystems.StopNote;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.RunCommand;
-import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
 
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ConveyerSubsystem;
 import frc.robot.subsystems.DetectNote;
 
 // Autonomous imports
-import java.util.List;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.trajectory.TrajectoryConfig;
-import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import frc.robot.Constants.AutoConstants;
-import frc.robot.Constants.DriveConstants;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-// import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.ProfiledPIDController;
-// import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-// import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.commands.AimShooter;
 import frc.robot.commands.NoteBlinkinColor;
 import frc.robot.commands.auton.AutonFaceAprilTag;
-import frc.robot.commands.auton.AutonRotate;
+import frc.robot.commands.auton.AutonPaths;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.ExtendHangerArms;
@@ -159,72 +139,19 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 9).whileTrue(new ExtendHangerArms(m_hangerArm, false));
     new JoystickButton(rightJoystick, 6).onTrue(new TeleopFaceAprilTag());
     new JoystickButton(rightJoystick, 7).onTrue(new AimShooter(m_shooterTilt));
-
   }
 
   public Command getAutonomousCommand() {
-    return new AutonFaceAprilTag(m_robotDrive);
-    
-    // Based heavily off of "FRC 0 to Autonomous" (on Youtube)
-    // System.out.println("Making Autonomous...");
+    // return new AutonFaceAprilTag(m_robotDrive);
 
-    // // Configuration for the trajectory (max speed and acceleration)
-    // TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-    //   AutoConstants.kMaxSpeedMetersPerSecond,
-    //   AutoConstants.kMaxAccelerationMetersPerSecondSquared
-    // ).setKinematics(DriveConstants.kDriveKinematics);
+    System.out.println("Making Autonomous...");
+    m_blinkin.resetToTeamColor();
 
-    // // Trajectory path of points that the robot will follow in autonomous
-    // Trajectory trajectory = TrajectoryGenerator.generateTrajectory(
-    //   new Pose2d(0, 0, new Rotation2d(0)),
-    //   List.of(
-    //     new Translation2d(0.5, 0.5)
-    //   ),
-    //   new Pose2d(1, 0, Rotation2d.fromDegrees(-90)),
-    //   trajectoryConfig
-    // );
-
-    // // PID controllers used for following the trajectory (correcting errors)
-    // PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-    // PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
-    // // Angle correction PID Controller
-    // ProfiledPIDController thetaController = new ProfiledPIDController(
-    //   AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints
-    // );
-    // thetaController.enableContinuousInput(-Math.PI, Math.PI);
-
-    // // Handles the swerve trajectory stuff
-    // SwerveControllerCommand swerveCommand = new SwerveControllerCommand(
-    //   trajectory,
-    //   m_robotDrive::getPose,
-    //   DriveConstants.kDriveKinematics,
-    //   xController, yController,
-    //   thetaController,
-    //   m_robotDrive::setModuleStates,
-    //   m_robotDrive
-    // );
-
-    // AutonRotate autonRotate = new AutonRotate(m_robotDrive);
-
-    // System.out.println("Finished");
-    
-    // // Runs these three things in order as a single command
-    // return new SequentialCommandGroup(
-    //   new InstantCommand(() -> m_robotDrive.resetOdometry(trajectory.getInitialPose())), // Reset the odometry of the bot to 0, 0, 0
-    //   swerveCommand, // Run the swerve auton with the trajectory
-    //   autonRotate, // Rotates the bot 45 degrees maybe
-    //   new InstantCommand(() -> m_robotDrive.setX()) // Sets wheels to X positions after
-    // );
+    return AutonPaths.createMainAuton(m_robotDrive, m_shooterTilt, m_stopNote, m_ConveyerSubsystem, m_shooterSubsystem);
   }
 
   public Command getTestCommand() {
-    m_blinkin.resetToTeamColor();
 
     return new AutonFaceAprilTag(m_robotDrive);
-
-    // return new ParallelCommandGroup(
-    //   new AutonFaceAprilTag(m_robotDrive),
-    //   new OutputSmartdashboard()
-    // );
   }
 }
