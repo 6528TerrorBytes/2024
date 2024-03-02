@@ -91,17 +91,17 @@ public final class Utility {
    */
   public static double calcSpeedFaceTag(double tx) {
     double rotationSpeed;
+    rotationSpeed = -tx / Constants.ShooterConstants.linearDivider;
 
-    if (Math.abs(tx) <= Constants.ShooterConstants.crossPoint) {
-      // Between +- where the functions cross, use linear
-      rotationSpeed = -tx / Constants.ShooterConstants.linearDivider;
-    } else { 
-      // Use cubic since it's outside the inner range
-      rotationSpeed = -Math.pow(tx, 3) / Constants.ShooterConstants.cubicDivider;
-    }
+    // if (Math.abs(tx) <= Constants.ShooterConstants.crossPoint) {
+    //   // Between +- where the functions cross, use linear
+    //   rotationSpeed = -tx / Constants.ShooterConstants.linearDivider;
+    // } else { 
+    //   // Use cubic since it's outside the inner range
+    //   rotationSpeed = -Math.pow(tx, 3) / Constants.ShooterConstants.cubicDivider;
+    // }
 
     rotationSpeed *= Constants.ShooterConstants.speedScale;
-
     return clampNum(rotationSpeed, -1, 1);
   }
 }

@@ -76,9 +76,9 @@ public class AimShooter extends Command {
     System.out.println(groundDistance);
 
     // Adjust for distance (for gravity)
-    if (groundDistance > Constants.ShooterConstants.gravityBeginning) { // Only begins 1 meter away from the AprilTag
-      angle -= Constants.ShooterConstants.gravityScale * (groundDistance - Constants.ShooterConstants.gravityBeginning);
-    }
+    // if (groundDistance > Constants.ShooterConstants.gravityBeginning) { // Only begins 1 meter away from the AprilTag
+    //   angle -= Constants.ShooterConstants.gravityScale * (groundDistance - Constants.ShooterConstants.gravityBeginning);
+    // }
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
