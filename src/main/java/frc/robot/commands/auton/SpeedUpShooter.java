@@ -28,6 +28,7 @@ public class SpeedUpShooter extends Command {
   @Override
   public void initialize() {
     m_shooterSubsystem.setSpeed(m_speed);
+    m_shooterSubsystem.setForward();
     timeToFinish = Utility.getTime() + Constants.AutonConstants.speedUpShooterSeconds;
   }
 

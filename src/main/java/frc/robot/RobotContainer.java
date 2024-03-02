@@ -128,8 +128,8 @@ public class RobotContainer {
     // ---------- RIGHT JOYSTICK ----------
 
     // Teleop face AprilTag (back button), and disable (front bottom center)
-    new JoystickButton(leftJoystick, 1).onTrue(new TeleopFaceAprilTag());
-    new JoystickButton(leftJoystick, 2).onTrue(new InstantCommand(() -> TeleopFaceAprilTag.disable = true));
+    new JoystickButton(leftJoystick, 1).whileTrue(new TeleopFaceAprilTag());
+    // new JoystickButton(leftJoystick, 2).onTrue(new InstantCommand(() -> TeleopFaceAprilTag.disable = true));
 
     // Make wheels into X (bottom of controller, left side, top right button)
     new JoystickButton(leftJoystick, 13).onTrue(new InstantCommand(() -> m_robotDrive.setX()));

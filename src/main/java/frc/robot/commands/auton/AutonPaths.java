@@ -114,12 +114,12 @@ public final class AutonPaths {
     Trajectory moveOneMeter = genTrajectory(
       new Pose2d(0, 0, new Rotation2d(0)),
       List.of(),
-      new Pose2d(1, 0, Rotation2d.fromDegrees(45))
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-45))
     );
     SwerveControllerCommand moveOneMeterCommand = genSwerveCommand(moveOneMeter, robotDrive);
 
     Trajectory moveTwoMeters = genTrajectory(
-      new Pose2d(0, 0, new Rotation2d(45)),
+      new Pose2d(0, 0, new Rotation2d(-45)),
       List.of(),
       new Pose2d(2, 0, Rotation2d.fromDegrees(0))
     );
@@ -131,29 +131,39 @@ public final class AutonPaths {
     return new SequentialCommandGroup(
       resetOdometry,
       moveOneMeterCommand, // Moves one meter out
-
+      
       new ParallelCommandGroup(
         new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
-        new AutonFaceAprilTag(robotDrive) // Faces the AprilTag
-      ),
-
-      new ParallelCommandGroup(
         new SpeedUpShooter(shooterSubsystem, 1),
         new AimShooter(shooterTilt) // Then aims the shooter up to the speaker
       ),
       
       new FireShooter(conveyerSubsystem, shooterSubsystem),
-      new TiltShooterCommand(shooterTilt, 3),
+      // new TiltShooterCommand(shooterTilt, 3),
 
-      resetOdometry,
+      resetOdometryCommand(robotDrive, moveTwoMeters),
 
       new ParallelDeadlineGroup( // Ends when the conveyer command ends, when a note has been detected
         new ConveyerComand(conveyerSubsystem, detectNote, 1, true),
 
         new StopNoteCommand(stopNote, true), // Brings note stopper down
         new IntakeCommand(intakeSubsystem, 1), // Run intake
-        moveTwoMetersCommand // Move 2 meters back
-      )
+        new SequentialCommandGroup(
+          moveTwoMetersCommand, // Move 2 meters back
+          new InstantCommand(() -> robotDrive.setX()) // and then stop 
+        )
+      ),
+
+      new InstantCommand(() -> robotDrive.setX()),
+      
+      new AutonFaceAprilTag(robotDrive),
+      new ParallelCommandGroup(
+        new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
+        new SpeedUpShooter(shooterSubsystem, 1),
+        new AimShooter(shooterTilt) // Then aims the shooter up to the speaker
+      ),
+
+      new FireShooter(conveyerSubsystem, shooterSubsystem)
     );
   }
 }

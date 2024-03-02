@@ -58,8 +58,8 @@ public final class Constants {
     public static final double aprilTagHorizontalEndRange = 2.5;
 
     // The time allowed to speed up the shooter in seconds before it fires
-    public static final double speedUpShooterSeconds = 3;
-    public static final double conveyerRunSeconds = 2;
+    public static final double speedUpShooterSeconds = 1;
+    public static final double conveyerRunSeconds = 1;
   }
 
   public static class ShooterConstants {
@@ -81,7 +81,7 @@ public final class Constants {
     public static final double tiltI = 0; // 0.0000000000000000000000000000000000000000000000000000000000000000000000000000000000001
     public static final double tiltD = 0;
     public static final double speed = 1;
-    public static final double tolerance = 1;
+    public static final double tolerance = 2;
 
     // In meters
     public static final double tiltMaxVelocity = 3;
@@ -105,7 +105,7 @@ public final class Constants {
 
     
     // Gravity adjustment for shooter tilt
-    public static final double gravityBeginning = 1; // Beginning 1 meter away from the wall
+    public static final double gravityBeginning = 2.5; // Beginning 1 meter away from the wall
     public static final double gravityScale = 1.7;
 
 
@@ -258,8 +258,8 @@ public final class Constants {
   }
 
   public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 0.2;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 0.2;
+    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
     public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
 
