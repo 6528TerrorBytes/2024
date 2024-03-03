@@ -93,19 +93,18 @@ public final class Constants {
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
 
 
-    // Limelight constants in degrees
+    // Aiming constants
     // Angle of the arm from vertical in radians
     public static final double limelightAngle = 60 * (Math.PI / 180);
-    // Angle of the arm when the limelight is horizontal
-    public static final double limelightHorizontal = 88;
-    // Horizontal arm angle
-    public static final double limelightZeroArmAngle = 90;
     // In meters, the distance from the AprilTag to the speaker
     public static final double distTagToSpeaker = 0.1;
 
     // Initial velocity in meters per second of the shooter
     public static final double initialVel = 10;
     public static final double gravity = 9.81;
+
+    // Length of the shooter in meters
+    public static final double shooterLength = 0.5;
 
     
     // Gravity adjustment for shooter tilt

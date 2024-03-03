@@ -40,6 +40,9 @@ public class AimShooter extends Command {
   }
 
   private double calcShooterAngle() {
+    // All this math calculated here:
+    // https://www.desmos.com/calculator/svw50rmopy
+
     Pose3d pos = Utility.aprilTagPos();
 
     double y = -pos.getY();
@@ -77,35 +80,56 @@ public class AimShooter extends Command {
     System.out.println("Horizontal distance: ");
     System.out.println(distHorizontal);
     System.out.println("Vertical distance: ");
-    System.out.println(distHorizontal);
+    System.out.println(distVertical);
 
     System.out.println("Original angle: ");
     System.out.println(((Math.PI / 2) - directAngle) * (180 / Math.PI));
 
-    // Use this equation (https://en.wikipedia.org/wiki/Projectile_motion#Angle_%CE%B8_required_to_hit_coordinate_(x,_y))
-    // to calculate the angle needed
-    double velSquared = Math.pow(ShooterConstants.initialVel, 2);
-    double underRadical = (
-      Math.pow(velSquared, 2) - 
-      ShooterConstants.gravity *
-      (ShooterConstants.gravity * Math.pow(distHorizontal, 2) + 2 * distVertical * velSquared)
-    );
-
-    if (underRadical < 0) {
-      System.out.println("SPEAKER OUT OF RANGE. Update the initial velocity or move closer!");
-      return directAngle;
-    }
-
-    double angle = Math.atan(
-      (velSquared - Math.sqrt(underRadical)) /
-      (ShooterConstants.gravity * distHorizontal)
-    );
+    // Calculates the angle, finds the error when accounting for the shooter length,
+    // and then recalculates accounting for the errro
+    double firstAngle = angleToPoint(distHorizontal, distVertical);
+    double error = findNoteHeight(firstAngle, distHorizontal) - distVertical;
+    double angle = angleToPoint(distHorizontal, distVertical - error);
 
     System.out.println("New angle: ");
     System.out.println(90 - (angle * (180 / Math.PI)));
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
+  }
+
+  // Returns the angle to point a shooter, where x and y are in meters
+  // Uses particle motion to calculate the angle, accounting for gravity
+  private double angleToPoint(double x, double y) {
+    // Use this equation (https://en.wikipedia.org/wiki/Projectile_motion#Angle_%CE%B8_required_to_hit_coordinate_(x,_y))
+    // to calculate the angle needed
+    double velSquared = Math.pow(ShooterConstants.initialVel, 2);
+    double underRadical = (
+      Math.pow(velSquared, 2) - 
+      ShooterConstants.gravity *
+      (ShooterConstants.gravity * Math.pow(x, 2) + 2 * y * velSquared)
+    );
+
+    if (underRadical < 0) {
+      System.out.println("SPEAKER OUT OF RANGE. Update the initial velocity or move closer!");
+      return Math.PI / 4;
+    }
+
+    return Math.atan(
+      (velSquared - Math.sqrt(underRadical)) /
+      (ShooterConstants.gravity * x)
+    );
+  }
+
+  // Finds the height of the note at an x distance in meters
+  // when the shooter is pointed at the given angle
+  private double findNoteHeight(double angle, double x) {
+    return ( // See line 39 of https://www.desmos.com/calculator/svw50rmopy
+      (x - (ShooterConstants.shooterLength * Math.cos(angle))) * Math.tan(angle) -
+      ((ShooterConstants.gravity * Math.pow((x - (ShooterConstants.shooterLength * Math.cos(angle))), 2)) /
+       (2 * Math.pow(ShooterConstants.initialVel, 2) * Math.pow(Math.cos(angle), 2)))
+      + ShooterConstants.shooterLength * Math.sin(angle) 
+    );
   }
 
   // Called once the command ends or is interrupted.
