@@ -101,7 +101,11 @@ public final class Constants {
     // Horizontal arm angle
     public static final double limelightZeroArmAngle = 90;
     // In meters, the distance from the AprilTag to the speaker
-    public static final double distTagToSpeaker = 1.6;
+    public static final double distTagToSpeaker = 0.1;
+
+    // Initial velocity in meters per second of the shooter
+    public static final double initialVel = 10;
+    public static final double gravity = 9.81;
 
     
     // Gravity adjustment for shooter tilt

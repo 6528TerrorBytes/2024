@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
+import frc.robot.ShooterConstants;
 import frc.robot.Utility;
 import frc.robot.subsystems.ShooterTilt;
 import java.lang.Math;
@@ -46,7 +46,7 @@ public class AimShooter extends Command {
     double z = pos.getZ();
 
     // Gets the robot's shooter tilt angle needed to face the tag directly
-    double angleOffsetFromTag = Constants.ShooterConstants.limelightAngle - Math.atan(y / z);
+    double angleOffsetFromTag = ShooterConstants.limelightAngle - Math.atan(y / z);
     // Angle above the line from the limelight to the AprilTag
     double angleAboveTag = Math.PI - angleOffsetFromTag;
 
@@ -58,27 +58,51 @@ public class AimShooter extends Command {
 
     // Find the length from limelight to the speaker based on the above and the law of cosines
     double lengthToSpeaker = Math.sqrt(
-      (Math.pow(depthToTag, 2) + Math.pow(Constants.ShooterConstants.distTagToSpeaker, 2)) -
-      (2 * depthToTag * Constants.ShooterConstants.distTagToSpeaker * Math.cos(angleAboveTag))
+      (Math.pow(depthToTag, 2) + Math.pow(ShooterConstants.distTagToSpeaker, 2)) -
+      (2 * depthToTag * ShooterConstants.distTagToSpeaker * Math.cos(angleAboveTag))
     );
 
     // Using law of sines, find the angle offset needed to aim the arm from the tag to the speaker instead
     double angleOffset = Math.asin(
-      (Math.sin(angleAboveTag) / lengthToSpeaker) * Constants.ShooterConstants.distTagToSpeaker
-    ) * (180 / Math.PI);
+      (Math.sin(angleAboveTag) / lengthToSpeaker) * ShooterConstants.distTagToSpeaker
+    );
 
-    // Angle of the arm to face the speaker!
-    double angle = angleOffsetFromTag * (180 / Math.PI) - angleOffset;
+    // Angle up from horizontal to face the speaker directly
+    double directAngle = (Math.PI / 2) - (angleOffsetFromTag - angleOffset);
 
-    // Distance across the ground from the robot to the wall
-    double groundDistance = z * Math.sin(Constants.ShooterConstants.limelightAngle);
+    // Find the horizontal distance from the robot to the wall based on this angle and the lengthToSpeaker
+    double distHorizontal = lengthToSpeaker * Math.cos(directAngle);
+    double distVertical = lengthToSpeaker * Math.sin(directAngle);
 
-    System.out.println(groundDistance);
+    System.out.println("Horizontal distance: ");
+    System.out.println(distHorizontal);
+    System.out.println("Vertical distance: ");
+    System.out.println(distHorizontal);
 
-    // Adjust for distance (for gravity)
-    // if (groundDistance > Constants.ShooterConstants.gravityBeginning) { // Only begins 1 meter away from the AprilTag
-    //   angle -= Constants.ShooterConstants.gravityScale * (groundDistance - Constants.ShooterConstants.gravityBeginning);
-    // }
+    System.out.println("Original angle: ");
+    System.out.println(((Math.PI / 2) - directAngle) * (180 / Math.PI));
+
+    // Use this equation (https://en.wikipedia.org/wiki/Projectile_motion#Angle_%CE%B8_required_to_hit_coordinate_(x,_y))
+    // to calculate the angle needed
+    double velSquared = Math.pow(ShooterConstants.initialVel, 2);
+    double underRadical = (
+      Math.pow(velSquared, 2) - 
+      ShooterConstants.gravity *
+      (ShooterConstants.gravity * Math.pow(distHorizontal, 2) + 2 * distVertical * velSquared)
+    );
+
+    if (underRadical < 0) {
+      System.out.println("SPEAKER OUT OF RANGE. Update the initial velocity or move closer!");
+      return directAngle;
+    }
+
+    double angle = Math.atan(
+      (velSquared - Math.sqrt(underRadical)) /
+      (ShooterConstants.gravity * distHorizontal)
+    );
+
+    System.out.println("New angle: ");
+    System.out.println(90 - (angle * (180 / Math.PI)));
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
