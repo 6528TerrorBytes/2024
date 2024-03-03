@@ -89,10 +89,13 @@ public class AimShooter extends Command {
     // and then recalculates accounting for the errro
     double firstAngle = angleToPoint(distHorizontal, distVertical);
     double error = findNoteHeight(firstAngle, distHorizontal) - distVertical;
-    double angle = angleToPoint(distHorizontal, distVertical - error);
+    double secondAngle = angleToPoint(distHorizontal, distVertical - error);
+    error += findNoteHeight(secondAngle, distHorizontal) - distVertical; // Add on any more error there is
+    double finalAngle = angleToPoint(distHorizontal, distVertical - error);
 
     System.out.println("New angle: ");
-    System.out.println(90 - (angle * (180 / Math.PI)));
+    double angle = 90 - (finalAngle * (180 / Math.PI));
+    System.out.println(angle);
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
@@ -124,7 +127,7 @@ public class AimShooter extends Command {
   // Finds the height of the note at an x distance in meters
   // when the shooter is pointed at the given angle
   private double findNoteHeight(double angle, double x) {
-    return ( // See line 39 of https://www.desmos.com/calculator/svw50rmopy
+    return ( // See line 41 of https://www.desmos.com/calculator/svw50rmopy
       (x - (ShooterConstants.shooterLength * Math.cos(angle))) * Math.tan(angle) -
       ((ShooterConstants.gravity * Math.pow((x - (ShooterConstants.shooterLength * Math.cos(angle))), 2)) /
        (2 * Math.pow(ShooterConstants.initialVel, 2) * Math.pow(Math.cos(angle), 2)))
