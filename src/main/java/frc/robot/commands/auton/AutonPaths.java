@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
+import frc.robot.Constants;
 import frc.robot.Constants.AutoConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AimShooter;
@@ -134,11 +135,11 @@ public final class AutonPaths {
       
       new ParallelCommandGroup(
         new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
-        new SpeedUpShooter(shooterSubsystem, 1),
+        new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
         new AimShooter(shooterTilt) // Then aims the shooter up to the speaker
       ),
       
-      new FireShooter(conveyerSubsystem, shooterSubsystem),
+      new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
       // new TiltShooterCommand(shooterTilt, 3),
 
       resetOdometryCommand(robotDrive, moveTwoMeters),
@@ -159,11 +160,11 @@ public final class AutonPaths {
       new AutonFaceAprilTag(robotDrive),
       new ParallelCommandGroup(
         new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
-        new SpeedUpShooter(shooterSubsystem, 1),
+        new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
         new AimShooter(shooterTilt) // Then aims the shooter up to the speaker
       ),
 
-      new FireShooter(conveyerSubsystem, shooterSubsystem)
+      new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
     );
   }
 }

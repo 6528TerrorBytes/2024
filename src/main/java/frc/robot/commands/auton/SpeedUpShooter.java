@@ -17,10 +17,13 @@ public class SpeedUpShooter extends Command {
 
   private double m_speed;
 
+  private double m_speedUpSecs;
+
   /** Creates a new SpeedUpShooter. */
-  public SpeedUpShooter(ShooterSubsystem shooterSubsystem, double speed) {
+  public SpeedUpShooter(ShooterSubsystem shooterSubsystem, double speed, double speedUpSecs) {
     m_shooterSubsystem = shooterSubsystem;
     m_speed = speed;
+    m_speedUpSecs = speedUpSecs;
     addRequirements(m_shooterSubsystem);
   }
 
@@ -29,7 +32,7 @@ public class SpeedUpShooter extends Command {
   public void initialize() {
     m_shooterSubsystem.setSpeed(m_speed);
     m_shooterSubsystem.setForward();
-    m_timeToFinish = Utility.getTime() + Constants.AutonConstants.speedUpShooterSeconds;
+    m_timeToFinish = Utility.getTime() + m_speedUpSecs;
   }
 
   @Override

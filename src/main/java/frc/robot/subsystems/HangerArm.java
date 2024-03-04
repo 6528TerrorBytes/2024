@@ -82,7 +82,7 @@ public class HangerArm extends SubsystemBase {
   }
 
   public void zeroEncoderRight() {
-    m_leftRelativeEncoder.setPosition(0);
+    m_rightRelativeEncoder.setPosition(0);
   }
 
   public double getEncoderLeft() {

@@ -31,7 +31,7 @@ public class ShooterTilt extends AngleMotor {
     
     getMotor().setInverted(true);
     getMotor().setIdleMode(IdleMode.kBrake);
-    getMotor().setSmartCurrentLimit(30); // Just torque (strength), not speed
+    getMotor().setSmartCurrentLimit(15); // Just torque (strength), not speed
 
     burnFlash(); // Save settings
 
@@ -46,16 +46,16 @@ public class ShooterTilt extends AngleMotor {
   }
 
   public void testSwitches() {
-    if (!m_lowerSwitch.get()) { 
-      System.out.println("lower");
-      disable(); 
-    }
-    if (!m_upperSwitch.get()) { 
-      System.out.println("upper");
-      disable(); 
-    }
+    // if (!m_lowerSwitch.get()) { 
+    //   System.out.println("lower");
+    //   disable(); 
+    // }
+    // if (!m_upperSwitch.get()) { 
+    //   System.out.println("upper");
+    //   disable(); 
+    // }
 
-    SmartDashboard.putBoolean("lower", !m_lowerSwitch.get());
-    SmartDashboard.putBoolean("upper", !m_upperSwitch.get());
+    // SmartDashboard.putBoolean("lower", !m_lowerSwitch.get());
+    // SmartDashboard.putBoolean("upper", !m_upperSwitch.get());
   }
 }

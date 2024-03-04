@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.ShooterConstants;
+import frc.robot.Constants.ShooterConstants;
 import frc.robot.Utility;
 import frc.robot.subsystems.ShooterTilt;
 import java.lang.Math;
@@ -34,7 +34,7 @@ public class AimShooter extends Command {
       if (!Utility.aprilTagInView()) { return; }
       if (!Utility.testShooterID())  { return; }
   
-      detected = true;
+      // detected = true;
       double angleGoal = calcShooterAngle();
       m_shooterTilt.setGoal(angleGoal); // Calculate and aim shooter
     }
@@ -100,6 +100,8 @@ public class AimShooter extends Command {
     double angle = 90 - (finalAngle * (180 / Math.PI));
     System.out.println(angle);
 
+    angle -= 90 - ShooterConstants.encoderAngleToHorizontal;
+
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
   }
@@ -149,7 +151,7 @@ public class AimShooter extends Command {
   public boolean isFinished() {
     // Stops when the shooter tilted to the correct angle
     // after the AprilTag was detected
-    return detected && m_shooterTilt.atGoal();
-    // return false;
+    // return detected && m_shooterTilt.atGoal();
+    return false;
   }
 }

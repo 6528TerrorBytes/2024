@@ -34,6 +34,8 @@ public class ExtendHangerArms extends Command {
 
   @Override
   public void execute() {
+    System.out.println(m_hangerArm.getEncoderRight());
+    System.out.println(m_hangerArm.getEncoderLeft());
     m_hangerArm.checkBoundaries();
   }
 

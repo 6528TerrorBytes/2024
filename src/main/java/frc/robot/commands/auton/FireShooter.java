@@ -17,17 +17,20 @@ public class FireShooter extends Command {
   
   private double m_timeToFinish;
 
+  private double m_fireTimeSecs;
+
   /** Creates a new FireShooter. */
-  public FireShooter(ConveyerSubsystem conveyerSubsystem, ShooterSubsystem shooterSubsystem) {
+  public FireShooter(ConveyerSubsystem conveyerSubsystem, ShooterSubsystem shooterSubsystem, double fireTimeSecs) {
     m_conveyerSubsystem = conveyerSubsystem;
     m_shooterSubsystem = shooterSubsystem;
+    m_fireTimeSecs = fireTimeSecs;
     addRequirements(m_conveyerSubsystem, m_shooterSubsystem);
   }
 
   @Override
   public void initialize() {
     m_conveyerSubsystem.setSpeed(1);
-    m_timeToFinish = Utility.getTime() + Constants.AutonConstants.conveyerRunSeconds;
+    m_timeToFinish = Utility.getTime() + m_fireTimeSecs;
   }
 
   @Override

@@ -110,14 +110,14 @@ public class RobotContainer {
     // Runs intake, conveyer, and stop note down (back button)
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, true),
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, true),
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 0.75, true),
       new IntakeCommand(m_intakeSubsystem, 1)
     ));
     
     // Reverse intake (front bottom center button)
     new JoystickButton(rightJoystick, 2).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -1, false),
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -0.75, false),
       new IntakeCommand(m_intakeSubsystem, -0.75)
     ));
 
@@ -140,16 +140,16 @@ public class RobotContainer {
     // ---------- OTHER JOYSTICK ----------
 
     // Other driver auto shooter tilt aim (thumb button)
-    new JoystickButton(otherJoystick, 2).onTrue(new AimShooter(m_shooterTilt));
+    new JoystickButton(otherJoystick, 2).whileTrue(new AimShooter(m_shooterTilt));
 
     // Hold back button to shoot
     new JoystickButton(otherJoystick, 1).whileTrue(new SequentialCommandGroup(
       new ParallelCommandGroup(
         new StopNoteCommand(m_stopNote, false),
-        new SpeedUpShooter(m_shooterSubsystem, 1)
+        new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds)
       ),
 
-      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem),
+      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
       new TiltShooterCommand(m_shooterTilt, 3)
     ));
 
@@ -157,10 +157,10 @@ public class RobotContainer {
     new JoystickButton(otherJoystick, 5).whileTrue(new SequentialCommandGroup(
       new ParallelCommandGroup(
         new StopNoteCommand(m_stopNote, false),
-        new SpeedUpShooter(m_shooterSubsystem, 0.2)
+        new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds)
       ),
 
-      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem),
+      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
       new TiltShooterCommand(m_shooterTilt, 3)
     ));
 
@@ -180,9 +180,9 @@ public class RobotContainer {
     ));
 
     // Manual aim to speaker (front top right button)
-    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 90));
+    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 20));
     // Manual aim to amp (front bottom right button)
-    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 20));
+    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
   }
 
   private void oldControllerBindings() {
