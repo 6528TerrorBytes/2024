@@ -59,7 +59,7 @@ public class RobotContainer {
 
   private final IntakeSubsystem m_intakeSubsystem = new IntakeSubsystem();
   
-  private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
+  private final ConveyerSubsystem m_conveyerSubsystem = new ConveyerSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
   public final ShooterTilt m_shooterTilt = new ShooterTilt();
@@ -110,14 +110,14 @@ public class RobotContainer {
     // Runs intake, conveyer, and stop note down (back button)
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, true),
-      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, true),
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, true),
       new IntakeCommand(m_intakeSubsystem, 1)
     ));
     
     // Reverse intake (front bottom center button)
     new JoystickButton(rightJoystick, 2).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, -1, false),
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -1, false),
       new IntakeCommand(m_intakeSubsystem, -0.75)
     ));
 
@@ -149,7 +149,7 @@ public class RobotContainer {
         new SpeedUpShooter(m_shooterSubsystem, 1)
       ),
 
-      new FireShooter(m_ConveyerSubsystem, m_shooterSubsystem),
+      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem),
       new TiltShooterCommand(m_shooterTilt, 3)
     ));
 
@@ -160,7 +160,7 @@ public class RobotContainer {
         new SpeedUpShooter(m_shooterSubsystem, 0.2)
       ),
 
-      new FireShooter(m_ConveyerSubsystem, m_shooterSubsystem),
+      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem),
       new TiltShooterCommand(m_shooterTilt, 3)
     ));
 
@@ -170,13 +170,13 @@ public class RobotContainer {
     // Manual conveyer forward (controller bottom top right)
     new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, false)
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, false)
     ));
 
     // Manual conveyer backward (controller bottom top left)
     new JoystickButton(otherJoystick, 7).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, -1, false)
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -1, false)
     ));
 
     // Manual aim to speaker (front top right button)
@@ -187,18 +187,18 @@ public class RobotContainer {
 
   private void oldControllerBindings() {
     new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, false),
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, false),
       new StopNoteCommand(m_stopNote, false)
     ));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, 1, true),
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, true),
       new IntakeCommand(m_intakeSubsystem, 1),
       new StopNoteCommand(m_stopNote, true)
     ));
 
     new JoystickButton(leftJoystick, 2).whileTrue(
-      new ConveyerComand(m_ConveyerSubsystem, m_detectNote, -1, false)
+      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -1, false)
     );
 
     new JoystickButton(rightJoystick, 2).whileTrue(new IntakeCommand(m_intakeSubsystem, -1));
@@ -236,7 +236,7 @@ public class RobotContainer {
       m_robotDrive,
       m_shooterTilt,
       m_stopNote,
-      m_ConveyerSubsystem,
+      m_conveyerSubsystem,
       m_shooterSubsystem,
       m_detectNote,
       m_intakeSubsystem

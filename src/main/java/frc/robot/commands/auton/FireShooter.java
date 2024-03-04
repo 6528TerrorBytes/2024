@@ -15,7 +15,7 @@ public class FireShooter extends Command {
   private final ConveyerSubsystem m_conveyerSubsystem;
   private final ShooterSubsystem m_shooterSubsystem;
   
-  private double timeToFinish;
+  private double m_timeToFinish;
 
   /** Creates a new FireShooter. */
   public FireShooter(ConveyerSubsystem conveyerSubsystem, ShooterSubsystem shooterSubsystem) {
@@ -27,7 +27,7 @@ public class FireShooter extends Command {
   @Override
   public void initialize() {
     m_conveyerSubsystem.setSpeed(1);
-    timeToFinish = Utility.getTime() + Constants.AutonConstants.conveyerRunSeconds;
+    m_timeToFinish = Utility.getTime() + Constants.AutonConstants.conveyerRunSeconds;
   }
 
   @Override
@@ -39,6 +39,6 @@ public class FireShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Utility.getTime() >= timeToFinish;
+    return Utility.getTime() >= m_timeToFinish;
   }
 }

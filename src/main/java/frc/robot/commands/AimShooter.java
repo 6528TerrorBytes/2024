@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Constants;
+import frc.robot.ShooterConstants;
 import frc.robot.Utility;
 import frc.robot.subsystems.ShooterTilt;
 import java.lang.Math;
@@ -41,13 +41,16 @@ public class AimShooter extends Command {
   }
 
   private double calcShooterAngle() {
+    // All this math calculated here:
+    // https://www.desmos.com/calculator/svw50rmopy
+
     Pose3d pos = Utility.aprilTagPos();
 
     double y = -pos.getY();
     double z = pos.getZ();
 
     // Gets the robot's shooter tilt angle needed to face the tag directly
-    double angleOffsetFromTag = Constants.ShooterConstants.limelightAngle - Math.atan(y / z);
+    double angleOffsetFromTag = ShooterConstants.limelightAngle - Math.atan(y / z);
     // Angle above the line from the limelight to the AprilTag
     double angleAboveTag = Math.PI - angleOffsetFromTag;
 
@@ -59,30 +62,80 @@ public class AimShooter extends Command {
 
     // Find the length from limelight to the speaker based on the above and the law of cosines
     double lengthToSpeaker = Math.sqrt(
-      (Math.pow(depthToTag, 2) + Math.pow(Constants.ShooterConstants.distTagToSpeaker, 2)) -
-      (2 * depthToTag * Constants.ShooterConstants.distTagToSpeaker * Math.cos(angleAboveTag))
+      (Math.pow(depthToTag, 2) + Math.pow(ShooterConstants.distTagToSpeaker, 2)) -
+      (2 * depthToTag * ShooterConstants.distTagToSpeaker * Math.cos(angleAboveTag))
     );
 
     // Using law of sines, find the angle offset needed to aim the arm from the tag to the speaker instead
     double angleOffset = Math.asin(
-      (Math.sin(angleAboveTag) / lengthToSpeaker) * Constants.ShooterConstants.distTagToSpeaker
-    ) * (180 / Math.PI);
+      (Math.sin(angleAboveTag) / lengthToSpeaker) * ShooterConstants.distTagToSpeaker
+    );
 
-    // Angle of the arm to face the speaker!
-    double angle = angleOffsetFromTag * (180 / Math.PI) - angleOffset;
+    // Angle up from horizontal to face the speaker directly
+    double directAngle = (Math.PI / 2) - (angleOffsetFromTag - angleOffset);
 
-    // Distance across the ground from the robot to the wall
-    double groundDistance = z * Math.sin(Constants.ShooterConstants.limelightAngle);
+    // Find the horizontal distance from the robot to the wall based on this angle and the lengthToSpeaker
+    double distHorizontal = lengthToSpeaker * Math.cos(directAngle);
+    double distVertical = lengthToSpeaker * Math.sin(directAngle);
 
-    System.out.println(groundDistance);
+    System.out.println("Horizontal distance: ");
+    System.out.println(distHorizontal);
+    System.out.println("Vertical distance: ");
+    System.out.println(distVertical);
 
-    // Adjust for distance (for gravity)
-    // if (groundDistance > Constants.ShooterConstants.gravityBeginning) { // Only begins 1 meter away from the AprilTag
-    //   angle -= Constants.ShooterConstants.gravityScale * (groundDistance - Constants.ShooterConstants.gravityBeginning);
-    // }
+    System.out.println("Original angle: ");
+    System.out.println(((Math.PI / 2) - directAngle) * (180 / Math.PI));
+
+    // Calculates the angle, finds the error when accounting for the shooter length,
+    // and then recalculates accounting for the errro
+    double firstAngle = angleToPoint(distHorizontal, distVertical);
+    double error = findNoteHeight(firstAngle, distHorizontal) - distVertical;
+    double secondAngle = angleToPoint(distHorizontal, distVertical - error);
+    error += findNoteHeight(secondAngle, distHorizontal) - distVertical; // Add on any more error there is
+    double thirdAngle = angleToPoint(distHorizontal, distVertical - error);
+    error += findNoteHeight(thirdAngle, distHorizontal) - distVertical; // Add on any more error there is
+    double finalAngle = angleToPoint(distHorizontal, distVertical - error);
+
+    System.out.println("New angle: ");
+    double angle = 90 - (finalAngle * (180 / Math.PI));
+    System.out.println(angle);
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
+  }
+
+  // Returns the angle to point a shooter, where x and y are in meters
+  // Uses particle motion to calculate the angle, accounting for gravity
+  private double angleToPoint(double x, double y) {
+    // Use this equation (https://en.wikipedia.org/wiki/Projectile_motion#Angle_%CE%B8_required_to_hit_coordinate_(x,_y))
+    // to calculate the angle needed
+    double velSquared = Math.pow(ShooterConstants.initialVel, 2);
+    double underRadical = (
+      Math.pow(velSquared, 2) - 
+      ShooterConstants.gravity *
+      (ShooterConstants.gravity * Math.pow(x, 2) + 2 * y * velSquared)
+    );
+
+    if (underRadical < 0) {
+      System.out.println("SPEAKER OUT OF RANGE. Update the initial velocity or move closer!");
+      return Math.PI / 4;
+    }
+
+    return Math.atan(
+      (velSquared - Math.sqrt(underRadical)) /
+      (ShooterConstants.gravity * x)
+    );
+  }
+
+  // Finds the height of the note at an x distance in meters
+  // when the shooter is pointed at the given angle
+  private double findNoteHeight(double angle, double x) {
+    return ( // See line 41 of https://www.desmos.com/calculator/svw50rmopy
+      (x - (ShooterConstants.shooterLength * Math.cos(angle))) * Math.tan(angle) -
+      ((ShooterConstants.gravity * Math.pow((x - (ShooterConstants.shooterLength * Math.cos(angle))), 2)) /
+       (2 * Math.pow(ShooterConstants.initialVel, 2) * Math.pow(Math.cos(angle), 2)))
+      + ShooterConstants.shooterLength * Math.sin(angle) 
+    );
   }
 
   // Called once the command ends or is interrupted.
