@@ -91,6 +91,8 @@ public class AimShooter extends Command {
     double error = findNoteHeight(firstAngle, distHorizontal) - distVertical;
     double secondAngle = angleToPoint(distHorizontal, distVertical - error);
     error += findNoteHeight(secondAngle, distHorizontal) - distVertical; // Add on any more error there is
+    double thirdAngle = angleToPoint(distHorizontal, distVertical - error);
+    error += findNoteHeight(thirdAngle, distHorizontal) - distVertical; // Add on any more error there is
     double finalAngle = angleToPoint(distHorizontal, distVertical - error);
 
     System.out.println("New angle: ");
