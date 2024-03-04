@@ -27,6 +27,7 @@ public class AimShooter extends Command {
   @Override
   public void execute() {
     m_shooterTilt.check();
+    m_shooterTilt.testSwitches();
 
     if (!detected) {
       // Test for april tag in view and correct speaker ID

@@ -51,6 +51,8 @@ public final class Constants {
     public static final int rightHangerArm = 0;
     public static final int leftHangerArm = 1;
     public static final int detectNote = 2;
+    public static final int upperShooterTilt = 3;
+    public static final int lowerShooterTilt = 4;
   }
 
   public static class AutonConstants {

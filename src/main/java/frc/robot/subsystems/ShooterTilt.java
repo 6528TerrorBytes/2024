@@ -2,10 +2,14 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class ShooterTilt extends AngleMotor {
+  private final DigitalInput m_lowerSwitch = new DigitalInput(Constants.LimitSwitches.lowerShooterTilt);
+  private final DigitalInput m_upperSwitch = new DigitalInput(Constants.LimitSwitches.upperShooterTilt);
+  
   /** Creates a new ShooterTilt. */
   public ShooterTilt() {
     super(
@@ -39,5 +43,19 @@ public class ShooterTilt extends AngleMotor {
     double angle = super.getAngle();
     SmartDashboard.putNumber("Shooter encoder angle ", angle);
     return angle;
+  }
+
+  public void testSwitches() {
+    if (!m_lowerSwitch.get()) { 
+      System.out.println("lower");
+      disable(); 
+    }
+    if (!m_upperSwitch.get()) { 
+      System.out.println("upper");
+      disable(); 
+    }
+
+    SmartDashboard.putBoolean("lower", !m_lowerSwitch.get());
+    SmartDashboard.putBoolean("upper", !m_upperSwitch.get());
   }
 }

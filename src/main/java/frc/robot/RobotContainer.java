@@ -62,7 +62,7 @@ public class RobotContainer {
   private final ConveyerSubsystem m_ConveyerSubsystem = new ConveyerSubsystem();
   private final ShooterSubsystem m_shooterSubsystem = new ShooterSubsystem();
 
-  private final ShooterTilt m_shooterTilt = new ShooterTilt();
+  public final ShooterTilt m_shooterTilt = new ShooterTilt();
   private final StopNote m_stopNote = new StopNote();
 
   private final HangerArm m_hangerArm = new HangerArm();
@@ -180,9 +180,9 @@ public class RobotContainer {
     ));
 
     // Manual aim to speaker (front top right button)
-    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 20));
+    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 90));
     // Manual aim to amp (front bottom right button)
-    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 10));
+    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 20));
   }
 
   private void oldControllerBindings() {

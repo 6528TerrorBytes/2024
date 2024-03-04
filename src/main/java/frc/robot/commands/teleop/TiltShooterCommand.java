@@ -30,6 +30,7 @@ public class TiltShooterCommand extends Command {
   @Override
   public void execute() {
     m_shooterTilt.check();
+    m_shooterTilt.testSwitches();
   }
 
   @Override

@@ -47,6 +47,10 @@ public class Robot extends TimedRobot {
     CommandScheduler.getInstance().run();
 
     Utility.updateSmartDashboard();
+
+    m_robotContainer.m_shooterTilt.testSwitches();
+
+
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
