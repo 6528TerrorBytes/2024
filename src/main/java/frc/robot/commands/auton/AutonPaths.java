@@ -68,11 +68,19 @@ public final class AutonPaths {
     );
   }
 
-  public static Trajectory genTrajectory(Pose2d starting, List<Translation2d> midpoints, Pose2d ending) {
-    // Trajectory path of points that the robot will follow in autonomous
+  public static Trajectory genTrajectory(List<Pose2d> points) {
+    // Trajectory path of points that the robot will follow in autonomous.
+    // Uses a quintic spline rather than cubic,
+    // see https://docs.wpilib.org/en/stable/docs/software/advanced-controls/trajectories/trajectory-generation.html
     return TrajectoryGenerator.generateTrajectory(
-      starting, midpoints, ending,
-      trajectoryConfig
+      points, trajectoryConfig
+    );
+  }
+
+  public static Trajectory genTrajectory(Pose2d starting, List<Translation2d> points, Pose2d ending) {
+    // Uses a cubic spline
+    return TrajectoryGenerator.generateTrajectory(
+      starting, points, ending trajectoryConfig
     );
   }
 
@@ -112,19 +120,19 @@ public final class AutonPaths {
     IntakeSubsystem intakeSubsystem
   ) {
     // Generate trajectories
-    Trajectory moveOneMeter = genTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(),
+    Trajectory moveOneMeter = genTrajectory(List.of(
+      new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
       new Pose2d(1.5, 0, Rotation2d.fromDegrees(-45))
-    );
+    ));
     SwerveControllerCommand moveOneMeterCommand = genSwerveCommand(moveOneMeter, robotDrive);
+    // FollowTrajectory moveOneMeterCommand = new FollowTrajectory(robotDrive, moveOneMeter, -45);
 
-    Trajectory moveTwoMeters = genTrajectory(
-      new Pose2d(1.5, 0, new Rotation2d(0)),
-      List.of(),
-      new Pose2d(3.5, 0, Rotation2d.fromDegrees(45))
-    );
+    Trajectory moveTwoMeters = genTrajectory(List.of(
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-45)),
+      new Pose2d(3.5, 0, Rotation2d.fromDegrees(0))
+    ));
     SwerveControllerCommand moveTwoMetersCommand = genSwerveCommand(moveTwoMeters, robotDrive);
+    // FollowTrajectory moveOneMeterCommand = new FollowTrajectory(robotDrive, moveTwoMeters, 0);
 
     Command resetOdometry = resetOdometryCommand(robotDrive, moveOneMeter);
 
@@ -132,6 +140,16 @@ public final class AutonPaths {
     return new SequentialCommandGroup(
       resetOdometry,
       moveOneMeterCommand, // Moves one meter out
+
+      // Output odometry values to see if they're accurate
+      new InstantCommand(() -> {
+        Pose2d pose = robotDrive.getPose();
+
+        System.out.println("Angle, x, and y after first meter move");
+        System.out.println(robotDrive.getRawAngle());
+        System.out.println(pose.getX());
+        System.out.println(pose.getY());
+      })
       
       new ParallelCommandGroup(
         new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
@@ -141,8 +159,6 @@ public final class AutonPaths {
       
       new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
       // new TiltShooterCommand(shooterTilt, 3),
-
-      resetOdometryCommand(robotDrive, moveTwoMeters),
 
       new ParallelDeadlineGroup( // Ends when the conveyer command ends, when a note has been detected
         new ConveyerComand(conveyerSubsystem, detectNote, 1, true),
