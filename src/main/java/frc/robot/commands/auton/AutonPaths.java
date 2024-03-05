@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
-import frc.robot.Constants.AutoConstants;
+import frc.robot.Constants.AutonConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AimShooter;
 import frc.robot.commands.intake.ConveyerComand;
@@ -41,16 +41,16 @@ import frc.robot.subsystems.StopNote;
 public final class AutonPaths {
   // Defines the max speed and acceleration during the autonomous
   public static final TrajectoryConfig trajectoryConfig = new TrajectoryConfig(
-    AutoConstants.kMaxSpeedMetersPerSecond,
-    AutoConstants.kMaxAccelerationMetersPerSecondSquared
+    AutonConstants.kMaxSpeedMetersPerSecond,
+    AutonConstants.kMaxAccelerationMetersPerSecondSquared
   ).setKinematics(DriveConstants.kDriveKinematics);
 
   // PID controllers used for following the trajectory (correcting errors)
-  public static final PIDController xController = new PIDController(AutoConstants.kPXController, 0, 0);
-  public static final PIDController yController = new PIDController(AutoConstants.kPYController, 0, 0);
+  public static final PIDController xController = new PIDController(AutonConstants.kPXController, 0, 0);
+  public static final PIDController yController = new PIDController(AutonConstants.kPYController, 0, 0);
   // Angle correction PID Controller
   public static final ProfiledPIDController thetaController = new ProfiledPIDController(
-    AutoConstants.kPThetaController, 0, 0, AutoConstants.kThetaControllerConstraints
+    AutonConstants.kPThetaController, 0, 0, AutonConstants.kThetaControllerConstraints
   );
 
   public static SwerveControllerCommand genSwerveCommand(Trajectory trajectory, DriveSubsystem robotDrive) {
@@ -120,9 +120,9 @@ public final class AutonPaths {
     SwerveControllerCommand moveOneMeterCommand = genSwerveCommand(moveOneMeter, robotDrive);
 
     Trajectory moveTwoMeters = genTrajectory(
-      new Pose2d(0, 0, new Rotation2d(-45)),
+      new Pose2d(1.5, 0, new Rotation2d(0)),
       List.of(),
-      new Pose2d(2, 0, Rotation2d.fromDegrees(0))
+      new Pose2d(3.5, 0, Rotation2d.fromDegrees(45))
     );
     SwerveControllerCommand moveTwoMetersCommand = genSwerveCommand(moveTwoMeters, robotDrive);
 
