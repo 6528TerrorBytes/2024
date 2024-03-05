@@ -79,8 +79,7 @@ public class AngleMotor extends SubsystemBase {
   }
 
   public double getAngle() {
-    double angle = encoder.getPosition();
-    return angle;
+    return encoder.getPosition();
   }
   
   /**

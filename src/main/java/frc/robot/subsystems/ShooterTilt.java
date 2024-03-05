@@ -37,12 +37,9 @@ public class ShooterTilt extends AngleMotor {
 
     setTolerance(Constants.ShooterConstants.tolerance);
   }
-  
-  @Override
-  public double getAngle() {
-    double angle = super.getAngle();
-    SmartDashboard.putNumber("Shooter encoder angle ", angle);
-    return angle;
+
+  public void outputEncoder() {
+    SmartDashboard.putNumber("Shooter encoder angle ", getAngle());
   }
 
   public void testSwitches() {
