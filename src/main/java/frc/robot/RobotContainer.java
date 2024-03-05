@@ -140,7 +140,7 @@ public class RobotContainer {
     // ---------- OTHER JOYSTICK ----------
 
     // Other driver auto shooter tilt aim (thumb button)
-    new JoystickButton(otherJoystick, 2).whileTrue(new AimShooter(m_shooterTilt));
+    new JoystickButton(otherJoystick, 2).whileTrue(new AimShooter(m_shooterTilt, false));
 
     // Hold back button to shoot
     new JoystickButton(otherJoystick, 1).whileTrue(new SequentialCommandGroup(
@@ -223,7 +223,7 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 10).whileTrue(new ExtendHangerArms(m_hangerArm, true));
     new JoystickButton(rightJoystick, 9).whileTrue(new ExtendHangerArms(m_hangerArm, false));
     new JoystickButton(rightJoystick, 6).onTrue(new TeleopFaceAprilTag());
-    new JoystickButton(rightJoystick, 7).onTrue(new AimShooter(m_shooterTilt));
+    new JoystickButton(rightJoystick, 7).onTrue(new AimShooter(m_shooterTilt, false));
   }
 
   public Command getAutonomousCommand() {

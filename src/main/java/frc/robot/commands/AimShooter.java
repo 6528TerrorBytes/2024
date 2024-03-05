@@ -16,10 +16,13 @@ public class AimShooter extends Command {
   private final ShooterTilt m_shooterTilt;
 
   private boolean detected = false;
+  
+  private boolean m_endAtGoal = false;
 
   /** Creates a new AimShooter. */
-  public AimShooter(ShooterTilt shooterTilt) {
+  public AimShooter(ShooterTilt shooterTilt, boolean endAtGoal) {
     m_shooterTilt = shooterTilt;
+    m_endAtGoal = endAtGoal;
     addRequirements(m_shooterTilt);
   }
 
@@ -29,15 +32,13 @@ public class AimShooter extends Command {
     m_shooterTilt.check();
     m_shooterTilt.testSwitches();
 
-    if (!detected) {
-      // Test for april tag in view and correct speaker ID
-      if (!Utility.aprilTagInView()) { return; }
-      if (!Utility.testShooterID())  { return; }
-  
-      // detected = true;
-      double angleGoal = calcShooterAngle();
-      m_shooterTilt.setGoal(angleGoal); // Calculate and aim shooter
-    }
+    // Test for april tag in view and correct speaker ID
+    if (!Utility.aprilTagInView()) { return; }
+    if (!Utility.testShooterID())  { return; }
+
+    detected = true;
+    double angleGoal = calcShooterAngle();
+    m_shooterTilt.setGoal(angleGoal); // Calculate and aim shooter
   }
 
   private double calcShooterAngle() {
@@ -152,6 +153,6 @@ public class AimShooter extends Command {
     // Stops when the shooter tilted to the correct angle
     // after the AprilTag was detected
     // return detected && m_shooterTilt.atGoal();
-    return false;
+    return m_endAtGoal & detected & m_shooterTilt.atGoal();
   }
 }

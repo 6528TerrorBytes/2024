@@ -136,7 +136,7 @@ public final class AutonPaths {
       new ParallelCommandGroup(
         new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
         new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new AimShooter(shooterTilt) // Then aims the shooter up to the speaker
+        new AimShooter(shooterTilt, true) // Then aims the shooter up to the speaker
       ),
       
       new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
@@ -161,7 +161,7 @@ public final class AutonPaths {
       new ParallelCommandGroup(
         new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
         new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new AimShooter(shooterTilt) // Then aims the shooter up to the speaker
+        new AimShooter(shooterTilt, true) // Then aims the shooter up to the speaker
       ),
 
       new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
