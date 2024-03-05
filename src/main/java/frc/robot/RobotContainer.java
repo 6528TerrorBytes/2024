@@ -228,23 +228,31 @@ public class RobotContainer {
 
   public Command getAutonomousCommand() {
     // return new AutonFaceAprilTag(m_robotDrive);
-
-    System.out.println("Making Autonomous...");
     m_blinkin.resetToTeamColor();
 
-    return AutonPaths.createMainAuton(
-      m_robotDrive,
-      m_shooterTilt,
-      m_stopNote,
-      m_conveyerSubsystem,
-      m_shooterSubsystem,
-      m_detectNote,
-      m_intakeSubsystem
-    );
+    String autonChosen = AutonPaths.getAuton();
+    System.out.println("Making Autonomous: " + autonChosen);
+
+    switch (autonChosen) {
+      case AutonPaths.defaultAuton:
+        return AutonPaths.createMainAuton(
+          m_robotDrive,
+          m_shooterTilt,
+          m_stopNote,
+          m_conveyerSubsystem,
+          m_shooterSubsystem,
+          m_detectNote,
+          m_intakeSubsystem
+        );
+      
+      case AutonPaths.otherAuton:
+        return AutonPaths.createDefaultAuton(
+          m_robotDrive
+        );
+    }
   }
 
   public Command getTestCommand() {
-
     return new AutonFaceAprilTag(m_robotDrive);
   }
 }

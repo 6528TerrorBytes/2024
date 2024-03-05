@@ -67,7 +67,10 @@ public class DriveSubsystem extends SubsystemBase {
   public static double speedMultiplier = 0.5;
 
   public static boolean overrideRotation = false;
-  public static double newRotation = 0; 
+  public static double newRotation = 0;
+
+  // Field object for SmartDashboard or Glass
+  private final Field2d m_field = new Field2d();
 
   // Odometry class for tracking robot pose
   SwerveDriveOdometry m_odometry = new SwerveDriveOdometry(
@@ -83,6 +86,7 @@ public class DriveSubsystem extends SubsystemBase {
 
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
+    SmartDashboard.putData("Field", m_field);
   }
 
   @Override
@@ -97,6 +101,17 @@ public class DriveSubsystem extends SubsystemBase {
         m_rearRight.getPosition()
       }
     );
+
+    // Update SmartDashboard field position
+    m_field.setRobotPose(getPose());
+  }
+
+  /**
+   * Sets the displayed trajectory for the SmartDashboard/Glass.
+   * Does not make the bot follow the trajectory.
+   */
+  public void setFieldTrajectory(Trajectory trajectory) {
+    m_field.getObject("traj").setTrajectory(trajectory);
   }
 
   /**

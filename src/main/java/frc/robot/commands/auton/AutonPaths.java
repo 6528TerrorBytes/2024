@@ -53,6 +53,21 @@ public final class AutonPaths {
     AutonConstants.kPThetaController, 0, 0, AutonConstants.kThetaControllerConstraints
   );
 
+  // Autonomous selector
+  public static final String defaultAuton = "default";
+  public static final String otherAuton = "other";
+  public static final SendableChooser<String> chooser = new SendableChooser<>();
+
+  public static void setupAutonChooser() {
+    chooser.setDefaultOption("Default Auton", defaultAuton);
+    chooser.addOption("Other Auton", other);
+    SmartDashboard.putData("Choose auton", chooser);
+  }
+
+  public static String getAuton() {
+    return choooser.getSelected();
+  }
+
   public static SwerveControllerCommand genSwerveCommand(Trajectory trajectory, DriveSubsystem robotDrive) {
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
@@ -126,6 +141,8 @@ public final class AutonPaths {
     ));
     SwerveControllerCommand moveOneMeterCommand = genSwerveCommand(moveOneMeter, robotDrive);
     // FollowTrajectory moveOneMeterCommand = new FollowTrajectory(robotDrive, moveOneMeter, -45);
+
+    robotDrive.setFieldTrajectory(moveOneMeter); // Show on SmartDashboard/Glass
 
     Trajectory moveTwoMeters = genTrajectory(List.of(
       new Pose2d(1.5, 0, Rotation2d.fromDegrees(-45)),
