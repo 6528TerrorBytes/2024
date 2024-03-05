@@ -5,30 +5,37 @@
 package frc.robot.commands.auton;
 
 import edu.wpi.first.wpilibj2.command.Command;
-
+import frc.robot.Utility;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class AutonRotate extends Command {
   private final DriveSubsystem m_driveSubsystem;
 
-  private int angleGoal;
+  private double m_angleGoal;
+  private double m_diff;
+
+  private final double tolerance = 5;
 
   /** Creates a new AutonRotate. */
-  public AutonRotate(DriveSubsystem driveSubsystem) {
+  public AutonRotate(DriveSubsystem driveSubsystem, double gyroAngle) {
     m_driveSubsystem = driveSubsystem;
+    m_angleGoal = gyroAngle;
     addRequirements(driveSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    angleGoal = (int)(m_driveSubsystem.getRawAngle() + 45); // Moving 45 degrees
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_driveSubsystem.drive(0, 0, -0.5, true, true);
+    m_diff = m_angleGoal - m_driveSubsystem.getRawAngle();
+    double speed = Utility.calcSpeedFaceTag(m_diff);
+    
+    m_driveSubsystem.drive(0, 0, speed, true, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +46,6 @@ public class AutonRotate extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (int)(m_driveSubsystem.getRawAngle()) >= angleGoal;
+    return Math.abs(m_diff) < tolerance;
   }
 }

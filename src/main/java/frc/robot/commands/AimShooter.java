@@ -79,14 +79,6 @@ public class AimShooter extends Command {
     double distHorizontal = lengthToSpeaker * Math.cos(directAngle);
     double distVertical = lengthToSpeaker * Math.sin(directAngle);
 
-    System.out.println("Horizontal distance: ");
-    System.out.println(distHorizontal);
-    System.out.println("Vertical distance: ");
-    System.out.println(distVertical);
-
-    System.out.println("Original angle: ");
-    System.out.println(((Math.PI / 2) - directAngle) * (180 / Math.PI));
-
     // Calculates the angle, finds the error when accounting for the shooter length,
     // and then recalculates accounting for the errro
     double firstAngle = angleToPoint(distHorizontal, distVertical);
@@ -97,10 +89,7 @@ public class AimShooter extends Command {
     error += findNoteHeight(thirdAngle, distHorizontal) - distVertical; // Add on any more error there is
     double finalAngle = angleToPoint(distHorizontal, distVertical - error);
 
-    System.out.println("New angle: ");
     double angle = 90 - (finalAngle * (180 / Math.PI));
-    System.out.println(angle);
-
     angle -= 90 - ShooterConstants.encoderAngleToHorizontal;
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);

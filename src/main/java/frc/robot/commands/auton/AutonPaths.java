@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 import frc.robot.Constants;
@@ -115,13 +116,13 @@ public final class AutonPaths {
     );
 
     SwerveControllerCommand swerveCommand = genSwerveCommand(trajectory, robotDrive);
-    AutonRotate autonRotate = new AutonRotate(robotDrive);
+    // AutonRotate autonRotate = new AutonRotate(robotDrive);
     
     // Runs these three things in order as a single command
     return new SequentialCommandGroup(
       new InstantCommand(() -> robotDrive.resetOdometry(trajectory.getInitialPose())), 
       swerveCommand, // Run the swerve auton with the trajectory
-      autonRotate, // Rotates the bot 45 degrees maybe
+      // autonRotate, // Rotates the bot 45 degrees maybe
       new InstantCommand(() -> robotDrive.setX()) // Sets wheels to X positions after
     );
   }
@@ -136,69 +137,76 @@ public final class AutonPaths {
     IntakeSubsystem intakeSubsystem
   ) {
     // Generate trajectories
-    Trajectory moveOneMeter = genTrajectory(List.of(
+    Trajectory firstMove = genTrajectory(List.of(
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-45))
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-40))
     ));
-    SwerveControllerCommand moveOneMeterCommand = genSwerveCommand(moveOneMeter, robotDrive);
+    SwerveControllerCommand firstMoveCommand = genSwerveCommand(firstMove, robotDrive);
     // FollowTrajectory moveOneMeterCommand = new FollowTrajectory(robotDrive, moveOneMeter, -45);
 
-    robotDrive.setFieldTrajectory(moveOneMeter); // Show on SmartDashboard/Glass
+    robotDrive.setFieldTrajectory(firstMove); // Show on SmartDashboard/Glass
 
-    Trajectory moveTwoMeters = genTrajectory(List.of(
-      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-45)),
-      new Pose2d(3.5, 0, Rotation2d.fromDegrees(0))
+    Trajectory secondMove = genTrajectory(List.of(
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(0)),
+      new Pose2d(2.7, 0, Rotation2d.fromDegrees(0))
     ));
-    SwerveControllerCommand moveTwoMetersCommand = genSwerveCommand(moveTwoMeters, robotDrive);
-    // FollowTrajectory moveOneMeterCommand = new FollowTrajectory(robotDrive, moveTwoMeters, 0);
-
-    Command resetOdometry = resetOdometryCommand(robotDrive, moveOneMeter);
+    SwerveControllerCommand secondMoveCommand = genSwerveCommand(secondMove, robotDrive);
+    
+    robotDrive.setFieldTrajectory(secondMove); // Show on SmartDashboard/Glass
 
     // Runs these commands in order
     return new SequentialCommandGroup(
-      resetOdometry,
-      moveOneMeterCommand, // Moves one meter out
+      resetOdometryCommand(robotDrive, firstMove),
+      firstMoveCommand, // Moves one meter out
 
       // Output odometry values to see if they're accurate
       new InstantCommand(() -> {
         Pose2d pose = robotDrive.getPose();
 
-        System.out.println("Angle, x, and y after first meter move");
+        System.out.println("first Angle, x, and y after first meter move");
         System.out.println(robotDrive.getRawAngle());
         System.out.println(pose.getX());
         System.out.println(pose.getY());
       }),
       
+      new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
       new ParallelCommandGroup(
-        new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
         new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
         new AimShooter(shooterTilt, true) // Then aims the shooter up to the speaker
       ),
       
       new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
       // new TiltShooterCommand(shooterTilt, 3),
+      new AutonRotate(robotDrive, 0),
 
       new ParallelDeadlineGroup( // Ends when the conveyer command ends, when a note has been detected
         new ConveyerComand(conveyerSubsystem, detectNote, 1, true),
-
         new StopNoteCommand(stopNote, true), // Brings note stopper down
-        new IntakeCommand(intakeSubsystem, 1), // Run intake
-        new SequentialCommandGroup(
-          moveTwoMetersCommand, // Move 2 meters back
-          new InstantCommand(() -> robotDrive.setX()) // and then stop 
-        )
+        secondMoveCommand,
+        new IntakeCommand(intakeSubsystem, 1) // Run intake
       ),
 
       new InstantCommand(() -> robotDrive.setX()),
       
+      new InstantCommand(() -> {
+        Pose2d pose = robotDrive.getPose();
+
+        System.out.println("second Angle, x, and y after first meter move");
+        System.out.println(robotDrive.getRawAngle());
+        System.out.println(pose.getX());
+        System.out.println(pose.getY());
+      }),
+
+      new AutonRotate(robotDrive, 35),
       new AutonFaceAprilTag(robotDrive),
+      new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
       new ParallelCommandGroup(
-        new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
         new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
         new AimShooter(shooterTilt, true) // Then aims the shooter up to the speaker
       ),
 
-      new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
+      new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
+      new TiltShooterCommand(shooterTilt, 3)
     );
   }
 }

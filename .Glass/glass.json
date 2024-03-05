@@ -1,5 +1,23 @@
 {
+  "NetworkTables": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/SmartDashboard/Choose auton": "String Chooser",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Scheduler": "Scheduler"
+    },
+    "windows": {
+      "/SmartDashboard/Field": {
+        "window": {
+          "visible": true
+        }
+      }
+    }
+  },
   "NetworkTables Info": {
+    "Connections": {
+      "open": true
+    },
     "visible": true
   },
   "NetworkTables Settings": {

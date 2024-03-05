@@ -98,7 +98,7 @@ public final class Constants {
     // with Duty Cycle Position and Duty Cycle Velocity
 
     // PID controller
-    public static final double tiltP = 0.02;
+    public static final double tiltP = 0.015;
     public static final double tiltI = 0.0000001;
     public static final double tiltD = 0;
     public static final double speed = 1;
@@ -148,7 +148,7 @@ public final class Constants {
     public static final double i = 0;
     public static final double d = 0;
     public static final double speed = 0.5;
-    public static final double tolerance = 5;
+    public static final double tolerance = 10;
 
     public static final double minAngle = 0;
     public static final double maxAngle = 90;

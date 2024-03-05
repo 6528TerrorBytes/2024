@@ -136,6 +136,7 @@ public class RobotContainer {
 
     // Stop note up (bottom of controller, left side, bottom right button)
     new JoystickButton(leftJoystick, 14).onTrue(new StopNoteCommand(m_stopNote, false));
+    new JoystickButton(leftJoystick, 15).onTrue(new StopNoteCommand(m_stopNote, true));
 
     // ---------- OTHER JOYSTICK ----------
 
