@@ -4,7 +4,6 @@
 
 package frc.robot.commands.auton;
 
-import java.time.Instant;
 import java.util.List;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -15,6 +14,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 import edu.wpi.first.math.trajectory.TrajectoryGenerator;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
@@ -60,12 +61,12 @@ public final class AutonPaths {
 
   public static void setupAutonChooser() {
     chooser.setDefaultOption("Default Auton", defaultAuton);
-    chooser.addOption("Other Auton", other);
+    chooser.addOption("Other Auton", otherAuton);
     SmartDashboard.putData("Choose auton", chooser);
   }
 
   public static String getAuton() {
-    return choooser.getSelected();
+    return chooser.getSelected();
   }
 
   public static SwerveControllerCommand genSwerveCommand(Trajectory trajectory, DriveSubsystem robotDrive) {
@@ -95,7 +96,7 @@ public final class AutonPaths {
   public static Trajectory genTrajectory(Pose2d starting, List<Translation2d> points, Pose2d ending) {
     // Uses a cubic spline
     return TrajectoryGenerator.generateTrajectory(
-      starting, points, ending trajectoryConfig
+      starting, points, ending, trajectoryConfig
     );
   }
 
@@ -166,7 +167,7 @@ public final class AutonPaths {
         System.out.println(robotDrive.getRawAngle());
         System.out.println(pose.getX());
         System.out.println(pose.getY());
-      })
+      }),
       
       new ParallelCommandGroup(
         new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
