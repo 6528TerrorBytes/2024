@@ -23,7 +23,7 @@ public final class Utility {
 
     return (  
       (isRed && id == 4) ||
-      (isRed && id == 7)
+      (!isRed && id == 7)
     );
   }
 

@@ -27,7 +27,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.AutonConstants;
 import frc.robot.Constants.DriveConstants;
 import frc.robot.commands.AimShooter;
-import frc.robot.commands.intake.ConveyerComand;
+import frc.robot.commands.intake.ConveyerCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TiltShooterCommand;

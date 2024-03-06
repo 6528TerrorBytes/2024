@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ConveyerSubsystem;
 import frc.robot.subsystems.DetectNote;
 
-public class ConveyerComand extends Command {
+public class ConveyerCommand extends Command {
   private final ConveyerSubsystem m_conveyerSubsystem;
   private final DetectNote m_detectNote;
 
@@ -17,7 +17,7 @@ public class ConveyerComand extends Command {
   private boolean m_stopWhenDetected; // Whether or not to stop when a ring has been detected
 
   /** Creates a new ConveyerComand. */
-  public ConveyerComand(ConveyerSubsystem conveyerSubsystem, DetectNote detectNote, double speed, boolean stopWhenDetected) {
+  public ConveyerCommand(ConveyerSubsystem conveyerSubsystem, DetectNote detectNote, double speed, boolean stopWhenDetected) {
     m_conveyerSubsystem = conveyerSubsystem;
     m_detectNote = detectNote;
     m_speed = speed;

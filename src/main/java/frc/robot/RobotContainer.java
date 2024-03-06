@@ -30,7 +30,7 @@ import frc.robot.commands.auton.AutonFaceAprilTag;
 import frc.robot.commands.auton.AutonPaths;
 import frc.robot.commands.auton.FireShooter;
 import frc.robot.commands.auton.SpeedUpShooter;
-import frc.robot.commands.intake.ConveyerComand;
+import frc.robot.commands.intake.ConveyerCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.StopNoteCommand;
@@ -110,14 +110,14 @@ public class RobotContainer {
     // Runs intake, conveyer, and stop note down (back button)
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, true),
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 0.75, true),
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 0.75, true),
       new IntakeCommand(m_intakeSubsystem, 1)
     ));
     
     // Reverse intake (front bottom center button)
     new JoystickButton(rightJoystick, 2).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -0.75, false),
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -0.75, false),
       new IntakeCommand(m_intakeSubsystem, -0.75)
     ));
 
@@ -171,13 +171,13 @@ public class RobotContainer {
     // Manual conveyer forward (controller bottom top right)
     new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, false)
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, false)
     ));
 
     // Manual conveyer backward (controller bottom top left)
     new JoystickButton(otherJoystick, 7).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -1, false)
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false)
     ));
 
     // Manual aim to speaker (front top right button)
@@ -188,18 +188,18 @@ public class RobotContainer {
 
   private void oldControllerBindings() {
     new JoystickButton(leftJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, false),
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, false),
       new StopNoteCommand(m_stopNote, false)
     ));
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, 1, true),
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
       new IntakeCommand(m_intakeSubsystem, 1),
       new StopNoteCommand(m_stopNote, true)
     ));
 
     new JoystickButton(leftJoystick, 2).whileTrue(
-      new ConveyerComand(m_conveyerSubsystem, m_detectNote, -1, false)
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false)
     );
 
     new JoystickButton(rightJoystick, 2).whileTrue(new IntakeCommand(m_intakeSubsystem, -1));
