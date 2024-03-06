@@ -151,7 +151,7 @@ public class RobotContainer {
       ),
 
       new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
-      new TiltShooterCommand(m_shooterTilt, 3)
+      new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
     ));
 
     // Slow shoot for amp (front top left button)
@@ -162,11 +162,11 @@ public class RobotContainer {
       ),
 
       new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
-      new TiltShooterCommand(m_shooterTilt, 3)
+      new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
     ));
 
     // Bring the shooter up to vertical (front bottom right button)
-    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 3));
+    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
 
     // Manual conveyer forward (controller bottom top right)
     new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
@@ -212,7 +212,7 @@ public class RobotContainer {
     new JoystickButton(otherJoystick, 11).onTrue(new TiltShooterCommand(m_shooterTilt, 80));
     new JoystickButton(otherJoystick, 12).onTrue(new TiltShooterCommand(m_shooterTilt, 90));
     
-    new JoystickButton(rightJoystick, 14).onTrue(new TiltShooterCommand(m_shooterTilt, 3));
+    new JoystickButton(rightJoystick, 14).onTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
 
     new JoystickButton(leftJoystick, 4).whileTrue(new ShooterCommand(m_shooterSubsystem, 1));
     new JoystickButton(leftJoystick, 3).whileTrue(new ShooterCommand(m_shooterSubsystem, 0.2));

@@ -116,6 +116,9 @@ public final class Constants {
     public static final double tiltFeedforwardkGVolts = 0;
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
 
+    // Angle for bringing the arm all the way up
+    public static final double angleAtVertical = 3;
+
 
     // Aiming constants
     // Angle of the arm from vertical in radians

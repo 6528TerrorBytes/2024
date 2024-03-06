@@ -168,7 +168,7 @@ public final class AutonPaths {
       
       // Aim and shoot!
       new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
-      // new TiltShooterCommand(shooterTilt, 3),
+      // new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical),
       
       // Rotate back to zero and then move and pick up a ring
       new AutonRotate(robotDrive, 0),
@@ -188,7 +188,10 @@ public final class AutonPaths {
     );
 
     if (numberRings <= 2) {
-      return new SequentialCommandGroup(firstTwoRings, new TiltShooterCommand(shooterTilt, 3)); // Tilting up
+      return new SequentialCommandGroup(
+        firstTwoRings, 
+        new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      ); // Tilting up
     }
     
     Trajectory thirdMove = genTrajectory(List.of(
@@ -211,7 +214,7 @@ public final class AutonPaths {
       // new AutonRotate(robotDrive, 0),
       // new AutonFaceAprilTag(robotDrive),
       // new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
-      // new TiltShooterCommand(shooterTilt, 3)
+      // new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
     );
 
     System.out.println("third ring");
@@ -251,7 +254,7 @@ public final class AutonPaths {
 
       // Fire shooter and bring it back up after
       new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
-      new TiltShooterCommand(shooterTilt, 3)
+      new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
     );
   }
 }
