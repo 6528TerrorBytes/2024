@@ -4,7 +4,8 @@
       "/FMSInfo": "FMSInfo",
       "/SmartDashboard/Choose auton": "String Chooser",
       "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Scheduler": "Scheduler"
+      "/SmartDashboard/Scheduler": "Scheduler",
+      "/SmartDashboard/Select auton": "String Chooser"
     },
     "windows": {
       "/SmartDashboard/Field": {

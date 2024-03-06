@@ -132,7 +132,7 @@ public final class AutonPaths {
 
   // Robot rotates to your right (when facing it from intake) when direction is -1
   public static Command createMainAuton(
-    int direction,
+    int direction, int numberRings,
     DriveSubsystem robotDrive,
     ShooterTilt shooterTilt,
     StopNote stopNote,
@@ -160,7 +160,7 @@ public final class AutonPaths {
     robotDrive.setFieldTrajectory(secondMove);
 
     // Runs these commands in order
-    return new SequentialCommandGroup(
+    SequentialCommandGroup firstTwoRings = new SequentialCommandGroup(
       // Moves one meter out
       resetOdometryCommand(robotDrive, firstMove),
       firstMoveCommand,
@@ -183,8 +183,40 @@ public final class AutonPaths {
       new AutonRotate(robotDrive, -35 * direction),
       new AutonFaceAprilTag(robotDrive),
       new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
-      new TiltShooterCommand(shooterTilt, 3)
+      
+      outputPoseCommand(robotDrive)
     );
+
+    if (numberRings <= 2) {
+      return new SequentialCommandGroup(firstTwoRings, new TiltShooterCommand(shooterTilt, 3)); // Tilting up
+    }
+    
+    Trajectory thirdMove = genTrajectory(List.of(
+      new Pose2d(0, 0, Rotation2d.fromDegrees(-90 * direction)),
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-90 * direction))
+    ));
+    SwerveControllerCommand thirdMoveCommand = genSwerveCommand(thirdMove, robotDrive);
+
+    SequentialCommandGroup secondTwoRings = new SequentialCommandGroup(
+      resetOdometryCommand(robotDrive, thirdMove),
+
+      new AutonRotate(robotDrive, 90 * direction),
+      new MoveAndIntake(
+        thirdMoveCommand,
+        stopNote, detectNote, conveyerSubsystem, intakeSubsystem
+      ),
+      
+      outputPoseCommand(robotDrive)
+      
+      // new AutonRotate(robotDrive, 0),
+      // new AutonFaceAprilTag(robotDrive),
+      // new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
+      // new TiltShooterCommand(shooterTilt, 3)
+    );
+
+    System.out.println("third ring");
+
+    return new SequentialCommandGroup(firstTwoRings, secondTwoRings);
   }
 
   public static Command createCenteredAuton(

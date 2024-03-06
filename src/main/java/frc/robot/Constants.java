@@ -60,7 +60,7 @@ public final class Constants {
     public static final double aprilTagHorizontalEndRange = 2.5;
 
     // The time allowed to speed up the shooter in seconds before it fires
-    public static final double speedUpShooterSeconds = 0.8;
+    public static final double speedUpShooterSeconds = 1;
     public static final double conveyerRunSeconds = 0.5;
 
     public static final double ampSpeedUpSeconds = 0.4;
@@ -68,10 +68,10 @@ public final class Constants {
 
 
     // Auton driving
-    public static final double kMaxSpeedMetersPerSecond = 1;
+    public static final double kMaxSpeedMetersPerSecond = 4;
     public static final double kMaxAccelerationMetersPerSecondSquared = 2;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
+    public static final double kMaxAngularSpeedRadiansPerSecond = 1.5 * Math.PI;
+    public static final double kMaxAngularSpeedRadiansPerSecondSquared = 2 * Math.PI;
 
     public static final double kPXController = 1;
     public static final double kPYController = 1;

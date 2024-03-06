@@ -65,7 +65,7 @@ public class RobotContainer {
   public final ShooterTilt m_shooterTilt = new ShooterTilt();
   private final StopNote m_stopNote = new StopNote();
 
-  private final HangerArm m_hangerArm = new HangerArm();
+  public final HangerArm m_hangerArm = new HangerArm();
 
   private final DetectNote m_detectNote = new DetectNote();
 
@@ -166,7 +166,7 @@ public class RobotContainer {
     ));
 
     // Bring the shooter up to vertical (front bottom right button)
-    new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 3));
+    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 3));
 
     // Manual conveyer forward (controller bottom top right)
     new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
@@ -181,9 +181,9 @@ public class RobotContainer {
     ));
 
     // Manual aim to speaker (front top right button)
-    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 20));
-    // Manual aim to amp (front bottom right button)
-    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
+    // Manual aim to amp (front bottom left button)
+    new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
   }
 
   private void oldControllerBindings() {
@@ -236,7 +236,7 @@ public class RobotContainer {
       case AutonPaths.smallCornerAuton: // For starting the robot in the small corner of the field
         return AutonPaths.createMainAuton(
           -1  * (Utility.teamColorIsRed() ? 1 : -1), // Changes direction based on whether the team is read or not
-          m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
+          2, m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
       
       case AutonPaths.speakerCenterAuton: // For starting the robot centered against the front of the subwoofer/speaker
@@ -247,7 +247,7 @@ public class RobotContainer {
       case AutonPaths.bigSideAuton: // For starting the robot on the side of the speaker with a lot of room
         return AutonPaths.createMainAuton(
           1 * (Utility.teamColorIsRed() ? 1 : -1),
-          m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
+          2, m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
     }
 
