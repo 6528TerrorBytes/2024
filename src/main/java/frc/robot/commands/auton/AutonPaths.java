@@ -50,11 +50,16 @@ public final class AutonPaths {
   ).setKinematics(DriveConstants.kDriveKinematics);
 
   // PID controllers used for following the trajectory (correcting errors)
-  public static final PIDController xController = new PIDController(AutonConstants.kPXController, 0, 0);
-  public static final PIDController yController = new PIDController(AutonConstants.kPYController, 0, 0);
+  public static final PIDController xController = new PIDController(
+    AutonConstants.kPXController, AutonConstants.kIXController, 0
+  );
+  public static final PIDController yController = new PIDController(
+    AutonConstants.kPYController, AutonConstants.kIYController, 0
+  );
   // Angle correction PID Controller
   public static final ProfiledPIDController thetaController = new ProfiledPIDController(
-    AutonConstants.kPThetaController, 0, 0, AutonConstants.kThetaControllerConstraints
+    AutonConstants.kPThetaController, AutonConstants.kIThetaController, 0, 
+    AutonConstants.kThetaControllerConstraints
   );
 
   // Autonomous selector
