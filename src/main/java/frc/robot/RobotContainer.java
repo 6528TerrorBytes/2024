@@ -235,7 +235,7 @@ public class RobotContainer {
     switch (autonChosen) {
       case AutonPaths.smallCornerAuton: // For starting the robot in the small corner of the field
         return AutonPaths.createMainAuton(
-          -1  * (Utility.teamColorIsRed() ? 1 : -1) // Changes direction based on whether the team is read or not
+          -1  * (Utility.teamColorIsRed() ? 1 : -1), // Changes direction based on whether the team is read or not
           m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
       
@@ -246,7 +246,7 @@ public class RobotContainer {
       
       case AutonPaths.bigSideAuton: // For starting the robot on the side of the speaker with a lot of room
         return AutonPaths.createMainAuton(
-          1 * (Utility.teamColorIsRed() ? 1 : -1)
+          1 * (Utility.teamColorIsRed() ? 1 : -1),
           m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
     }

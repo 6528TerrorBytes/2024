@@ -127,7 +127,7 @@ public final class AutonPaths {
       System.out.println(robotDrive.getRawAngle());
       System.out.println(pose.getX());
       System.out.println(pose.getY());
-    }),
+    });
   }
 
   // Robot rotates to your right (when facing it from intake) when direction is -1
@@ -200,9 +200,9 @@ public final class AutonPaths {
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
       new Pose2d(1.75, 0, Rotation2d.fromDegrees(0))
     ));
-    SwerveControllerCommand moveOutCommand = genSwerveCommand(firstMove, robotDrive);
+    SwerveControllerCommand moveOutCommand = genSwerveCommand(moveOut, robotDrive);
 
-    return SequentialCommandGroup(
+    return new SequentialCommandGroup(
       resetOdometryCommand(robotDrive, moveOut),
 
       // Aim and shoot the initial ring (only aiming vertically)
@@ -210,7 +210,7 @@ public final class AutonPaths {
 
       // Moves out the distance to pick up a ring
       new MoveAndIntake(
-        moveOut,
+        moveOutCommand,
         stopNote, detectNote, conveyerSubsystem, intakeSubsystem
       ),
 
@@ -220,6 +220,6 @@ public final class AutonPaths {
       // Fire shooter and bring it back up after
       new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
       new TiltShooterCommand(shooterTilt, 3)
-    )
+    );
   }
 }

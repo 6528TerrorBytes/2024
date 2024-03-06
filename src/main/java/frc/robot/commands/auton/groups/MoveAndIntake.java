@@ -6,14 +6,18 @@ import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.StopNoteCommand;
+import frc.robot.subsystems.ConveyerSubsystem;
+import frc.robot.subsystems.DetectNote;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.StopNote;
 
 // Moves and intakes until it detects a note
 public class MoveAndIntake extends ParallelDeadlineGroup {
-  public AimAndShoot(Command moveCommand, StopNote stopNote, DetectNote detectNote, ConveyerSubsystem conveyerSubsystem, IntakeSubsystem intakeSubsystem) {
-    addCommands(// Ends when the conveyer command ends, when a note has been detected
+  public MoveAndIntake(Command moveCommand, StopNote stopNote, DetectNote detectNote, ConveyerSubsystem conveyerSubsystem, IntakeSubsystem intakeSubsystem) {
+    super(// Ends when the conveyer command ends, when a note has been detected
       new ConveyerComand(conveyerSubsystem, detectNote, 1, true), // "Deadline" command (entire command ends when this ends)
 
-      new IntakeCommand(intakeSubsystem, 1) // Run intake
+      new IntakeCommand(intakeSubsystem, 1), // Run intake
       new StopNoteCommand(stopNote, true), // Brings note stopper down
       moveCommand // Command to follow the trajectory
     );
