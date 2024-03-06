@@ -57,6 +57,10 @@ public final class Utility {
     return Timer.getFPGATimestamp();
   }
 
+  public static double getMatchTime() {
+    return Timer.getMatchTime();
+  }
+
   public static void updateSmartDashboard() {
     boolean canSee = LimelightHelpers.getTV("limelight");
     double tx = LimelightHelpers.getTX("limelight");

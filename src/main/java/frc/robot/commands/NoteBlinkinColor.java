@@ -6,6 +6,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.Utility;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.DetectNote;
 
@@ -22,6 +23,8 @@ public class NoteBlinkinColor extends Command {
 
   @Override
   public void execute() {
+    double secondsLeftInPeriod = Utility.getMatchTime();
+    
     if (m_detectNote.activated()) {
       m_blinkin.setColor(Constants.BlinkinConstants.green);
     } else {
