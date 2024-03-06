@@ -31,6 +31,8 @@ import frc.robot.commands.intake.ConveyerComand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TiltShooterCommand;
+import frc.robot.commands.auton.groups.AimAndShoot;
+import frc.robot.commands.auton.groups.MoveAndIntake;
 import frc.robot.subsystems.ConveyerSubsystem;
 import frc.robot.subsystems.DetectNote;
 import frc.robot.subsystems.DriveSubsystem;
@@ -56,14 +58,16 @@ public final class AutonPaths {
   );
 
   // Autonomous selector
-  public static final String defaultAuton = "default";
-  public static final String otherAuton = "other";
+  public static final String smallCornerAuton = "smallCorner";
+  public static final String speakerCenterAuton = "speakerCenter";
+  public static final String bigSideAuton = "bigSide";
   public static final SendableChooser<String> chooser = new SendableChooser<>();
 
   public static void setupAutonChooser() {
-    chooser.setDefaultOption("Default Auton", defaultAuton);
-    chooser.addOption("Other Auton", otherAuton);
-    SmartDashboard.putData("Choose auton", chooser);
+    chooser.setDefaultOption("Small Corner Auton", smallCornerAuton);
+    chooser.addOption("Speaker Center Auton", speakerCenterAuton);
+    chooser.addOption("Big Side Auton", bigSideAuton);
+    SmartDashboard.putData("Select auton", chooser);
   }
 
   public static String getAuton() {
@@ -106,28 +110,24 @@ public final class AutonPaths {
     return new InstantCommand(() -> robotDrive.resetOdometry(trajectory.getInitialPose())); // Reset the odometry of the bot to 0, 0, 0
   }
 
-  public static Command createDefaultAuton(DriveSubsystem robotDrive) {
-    Trajectory trajectory = genTrajectory(
-      new Pose2d(0, 0, new Rotation2d(0)),
-      List.of(
-        new Translation2d(0.5, 0.5)
-      ),
-      new Pose2d(1, 0, Rotation2d.fromDegrees(-90))
-    );
-
-    SwerveControllerCommand swerveCommand = genSwerveCommand(trajectory, robotDrive);
-    // AutonRotate autonRotate = new AutonRotate(robotDrive);
-    
-    // Runs these three things in order as a single command
-    return new SequentialCommandGroup(
-      new InstantCommand(() -> robotDrive.resetOdometry(trajectory.getInitialPose())), 
-      swerveCommand, // Run the swerve auton with the trajectory
-      // autonRotate, // Rotates the bot 45 degrees maybe
-      new InstantCommand(() -> robotDrive.setX()) // Sets wheels to X positions after
-    );
+  public static InstantCommand setDriveX(DriveSubsystem robotDrive) {
+    return new InstantCommand(() -> robotDrive.setX());
   }
 
+  public static InstantCommand outputPoseCommand(DriveSubsystem robotDrive) {
+    return new InstantCommand(() -> {
+      Pose2d pose = robotDrive.getPose();
+
+      System.out.println("Angle, x, and y (respectively):");
+      System.out.println(robotDrive.getRawAngle());
+      System.out.println(pose.getX());
+      System.out.println(pose.getY());
+    }),
+  }
+
+  // Robot rotates to your right (when facing it from intake) when direction is -1
   public static Command createMainAuton(
+    int direction,
     DriveSubsystem robotDrive,
     ShooterTilt shooterTilt,
     StopNote stopNote,
@@ -139,7 +139,7 @@ public final class AutonPaths {
     // Generate trajectories
     Trajectory firstMove = genTrajectory(List.of(
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-40))
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(40 * direction))
     ));
     SwerveControllerCommand firstMoveCommand = genSwerveCommand(firstMove, robotDrive);
     // FollowTrajectory moveOneMeterCommand = new FollowTrajectory(robotDrive, moveOneMeter, -45);
@@ -152,61 +152,69 @@ public final class AutonPaths {
     ));
     SwerveControllerCommand secondMoveCommand = genSwerveCommand(secondMove, robotDrive);
     
-    robotDrive.setFieldTrajectory(secondMove); // Show on SmartDashboard/Glass
+    robotDrive.setFieldTrajectory(secondMove);
 
     // Runs these commands in order
     return new SequentialCommandGroup(
+      // Moves one meter out
       resetOdometryCommand(robotDrive, firstMove),
-      firstMoveCommand, // Moves one meter out
-
-      // Output odometry values to see if they're accurate
-      new InstantCommand(() -> {
-        Pose2d pose = robotDrive.getPose();
-
-        System.out.println("first Angle, x, and y after first meter move");
-        System.out.println(robotDrive.getRawAngle());
-        System.out.println(pose.getX());
-        System.out.println(pose.getY());
-      }),
+      firstMoveCommand,
+      outputPoseCommand(robotDrive),
       
-      new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
-      new ParallelCommandGroup(
-        new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new AimShooter(shooterTilt, true) // Then aims the shooter up to the speaker
-      ),
-      
-      new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
+      // Aim and shoot!
+      new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
       // new TiltShooterCommand(shooterTilt, 3),
-      new AutonRotate(robotDrive, 0),
-
-      new ParallelDeadlineGroup( // Ends when the conveyer command ends, when a note has been detected
-        new ConveyerComand(conveyerSubsystem, detectNote, 1, true),
-        new StopNoteCommand(stopNote, true), // Brings note stopper down
-        secondMoveCommand,
-        new IntakeCommand(intakeSubsystem, 1) // Run intake
-      ),
-
-      new InstantCommand(() -> robotDrive.setX()),
       
-      new InstantCommand(() -> {
-        Pose2d pose = robotDrive.getPose();
-
-        System.out.println("second Angle, x, and y after first meter move");
-        System.out.println(robotDrive.getRawAngle());
-        System.out.println(pose.getX());
-        System.out.println(pose.getY());
-      }),
-
-      new AutonRotate(robotDrive, 35),
-      new AutonFaceAprilTag(robotDrive),
-      new StopNoteCommand(stopNote, false), // Making sure the stop note goes up
-      new ParallelCommandGroup(
-        new SpeedUpShooter(shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new AimShooter(shooterTilt, true) // Then aims the shooter up to the speaker
+      // Rotate back to zero and then move and pick up a ring
+      new AutonRotate(robotDrive, 0),
+      new MoveAndIntake(
+        secondMoveCommand,
+        stopNote, detectNote, conveyerSubsystem, intakeSubsystem
       ),
 
-      new FireShooter(conveyerSubsystem, shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
+      outputPoseCommand(robotDrive),
+
+      // Rotate a bit, aim to AprilTag horizontally, then aim vertically and shoot
+      new AutonRotate(robotDrive, -35 * direction),
+      new AutonFaceAprilTag(robotDrive),
+      new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
       new TiltShooterCommand(shooterTilt, 3)
     );
+  }
+
+  public static Command createCenteredAuton(
+    DriveSubsystem robotDrive,
+    ShooterTilt shooterTilt,
+    StopNote stopNote,
+    ConveyerSubsystem conveyerSubsystem,
+    ShooterSubsystem shooterSubsystem,
+    DetectNote detectNote,
+    IntakeSubsystem intakeSubsystem
+  ) {
+    Trajectory moveOut = genTrajectory(List.of(
+      new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+      new Pose2d(1.75, 0, Rotation2d.fromDegrees(0))
+    ));
+    SwerveControllerCommand moveOutCommand = genSwerveCommand(firstMove, robotDrive);
+
+    return SequentialCommandGroup(
+      resetOdometryCommand(robotDrive, moveOut),
+
+      // Aim and shoot the initial ring (only aiming vertically)
+      new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
+
+      // Moves out the distance to pick up a ring
+      new MoveAndIntake(
+        moveOut,
+        stopNote, detectNote, conveyerSubsystem, intakeSubsystem
+      ),
+
+      setDriveX(robotDrive),      
+      outputPoseCommand(robotDrive),
+
+      // Fire shooter and bring it back up after
+      new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
+      new TiltShooterCommand(shooterTilt, 3)
+    )
   }
 }

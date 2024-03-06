@@ -228,31 +228,31 @@ public class RobotContainer {
   }
 
   public Command getAutonomousCommand() {
-    // return new AutonFaceAprilTag(m_robotDrive);
-    m_blinkin.resetToTeamColor();
-
     String autonChosen = AutonPaths.getAuton();
     System.out.println("Making Autonomous: " + autonChosen);
 
+    // Running the autonomous selected in the SmartDashboard
     switch (autonChosen) {
-      case AutonPaths.defaultAuton:
+      case AutonPaths.smallCornerAuton: // For starting the robot in the small corner of the field
         return AutonPaths.createMainAuton(
-          m_robotDrive,
-          m_shooterTilt,
-          m_stopNote,
-          m_conveyerSubsystem,
-          m_shooterSubsystem,
-          m_detectNote,
-          m_intakeSubsystem
+          -1  * (Utility.teamColorIsRed() ? 1 : -1) // Changes direction based on whether the team is read or not
+          m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
       
-      case AutonPaths.otherAuton:
-        return AutonPaths.createDefaultAuton(
-          m_robotDrive
+      case AutonPaths.speakerCenterAuton: // For starting the robot centered against the front of the subwoofer/speaker
+        return AutonPaths.createCenteredAuton(
+          m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
+        );
+      
+      case AutonPaths.bigSideAuton: // For starting the robot on the side of the speaker with a lot of room
+        return AutonPaths.createMainAuton(
+          1 * (Utility.teamColorIsRed() ? 1 : -1)
+          m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
     }
 
-    return null;
+    System.out.println("INCORRECT SMARTDASHBOARD AUTON SELECTION (somehow)");
+    return null; // Something bad happened
   }
 
   public Command getTestCommand() {
