@@ -32,7 +32,7 @@ public class AutonRotate extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_diff = m_angleGoal - m_driveSubsystem.getRawAngle();
+    m_diff = m_driveSubsystem.getRawAngle() - m_angleGoal;
     double speed = Utility.calcSpeedFaceTag(m_diff);
     
     m_driveSubsystem.drive(0, 0, speed, true, true);

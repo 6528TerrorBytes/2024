@@ -287,7 +287,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @return the raw gyro angle from the lib.
    */
   public double getRawAngle() {
-    return m_gyro.getAngle();
+    return -m_gyro.getAngle();
   }
 
   /**

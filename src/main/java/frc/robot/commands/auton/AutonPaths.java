@@ -49,19 +49,6 @@ public final class AutonPaths {
     AutonConstants.kMaxAccelerationMetersPerSecondSquared
   ).setKinematics(DriveConstants.kDriveKinematics);
 
-  // PID controllers used for following the trajectory (correcting errors)
-  public static final PIDController xController = new PIDController(
-    AutonConstants.kPXController, AutonConstants.kIXController, 0
-  );
-  public static final PIDController yController = new PIDController(
-    AutonConstants.kPYController, AutonConstants.kIYController, 0
-  );
-  // Angle correction PID Controller
-  public static final ProfiledPIDController thetaController = new ProfiledPIDController(
-    AutonConstants.kPThetaController, AutonConstants.kIThetaController, 0, 
-    AutonConstants.kThetaControllerConstraints
-  );
-
   // Autonomous selector
   public static final String smallCornerAuton = "smallCorner";
   public static final String speakerCenterAuton = "speakerCenter";
@@ -80,6 +67,18 @@ public final class AutonPaths {
   }
 
   public static SwerveControllerCommand genSwerveCommand(Trajectory trajectory, DriveSubsystem robotDrive) {
+    // PID controllers used for following the trajectory (correcting errors)
+    PIDController xController = new PIDController(
+      AutonConstants.kPXController, AutonConstants.kIXController, 0
+    );
+    PIDController yController = new PIDController(
+      AutonConstants.kPYController, AutonConstants.kIYController, 0
+    );
+    // Angle correction PID Controller
+    ProfiledPIDController thetaController = new ProfiledPIDController(
+      AutonConstants.kPThetaController, AutonConstants.kIThetaController, 0, 
+      AutonConstants.kThetaControllerConstraints
+    );
     thetaController.enableContinuousInput(-Math.PI, Math.PI);
 
     // Handles the swerve trajectory stuff
@@ -180,7 +179,7 @@ public final class AutonPaths {
       outputPoseCommand(robotDrive),
 
       // Rotate a bit, aim to AprilTag horizontally, then aim vertically and shoot
-      new AutonRotate(robotDrive, -35 * direction),
+      new AutonRotate(robotDrive, 35 * direction),
       new AutonFaceAprilTag(robotDrive),
       new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
       
@@ -195,15 +194,13 @@ public final class AutonPaths {
     }
     
     Trajectory thirdMove = genTrajectory(List.of(
-      new Pose2d(0, 0, Rotation2d.fromDegrees(-90 * direction)),
-      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-90 * direction))
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-90 * direction)),
+      new Pose2d(1.5, 0.5, Rotation2d.fromDegrees(-90 * direction))
     ));
     SwerveControllerCommand thirdMoveCommand = genSwerveCommand(thirdMove, robotDrive);
 
     SequentialCommandGroup secondTwoRings = new SequentialCommandGroup(
-      resetOdometryCommand(robotDrive, thirdMove),
-
-      new AutonRotate(robotDrive, 90 * direction),
+      new AutonRotate(robotDrive, -90 * direction),
       new MoveAndIntake(
         thirdMoveCommand,
         stopNote, detectNote, conveyerSubsystem, intakeSubsystem
