@@ -17,7 +17,7 @@ public class NoteBlinkinColor extends Command {
   private boolean m_isTeleop;
 
   private final double timeToWarn = 20; // Warn at 20 seconds left
-  private final double warnEnd = 15; // Ends five seconds later
+  private final double warnEnd = 17; // Time when the flashing ends
 
   /** Creates a new NoteBlinkinColor. */
   public NoteBlinkinColor(Blinkin blinkin, DetectNote detectNote) {
