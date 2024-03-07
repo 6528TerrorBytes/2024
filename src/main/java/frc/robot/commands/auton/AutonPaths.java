@@ -194,8 +194,8 @@ public final class AutonPaths {
     }
     
     Trajectory thirdMove = genTrajectory(List.of(
-      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-90 * direction)),
-      new Pose2d(1.5, 0.5, Rotation2d.fromDegrees(-90 * direction))
+      new Pose2d(1.5, 0, Rotation2d.fromDegrees(-90 * direction)), // Then try these at 0 degrees
+      new Pose2d(1.5, 0.2, Rotation2d.fromDegrees(-90 * direction))
     ));
     SwerveControllerCommand thirdMoveCommand = genSwerveCommand(thirdMove, robotDrive);
 
