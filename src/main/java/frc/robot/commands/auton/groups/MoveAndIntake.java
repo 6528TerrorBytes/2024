@@ -14,7 +14,7 @@ import frc.robot.subsystems.StopNote;
 // Moves and intakes until it detects a note
 public class MoveAndIntake extends ParallelDeadlineGroup {
   public MoveAndIntake(Command moveCommand, StopNote stopNote, DetectNote detectNote, ConveyerSubsystem conveyerSubsystem, IntakeSubsystem intakeSubsystem) {
-    super(// Ends when the conveyer command ends, when a note has been detected
+    super( // Ends when the conveyer command ends, when a note has been detected
       new ConveyerCommand(conveyerSubsystem, detectNote, 1, true), // "Deadline" command (entire command ends when this ends)
 
       new IntakeCommand(intakeSubsystem, 1), // Run intake

@@ -183,6 +183,9 @@ public final class Constants {
     public static final double blue = 0.87;
     public static final double red = 0.61;
     public static final double green = 0.77;
+
+    public static final double strobeRed = -0.11;
+    public static final double strobeBlue = -0.09;
   }
 
   // default copy-pasted stuff here:

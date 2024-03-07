@@ -17,12 +17,14 @@ public class Blinkin extends SubsystemBase {
   /** Creates a new Blinkin. */
   public Blinkin() {}
 
-  public void resetToTeamColor() {
-    DriverStation.Alliance alliance = Utility.getAlliance();
-    if (alliance == DriverStation.Alliance.Blue) {
-      setColor(Constants.BlinkinConstants.blue);
+  public void resetToTeamColor(
+    double blueTeamColor,
+    double redTeamColor
+  ) {
+    if (Utility.teamColorIsRed()) {
+      setColor(redTeamColor);
     } else {
-      setColor(Constants.BlinkinConstants.red);
+      setColor(blueTeamColor);
     }
   }
 
@@ -31,5 +33,9 @@ public class Blinkin extends SubsystemBase {
       m_currentColor = color;
       m_blinkin.set(color);
     }
+  }
+
+  public void getColor() {
+    return m_currentColor;
   }
 }

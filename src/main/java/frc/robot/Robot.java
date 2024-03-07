@@ -75,6 +75,8 @@ public class Robot extends TimedRobot {
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     m_autonomousCommand.schedule();
+
+    m_robotContainer.setTeleop(false);
   }
 
   /** This function is called periodically during autonomous. */
@@ -85,6 +87,8 @@ public class Robot extends TimedRobot {
   public void teleopInit() {
     stopAutonomousCommand();
     stopTestCommand();
+
+    m_robotContainer.setTeleop(true);
   }
 
   /** This function is called periodically during operator control. */
@@ -98,6 +102,8 @@ public class Robot extends TimedRobot {
 
     m_testCommand = m_robotContainer.getTestCommand();
     m_testCommand.schedule();
+
+    m_robotContainer.setTeleop(false);
   }
 
   /** This function is called periodically during test mode. */
@@ -106,7 +112,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once when the robot is first started up. */
   @Override
-  public void simulationInit() {}
+  public void simulationInit() {
+    m_robotContainer.setTeleop(false);
+  }
 
   /** This function is called periodically whilst in simulation. */
   @Override

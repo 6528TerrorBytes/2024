@@ -70,6 +70,8 @@ public class RobotContainer {
   private final DetectNote m_detectNote = new DetectNote();
 
   private final Blinkin m_blinkin = new Blinkin();
+
+  private final NoteBlinkinColor m_blinkinCommand;
   
   // Configure information based on the driver station Team Station
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
@@ -98,7 +100,8 @@ public class RobotContainer {
     }
 
     // Updates the blinkin color depending on whether there's a note in it
-    m_blinkin.setDefaultCommand(new NoteBlinkinColor(m_blinkin, m_detectNote));
+    m_blinkinCommand = new NoteBlinkinColor(m_blinkin, m_detectNote);
+    m_blinkin.setDefaultCommand(m_blinkinCommand);
 
     // Configure the trigger bindings
     finalControllerBindings();
@@ -257,5 +260,11 @@ public class RobotContainer {
 
   public Command getTestCommand() {
     return new AutonFaceAprilTag(m_robotDrive);
+  }
+
+  public void setTeleop(boolean isTeleop) {
+    System.out.println("IS TELEOP:");
+    System.out.println(isTeleop);
+    m_blinkinCommand.setTeleop(isTeleop);
   }
 }

@@ -14,6 +14,11 @@ public class NoteBlinkinColor extends Command {
   private final Blinkin m_blinkin;
   private final DetectNote m_detectNote;
 
+  private boolean m_isTeleop;
+
+  private final double timeToWarn = 20; // Warn at 20 seconds left
+  private final double warnEnd = 15; // Ends five seconds later
+
   /** Creates a new NoteBlinkinColor. */
   public NoteBlinkinColor(Blinkin blinkin, DetectNote detectNote) {
     m_blinkin = blinkin;
@@ -24,17 +29,36 @@ public class NoteBlinkinColor extends Command {
   @Override
   public void execute() {
     double secondsLeftInPeriod = Utility.getMatchTime();
+
+    System.out.println(secondsLeftInPeriod);
+
+    // Between the time where the flash occurs
+    if (m_isTeleop && (warnEnd < secondsLeftInPeriod) && (secondsLeftInPeriod < timeTowarn)) {
+      System.out.println("strobing");
+      m_blinkin.resetToTeamColor( // Set to strobe colors
+        Constants.BlinkinConstants.strobeBlue,
+        Constants.BlinkinConstants.strobeRed
+      );
+      return;
+    }
     
+    // Sets to green if it has a note, otherwise to the team color
     if (m_detectNote.activated()) {
       m_blinkin.setColor(Constants.BlinkinConstants.green);
     } else {
-      m_blinkin.resetToTeamColor();
+      m_blinkin.resetToTeamColor(
+        Constants.BlinkinConstants.blue,
+        Constants.BlinkinConstants.red
+      );
     }
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return false; // Command runs indefinitely
+  }
+
+  public void setTeleop(boolean isTeleop) {
+    m_isTeleop = isTeleop;
   }
 }
