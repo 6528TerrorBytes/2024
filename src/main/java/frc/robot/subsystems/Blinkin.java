@@ -35,7 +35,7 @@ public class Blinkin extends SubsystemBase {
     }
   }
 
-  public void getColor() {
+  public double getColor() {
     return m_currentColor;
   }
 }

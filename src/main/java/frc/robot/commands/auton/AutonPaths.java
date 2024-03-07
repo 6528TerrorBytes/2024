@@ -54,7 +54,7 @@ public final class AutonPaths {
   public static final String speakerCenterAuton = "speakerCenter";
   public static final String bigSideAuton = "bigSide";
   public static final SendableChooser<String> autonChooser = new SendableChooser<>();
-  public static final SendableChooser<int> ringNumberChooser = new SendableChooser<>();
+  public static final SendableChooser<Integer> ringNumberChooser = new SendableChooser<>();
 
   public static void setupAutonChooser() {
     autonChooser.setDefaultOption("Small Corner Auton", smallCornerAuton);
@@ -241,7 +241,7 @@ public final class AutonPaths {
 
     // Three rings
     return new SequentialCommandGroup(
-      firstRing, secondRing, thirdRing
+      firstRing, secondRing, thirdRing,
       new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
     );
   }
@@ -256,6 +256,12 @@ public final class AutonPaths {
     IntakeSubsystem intakeSubsystem
   ) {
     int numberRings = getNumberRings();
+    
+    Trajectory moveOut = genTrajectory(List.of(
+      new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
+      new Pose2d(1.75, 0, Rotation2d.fromDegrees(0))
+    ));
+    SwerveControllerCommand moveOutCommand = genSwerveCommand(moveOut, robotDrive);
 
     if (numberRings == 1) {
       return new SequentialCommandGroup(
@@ -264,13 +270,6 @@ public final class AutonPaths {
         new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
       );
     }
-
-
-    Trajectory moveOut = genTrajectory(List.of(
-      new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
-      new Pose2d(1.75, 0, Rotation2d.fromDegrees(0))
-    ));
-    SwerveControllerCommand moveOutCommand = genSwerveCommand(moveOut, robotDrive);
 
     return new SequentialCommandGroup(
       resetOdometryCommand(robotDrive, moveOut),
