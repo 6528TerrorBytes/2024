@@ -53,17 +53,29 @@ public final class AutonPaths {
   public static final String smallCornerAuton = "smallCorner";
   public static final String speakerCenterAuton = "speakerCenter";
   public static final String bigSideAuton = "bigSide";
-  public static final SendableChooser<String> chooser = new SendableChooser<>();
+  public static final SendableChooser<String> autonChooser = new SendableChooser<>();
+  public static final SendableChooser<int> ringNumberChooser = new SendableChooser<>();
 
   public static void setupAutonChooser() {
-    chooser.setDefaultOption("Small Corner Auton", smallCornerAuton);
-    chooser.addOption("Speaker Center Auton", speakerCenterAuton);
-    chooser.addOption("Big Side Auton", bigSideAuton);
-    SmartDashboard.putData("Select auton", chooser);
+    autonChooser.setDefaultOption("Small Corner Auton", smallCornerAuton);
+    autonChooser.addOption("Speaker Center Auton", speakerCenterAuton);
+    autonChooser.addOption("Big Side Auton", bigSideAuton);
+    SmartDashboard.putData("Select auton", autonChooser);
+  }
+
+  public static void setupRingNumberChooser() {
+    ringNumberChooser.addOption("1 Ring Auton", 1);
+    ringNumberChooser.setDefaultOption("2 Ring Auton", 2);
+    ringNumberChooser.addOption("3 Ring Auton", 3);
+    SmartDashboard.putData("Select ring count", ringNumberChooser);
   }
 
   public static String getAuton() {
-    return chooser.getSelected();
+    return autonChooser.getSelected();
+  }
+
+  public static int getNumberRings() {
+    return ringNumberChooser.getSelected();
   }
 
   public static SwerveControllerCommand genSwerveCommand(Trajectory trajectory, DriveSubsystem robotDrive) {
@@ -129,9 +141,9 @@ public final class AutonPaths {
     });
   }
 
-  // Robot rotates to your right (when facing it from intake) when direction is -1
+  // Direction positive when on the right of the speaker, negative when on the left
   public static Command createMainAuton(
-    int direction, int numberRings,
+    int direction,
     DriveSubsystem robotDrive,
     ShooterTilt shooterTilt,
     StopNote stopNote,
@@ -140,6 +152,10 @@ public final class AutonPaths {
     DetectNote detectNote,
     IntakeSubsystem intakeSubsystem
   ) {
+    int numberRings = getNumberRings();
+    System.out.println("Auton ring count:");
+    System.out.println(numberRings);
+
     // Generate trajectories
     Trajectory firstMove = genTrajectory(List.of(
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
@@ -147,36 +163,40 @@ public final class AutonPaths {
     ));
     SwerveControllerCommand firstMoveCommand = genSwerveCommand(firstMove, robotDrive);
     // FollowTrajectory moveOneMeterCommand = new FollowTrajectory(robotDrive, moveOneMeter, -45);
+    // robotDrive.setFieldTrajectory(firstMove); // Show on SmartDashboard/Glass
 
-    robotDrive.setFieldTrajectory(firstMove); // Show on SmartDashboard/Glass
+    // Runs these commands in order
+    SequentialCommandGroup firstRing = new SequentialCommandGroup(
+      // Moves one meter out
+      resetOdometryCommand(robotDrive, firstMove),
+      firstMoveCommand,
+      
+      // Aim and shoot!
+      new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
+      outputPoseCommand(robotDrive)
+    );
+
+    // ONE RING STOPS HERE
+    if (numberRings == 1) {
+      return new SequentialCommandGroup(
+        firstRing, new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      );
+    }
+
 
     Trajectory secondMove = genTrajectory(List.of(
       new Pose2d(1.5, 0, Rotation2d.fromDegrees(0)),
       new Pose2d(2.7, 0, Rotation2d.fromDegrees(0))
     ));
     SwerveControllerCommand secondMoveCommand = genSwerveCommand(secondMove, robotDrive);
-    
-    robotDrive.setFieldTrajectory(secondMove);
 
-    // Runs these commands in order
-    SequentialCommandGroup firstTwoRings = new SequentialCommandGroup(
-      // Moves one meter out
-      resetOdometryCommand(robotDrive, firstMove),
-      firstMoveCommand,
-      outputPoseCommand(robotDrive),
-      
-      // Aim and shoot!
-      new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
-      // new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical),
-      
+    SequentialCommandGroup secondRing = new SequentialCommandGroup(
       // Rotate back to zero and then move and pick up a ring
       new AutonRotate(robotDrive, 0),
       new MoveAndIntake(
         secondMoveCommand,
         stopNote, detectNote, conveyerSubsystem, intakeSubsystem
       ),
-
-      outputPoseCommand(robotDrive),
 
       // Rotate a bit, aim to AprilTag horizontally, then aim vertically and shoot
       new AutonRotate(robotDrive, 35 * direction),
@@ -186,12 +206,14 @@ public final class AutonPaths {
       outputPoseCommand(robotDrive)
     );
 
-    if (numberRings <= 2) {
+    // TWO NOTE STOPS HERE
+    if (numberRings == 2) {
       return new SequentialCommandGroup(
-        firstTwoRings, 
+        firstRing, secondRing, 
         new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
-      ); // Tilting up
+      );
     }
+
     
     Trajectory thirdMove = genTrajectory(List.of(
       new Pose2d(1.5, 0, Rotation2d.fromDegrees(-90 * direction)), // Then try these at 0 degrees
@@ -199,8 +221,11 @@ public final class AutonPaths {
     ));
     SwerveControllerCommand thirdMoveCommand = genSwerveCommand(thirdMove, robotDrive);
 
-    SequentialCommandGroup secondTwoRings = new SequentialCommandGroup(
+    SequentialCommandGroup thirdRing = new SequentialCommandGroup(
       new AutonRotate(robotDrive, -90 * direction),
+
+      outputPoseCommand(robotDrive),
+      
       new MoveAndIntake(
         thirdMoveCommand,
         stopNote, detectNote, conveyerSubsystem, intakeSubsystem
@@ -214,9 +239,11 @@ public final class AutonPaths {
       // new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
     );
 
-    System.out.println("third ring");
-
-    return new SequentialCommandGroup(firstTwoRings, secondTwoRings);
+    // Three rings
+    return new SequentialCommandGroup(
+      firstRing, secondRing, thirdRing
+      new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
+    );
   }
 
   public static Command createCenteredAuton(
@@ -228,6 +255,17 @@ public final class AutonPaths {
     DetectNote detectNote,
     IntakeSubsystem intakeSubsystem
   ) {
+    int numberRings = getNumberRings();
+
+    if (numberRings == 1) {
+      return new SequentialCommandGroup(
+        resetOdometryCommand(robotDrive, moveOut),
+        new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
+        new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      );
+    }
+
+
     Trajectory moveOut = genTrajectory(List.of(
       new Pose2d(0, 0, Rotation2d.fromDegrees(0)),
       new Pose2d(1.75, 0, Rotation2d.fromDegrees(0))

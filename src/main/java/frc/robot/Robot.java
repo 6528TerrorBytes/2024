@@ -32,10 +32,11 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
 
-    // Put running commands in the SmartDashboard (?)
-    SmartDashboard.putData(CommandScheduler.getInstance());
-
     AutonPaths.setupAutonChooser();
+    AutonPaths.setupRingNumberChooser();
+
+    // Put running commands in the SmartDashboard
+    SmartDashboard.putData(CommandScheduler.getInstance());
   }
 
   /**
