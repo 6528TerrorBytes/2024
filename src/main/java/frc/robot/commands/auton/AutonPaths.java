@@ -66,7 +66,6 @@ public final class AutonPaths {
   public static void setupRingNumberChooser() {
     ringNumberChooser.addOption("1 Ring Auton", 1);
     ringNumberChooser.setDefaultOption("2 Ring Auton", 2);
-    ringNumberChooser.addOption("3 Ring Auton", 3);
     SmartDashboard.putData("Select ring count", ringNumberChooser);
   }
 
@@ -143,7 +142,7 @@ public final class AutonPaths {
 
   // Direction positive when on the right of the speaker, negative when on the left
   public static Command createMainAuton(
-    int direction,
+    int direction, boolean moveAfterSecond,
     DriveSubsystem robotDrive,
     ShooterTilt shooterTilt,
     StopNote stopNote,
@@ -186,7 +185,7 @@ public final class AutonPaths {
 
     Trajectory secondMove = genTrajectory(List.of(
       new Pose2d(1.5, 0, Rotation2d.fromDegrees(0)),
-      new Pose2d(2.7, 0, Rotation2d.fromDegrees(0))
+      new Pose2d(2.25, 0, Rotation2d.fromDegrees(0))
     ));
     SwerveControllerCommand secondMoveCommand = genSwerveCommand(secondMove, robotDrive);
 
@@ -196,7 +195,23 @@ public final class AutonPaths {
       new MoveAndIntake(
         secondMoveCommand,
         stopNote, detectNote, conveyerSubsystem, intakeSubsystem
-      ),
+      )
+    );
+
+    if (moveAfterSecond) { // Moves to the side to avoid the metal stuff
+      Trajectory moveForward = genTrajectory(List.of(
+        new Pose2d(2, 0, Rotation2d.fromDegrees(0)),
+        new Pose2d(2, 1 * direction, Rotation2d.fromDegrees(0))
+      ));
+      SwerveControllerCommand moveForwardCommand = genSwerveCommand(moveForward, robotDrive);
+
+      secondRing = new SequentialCommandGroup(
+        secondRing, moveForwardCommand
+      );
+    }
+    
+    secondRing = new SequentialCommandGroup(
+      secondRing,
 
       // Rotate a bit, aim to AprilTag horizontally, then aim vertically and shoot
       new AutonRotate(robotDrive, 35 * direction),
@@ -217,7 +232,7 @@ public final class AutonPaths {
     
     Trajectory thirdMove = genTrajectory(List.of(
       new Pose2d(2.7, 0, Rotation2d.fromDegrees(-90 * direction)), // Then try these at 0 degrees
-      new Pose2d(2.7, 0.2, Rotation2d.fromDegrees(-90 * direction))
+      new Pose2d(2.7, 0, Rotation2d.fromDegrees(-90 * direction))
     ));
     SwerveControllerCommand thirdMoveCommand = genSwerveCommand(thirdMove, robotDrive);
 
@@ -226,10 +241,10 @@ public final class AutonPaths {
 
       outputPoseCommand(robotDrive),
       
-      new MoveAndIntake(
-        thirdMoveCommand,
-        stopNote, detectNote, conveyerSubsystem, intakeSubsystem
-      ),
+      // new MoveAndIntake(
+      //   thirdMoveCommand,
+      //   stopNote, detectNote, conveyerSubsystem, intakeSubsystem
+      // ),
       
       outputPoseCommand(robotDrive)
       

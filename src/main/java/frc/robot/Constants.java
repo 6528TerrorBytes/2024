@@ -89,7 +89,7 @@ public final class Constants {
   public static class ShooterConstants {
     public static final double angleOffset = 0; // Angle offset to vertical arm
     public static final double minAngle = 0;
-    public static final double maxAngle = 100;
+    public static final double maxAngle = 85;
 
     // Things to do here:
     // PID Values for shooter tilt (Mar 1):
@@ -117,7 +117,7 @@ public final class Constants {
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
 
     // Angle for bringing the arm all the way up
-    public static final double angleAtVertical = 3;
+    public static final double angleAtVertical = 2;
 
 
     // Aiming constants

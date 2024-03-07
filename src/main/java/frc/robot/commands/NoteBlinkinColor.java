@@ -30,11 +30,8 @@ public class NoteBlinkinColor extends Command {
   public void execute() {
     double secondsLeftInPeriod = Utility.getMatchTime();
 
-    System.out.println(secondsLeftInPeriod);
-
     // Between the time where the flash occurs
     if (m_isTeleop && (warnEnd < secondsLeftInPeriod) && (secondsLeftInPeriod < timeToWarn)) {
-      System.out.println("strobing");
       m_blinkin.resetToTeamColor( // Set to strobe colors
         Constants.BlinkinConstants.strobeBlue,
         Constants.BlinkinConstants.strobeRed
