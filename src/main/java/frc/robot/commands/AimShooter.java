@@ -82,6 +82,12 @@ public class AimShooter extends Command {
     // Calculates the angle, finds the error when accounting for the shooter length,
     // and then recalculates accounting for the errro
     double firstAngle = angleToPoint(distHorizontal, distVertical);
+
+    if (firstAngle < 0) { // Speaker not in range
+      detected = false;
+      return ShooterConstants.angleAtVertical; // Put arm up
+    }
+
     double error = findNoteHeight(firstAngle, distHorizontal) - distVertical;
     double secondAngle = angleToPoint(distHorizontal, distVertical - error);
     error += findNoteHeight(secondAngle, distHorizontal) - distVertical; // Add on any more error there is
@@ -110,7 +116,7 @@ public class AimShooter extends Command {
 
     if (underRadical < 0) {
       System.out.println("SPEAKER OUT OF RANGE. Update the initial velocity or move closer!");
-      return Math.PI / 4;
+      return -1;
     }
 
     return Math.atan(
