@@ -66,6 +66,7 @@ public final class AutonPaths {
   public static void setupRingNumberChooser() {
     ringNumberChooser.addOption("1 Ring Auton", 1);
     ringNumberChooser.setDefaultOption("2 Ring Auton", 2);
+    ringNumberChooser.setDefaultOption("DON'T SELECT", 3);
     SmartDashboard.putData("Select ring count", ringNumberChooser);
   }
 
