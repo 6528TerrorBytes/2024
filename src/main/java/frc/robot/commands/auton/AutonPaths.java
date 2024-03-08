@@ -222,43 +222,39 @@ public final class AutonPaths {
     );
 
     // TWO NOTE STOPS HERE
-    if (numberRings == 2) {
+    if ((numberRings == 2) || moveAfterSecond) {
       return new SequentialCommandGroup(
         firstRing, secondRing, 
         new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
       );
     }
 
-    
+    // Not tested
     Trajectory thirdMove = genTrajectory(List.of(
-      new Pose2d(2.7, 0, Rotation2d.fromDegrees(-90 * direction)), // Then try these at 0 degrees
-      new Pose2d(2.7, 0, Rotation2d.fromDegrees(-90 * direction))
+      new Pose2d(2,    0,               Rotation2d.fromDegrees(0)),
+      new Pose2d(1.2, -1.2 * direction, Rotation2d.fromDegrees(0)),
+      new Pose2d(2,   -1.5 * direction, Rotation2d.fromDegrees(0))
     ));
     SwerveControllerCommand thirdMoveCommand = genSwerveCommand(thirdMove, robotDrive);
 
     SequentialCommandGroup thirdRing = new SequentialCommandGroup(
-      new AutonRotate(robotDrive, -90 * direction),
-
+      new AutonRotate(robotDrive, 0),
       outputPoseCommand(robotDrive),
       
-      // new MoveAndIntake(
-      //   thirdMoveCommand,
-      //   stopNote, detectNote, conveyerSubsystem, intakeSubsystem
-      // ),
+      new MoveAndIntake(
+        thirdMoveCommand,
+        stopNote, detectNote, conveyerSubsystem, intakeSubsystem
+      ),
       
       outputPoseCommand(robotDrive)
-      
-      // new AutonRotate(robotDrive, 0),
-      // new AutonFaceAprilTag(robotDrive),
-      // new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
-      // new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
+
+      new AutonFaceAprilTag(robotDrive),
+      new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
+      new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
     );
 
     // Three rings
-    return new SequentialCommandGroup(
-      firstRing, secondRing, thirdRing,
-      new TiltShooterCommand(shooterTilt, Constants.ShooterConstants.angleAtVertical)
-    );
+    return new SequentialCommandGroup(firstRing, secondRing, thirdRing);
   }
 
   public static Command createCenteredAuton(
