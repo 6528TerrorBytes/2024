@@ -82,7 +82,7 @@ public class AimShooter extends Command {
     // Calculates the angle, finds the error when accounting for the shooter length,
     // and then recalculates accounting for the error
     double error = 0;
-    double angle;
+    double angle = 0;
     for (int i = 0; i < 4; i++) {
       angle = angleToPoint(distHorizontal, distVertical - error);
 

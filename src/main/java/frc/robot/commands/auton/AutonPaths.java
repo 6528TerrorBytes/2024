@@ -232,9 +232,9 @@ public final class AutonPaths {
 
     // Not tested
     Trajectory thirdMove = genTrajectory(List.of(
-      new Pose2d(2,    0,               Rotation2d.fromDegrees(0)),
-      new Pose2d(1.2, -1.2 * direction, Rotation2d.fromDegrees(0)),
-      new Pose2d(2,   -1.5 * direction, Rotation2d.fromDegrees(0))
+      new Pose2d(1.9,    0,               Rotation2d.fromDegrees(0)),
+      new Pose2d(2.2,   -1.75 * direction, Rotation2d.fromDegrees(0)),
+      new Pose2d(2.5,   -1.75 * direction, Rotation2d.fromDegrees(0))
     ));
     SwerveControllerCommand thirdMoveCommand = genSwerveCommand(thirdMove, robotDrive);
 
@@ -247,7 +247,7 @@ public final class AutonPaths {
         stopNote, detectNote, conveyerSubsystem, intakeSubsystem
       ),
       
-      outputPoseCommand(robotDrive)
+      outputPoseCommand(robotDrive),
 
       new AutonFaceAprilTag(robotDrive),
       new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
