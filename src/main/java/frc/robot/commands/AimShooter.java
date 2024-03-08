@@ -80,22 +80,21 @@ public class AimShooter extends Command {
     double distVertical = lengthToSpeaker * Math.sin(directAngle);
 
     // Calculates the angle, finds the error when accounting for the shooter length,
-    // and then recalculates accounting for the errro
-    double firstAngle = angleToPoint(distHorizontal, distVertical);
+    // and then recalculates accounting for the error
+    double error = 0;
+    double angle;
+    for (int i = 0; i < 4; i++) {
+      angle = angleToPoint(distHorizontal, distVertical - error);
 
-    if (firstAngle < 0) { // Speaker not in range
-      detected = false;
-      return ShooterConstants.angleAtVertical; // Put arm up
+      if (angle < 0) { // Speaker not in range
+        detected = false;
+        return ShooterConstants.angleAtVertical; // Put arm up
+      }
+
+      error += findNoteHeight(angle, distHorizontal) - distVertical;
     }
 
-    double error = findNoteHeight(firstAngle, distHorizontal) - distVertical;
-    double secondAngle = angleToPoint(distHorizontal, distVertical - error);
-    error += findNoteHeight(secondAngle, distHorizontal) - distVertical; // Add on any more error there is
-    double thirdAngle = angleToPoint(distHorizontal, distVertical - error);
-    error += findNoteHeight(thirdAngle, distHorizontal) - distVertical; // Add on any more error there is
-    double finalAngle = angleToPoint(distHorizontal, distVertical - error);
-
-    double angle = 90 - (finalAngle * (180 / Math.PI));
+    angle = 90 - (angle * (180 / Math.PI));
     angle -= 90 - ShooterConstants.encoderAngleToHorizontal;
 
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
