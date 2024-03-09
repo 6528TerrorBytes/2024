@@ -117,14 +117,14 @@ public final class Constants {
     public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
 
     // Angle for bringing the arm all the way up
-    public static final double angleAtVertical = 2;
+    public static final double angleAtVertical = 1;
 
 
     // Aiming constants
     // Angle of the arm from vertical in radians
     public static final double limelightAngle = 60 * (Math.PI / 180);
     // In meters, the distance from the AprilTag to the speaker
-    public static final double distTagToSpeaker = 0.62;
+    public static final double distTagToSpeaker = 0.65;
 
     // Initial velocity in meters per second of the shooter
     public static final double initialVel = 8.35;
