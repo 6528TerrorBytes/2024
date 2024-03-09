@@ -54,8 +54,8 @@ public final class AutonPaths {
   public static final String smallCornerAuton = "smallCorner";
   public static final String speakerCenterAuton = "speakerCenter";
   public static final String bigSideAuton = "bigSide";
-  public static final SendableChooser<String> autonChooser = new SendableChooser<>();
-  public static final SendableChooser<Integer> ringNumberChooser = new SendableChooser<>();
+  public static final SendableChooser<String> autonChooser = new SendableChooser<String>();
+  public static final SendableChooser<Integer> ringNumberChooser = new SendableChooser<Integer>();
 
   public static void setupAutonChooser() {
     autonChooser.addOption("No Auton", noAuton);

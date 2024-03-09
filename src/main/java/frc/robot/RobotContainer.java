@@ -296,6 +296,7 @@ public class RobotContainer {
         );
       
       case AutonPaths.speakerCenterAuton: // For starting the robot centered against the front of the subwoofer/speaker
+        System.out.println("centerauton");
         return AutonPaths.createCenteredAuton(
           m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
