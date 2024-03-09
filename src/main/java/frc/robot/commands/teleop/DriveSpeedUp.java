@@ -4,8 +4,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.DriveSubsystem;
 
 public class DriveSpeedUp extends Command {
-  private final double normalSpeed = 0.8;
-  private final double otherSpeed = 1;
+  private final double normalSpeed = 1;
+  private final double otherSpeed = 0.75;
 
   @Override
   public void initialize() {

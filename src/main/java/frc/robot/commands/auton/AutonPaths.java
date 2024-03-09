@@ -174,6 +174,7 @@ public final class AutonPaths {
       firstMoveCommand,
       
       // Aim and shoot!
+      new AutonFaceAprilTag(robotDrive),
       new AimAndShoot(stopNote, shooterSubsystem, shooterTilt, conveyerSubsystem),
       outputPoseCommand(robotDrive)
     );
