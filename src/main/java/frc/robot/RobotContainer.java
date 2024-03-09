@@ -35,6 +35,7 @@ import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TeleopFaceAprilTag;
+import frc.robot.commands.teleop.DriveSpeedUp;
 import frc.robot.subsystems.ShooterTilt;
 import frc.robot.commands.teleop.TiltShooterCommand;
 
@@ -108,9 +109,9 @@ public class RobotContainer {
   }
 
   private void finalControllerBindings() {
-    // ---------- LEFT  JOYSTICK ----------
+    // ---------- RIGHT JOYSTICK ----------
 
-    // Runs intake, conveyer, and stop note down (back button)
+    // Runs intake, conveyer, and stop note down (trigger/back button)
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, true),
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 0.75, true),
@@ -128,11 +129,12 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 3).whileTrue(new ExtendHangerArms(m_hangerArm, false));
     new JoystickButton(rightJoystick, 4).whileTrue(new ExtendHangerArms(m_hangerArm, true));
 
-    // ---------- RIGHT JOYSTICK ----------
+    // ---------- LEFT JOYSTICK ----------
 
-    // Teleop face AprilTag (back button), and disable (front bottom center)
+    // Teleop face AprilTag (trigger/back button)
     new JoystickButton(leftJoystick, 1).whileTrue(new TeleopFaceAprilTag());
-    // new JoystickButton(leftJoystick, 2).onTrue(new InstantCommand(() -> TeleopFaceAprilTag.disable = true));
+    // Speeds up driving (front bottom center)
+    new JoystickButton(leftJoystick, 2).whileTrue(new DriveSpeedUp());
 
     // Make wheels into X (bottom of controller, left side, top right button)
     new JoystickButton(leftJoystick, 13).onTrue(new InstantCommand(() -> m_robotDrive.setX()));
