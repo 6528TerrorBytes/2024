@@ -64,6 +64,7 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     System.out.println("Entering disabled mode...");
+    Utility.turnOffLimelightLED();
   }
 
   @Override
@@ -72,6 +73,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    Utility.turnOnLimelightLED();
     stopAll();
 
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
@@ -88,9 +90,11 @@ public class Robot extends TimedRobot {
 
   @Override
   public void teleopInit() {
+    Utility.turnOnLimelightLED();
+
     stopAutonomousCommand();
     stopTestCommand();
-
+    
     m_robotContainer.setTeleop(true);
   }
 

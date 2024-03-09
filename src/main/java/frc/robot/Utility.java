@@ -112,4 +112,8 @@ public final class Utility {
   public static void turnOnLimelightLED() {
     LimelightHelpers.setLEDMode_ForceOn("limelight");
   }
+
+  public static void turnOffLimelightLED() {
+    LimelightHelpers.setLEDMode_ForceOff("limelight");
+  }
 }

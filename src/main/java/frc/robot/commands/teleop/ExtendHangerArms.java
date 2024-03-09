@@ -21,16 +21,15 @@ public class ExtendHangerArms extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize() {}
+
+  @Override
+  public void execute() {
     if (m_reversed) {
       m_hangerArm.setSpeed(m_speed);
     } else {
       m_hangerArm.setSpeed(-m_speed);
     }
-  }
-
-  @Override
-  public void execute() {
     m_hangerArm.checkBoundaries();
   }
 

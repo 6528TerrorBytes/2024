@@ -81,8 +81,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    Utility.turnOnLimelightLED();
-
     System.out.println(teamColor == DriverStation.Alliance.Blue);
     System.out.println(teamLocation);
 
