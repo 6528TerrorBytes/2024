@@ -108,4 +108,8 @@ public final class Utility {
     rotationSpeed *= Constants.ShooterConstants.speedScale;
     return clampNum(rotationSpeed, -1, 1) * Constants.ShooterConstants.afterCapMult;
   }
+
+  public static void turnOnLimelightLED() {
+    LimelightHelpers.setLEDMode_ForceOn("limelight");
+  }
 }

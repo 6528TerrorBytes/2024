@@ -270,7 +270,7 @@ public class DriveSubsystem extends SubsystemBase {
   // Sets the swerve modules based on the given ChassisSpeeds
   public void driveRobotRelative(ChassisSpeeds speeds) {
     SwerveModuleState[] states = DriveConstants.kDriveKinematics.toSwerveModuleStates(speeds);
-    setModuleStates(state);
+    setModuleStates(states);
   }
 
   /** Resets the drive encoders to currently read a position of 0. */
