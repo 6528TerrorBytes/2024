@@ -156,15 +156,15 @@ public class DriveSubsystem extends SubsystemBase {
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit, boolean multSpeed) {
     SmartDashboard.putNumber("Gyro Angle ", m_gyro.getAngle());
 
-    if (overrideRotation) {
-      rot = newRotation;
-    }
-
     if (multSpeed) {
       // Speed multiplier
       xSpeed *= speedMultiplier;
       ySpeed *= speedMultiplier;
       rot *= speedMultiplier;
+    }
+
+    if (overrideRotation) {
+      rot = newRotation;
     }
 
     double xSpeedCommanded;
