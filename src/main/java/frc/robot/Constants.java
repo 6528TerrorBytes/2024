@@ -146,6 +146,7 @@ public final class Constants {
 
     // After calculations, multiply the speed by this speed scale
     public static final double speedScale = 0.35;
+    public static final double afterCapMult = 0.5;
   }
 
   public static class StopNoteConstants {

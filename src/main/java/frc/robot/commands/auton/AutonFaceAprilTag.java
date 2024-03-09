@@ -33,7 +33,7 @@ public class AutonFaceAprilTag extends Command {
       rotationSpeed = 0;
     }
 
-    m_driveSubsystem.drive(0, 0, rotationSpeed, true, true);
+    m_driveSubsystem.drive(0, 0, rotationSpeed, true, true, false);
   }
 
   // Returns true when the command should end.

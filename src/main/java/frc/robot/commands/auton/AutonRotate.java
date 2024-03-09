@@ -35,7 +35,7 @@ public class AutonRotate extends Command {
     m_diff = m_driveSubsystem.getRawAngle() - m_angleGoal;
     double speed = Utility.calcSpeedFaceTag(m_diff);
     
-    m_driveSubsystem.drive(0, 0, speed, true, true);
+    m_driveSubsystem.drive(0, 0, speed, true, true, false);
   }
 
   // Called once the command ends or is interrupted.

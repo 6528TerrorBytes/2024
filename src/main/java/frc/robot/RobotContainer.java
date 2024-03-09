@@ -93,7 +93,7 @@ public class RobotContainer {
             -MathUtil.applyDeadband(rightJoystick.getY(), OIConstants.kDriveDeadband),
             -MathUtil.applyDeadband(rightJoystick.getX(), OIConstants.kDriveDeadband),
             -MathUtil.applyDeadband(leftJoystick.getZ(), OIConstants.kDriveDeadband),
-            true, true),
+            true, true, true),
           m_robotDrive
         )
       ); // Call of duty (:<
@@ -236,6 +236,9 @@ public class RobotContainer {
 
     // Running the autonomous selected in the SmartDashboard
     switch (autonChosen) {
+      case AutonPaths.noAuton:
+        return null;
+
       case AutonPaths.smallCornerAuton: // For starting the robot in the small corner of the field
         return AutonPaths.createMainAuton(
           -1  * (Utility.teamColorIsRed() ? 1 : -1), // Changes direction based on whether the team is read or not

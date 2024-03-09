@@ -106,6 +106,6 @@ public final class Utility {
     // }
 
     rotationSpeed *= Constants.ShooterConstants.speedScale;
-    return clampNum(rotationSpeed, -1, 1);
+    return clampNum(rotationSpeed, -1, 1) * Constants.ShooterConstants.afterCapMult;
   }
 }

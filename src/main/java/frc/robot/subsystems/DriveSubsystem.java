@@ -66,7 +66,7 @@ public class DriveSubsystem extends SubsystemBase {
   private SlewRateLimiter m_rotLimiter = new SlewRateLimiter(DriveConstants.kRotationalSlewRate);
   private double m_prevTime = WPIUtilJNI.now() * 1e-6;
 
-  public static double speedMultiplier = 0.5;
+  public static double speedMultiplier = 0.8;
 
   public static boolean overrideRotation = false;
   public static double newRotation = 0;
@@ -153,20 +153,22 @@ public class DriveSubsystem extends SubsystemBase {
    *                      field.
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
-  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit) {
+  public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit, boolean multSpeed) {
     SmartDashboard.putNumber("Gyro Angle ", m_gyro.getAngle());
 
     if (overrideRotation) {
       rot = newRotation;
     }
 
+    if (multSpeed) {
+      // Speed multiplier
+      xSpeed *= speedMultiplier;
+      ySpeed *= speedMultiplier;
+      rot *= speedMultiplier;
+    }
+
     double xSpeedCommanded;
     double ySpeedCommanded;
-    
-    // Speed multiplier
-    xSpeed *= speedMultiplier;
-    ySpeed *= speedMultiplier;
-    rot *= speedMultiplier;
 
     if (rateLimit) {
       // Convert XY to polar for rate limiting

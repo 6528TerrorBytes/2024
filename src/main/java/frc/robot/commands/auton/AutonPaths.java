@@ -50,6 +50,7 @@ public final class AutonPaths {
   ).setKinematics(DriveConstants.kDriveKinematics);
 
   // Autonomous selector
+  public static final String noAuton = "none";
   public static final String smallCornerAuton = "smallCorner";
   public static final String speakerCenterAuton = "speakerCenter";
   public static final String bigSideAuton = "bigSide";
@@ -57,6 +58,7 @@ public final class AutonPaths {
   public static final SendableChooser<Integer> ringNumberChooser = new SendableChooser<>();
 
   public static void setupAutonChooser() {
+    autonChooser.addOption("No Auton", noAuton);
     autonChooser.setDefaultOption("Small Corner Auton", smallCornerAuton);
     autonChooser.addOption("Speaker Center Auton", speakerCenterAuton);
     autonChooser.addOption("Big Side Auton", bigSideAuton);
