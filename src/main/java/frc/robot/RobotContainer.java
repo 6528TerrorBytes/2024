@@ -144,51 +144,99 @@ public class RobotContainer {
     new JoystickButton(leftJoystick, 15).onTrue(new StopNoteCommand(m_stopNote, true));
 
     // ---------- OTHER JOYSTICK ----------
-
-    // Other driver auto shooter tilt aim (thumb button)
-    new JoystickButton(otherJoystick, 2).whileTrue(new AimShooter(m_shooterTilt, false));
-
-    // Hold back button to shoot
-    new JoystickButton(otherJoystick, 1).whileTrue(new SequentialCommandGroup(
-      new ParallelCommandGroup(
+    if (false) {
+      // Other driver auto shooter tilt aim (thumb button)
+      new JoystickButton(otherJoystick, 2).whileTrue(new AimShooter(m_shooterTilt, false));
+  
+      // Hold back button to shoot
+      new JoystickButton(otherJoystick, 1).whileTrue(new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new StopNoteCommand(m_stopNote, false),
+          new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds)
+        ),
+  
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
+        new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      ));
+  
+      // Slow shoot for amp (front top left button)
+      new JoystickButton(otherJoystick, 5).whileTrue(new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new StopNoteCommand(m_stopNote, false),
+          new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds)
+        ),
+  
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
+        new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      ));
+  
+      // Bring the shooter up to vertical (front bottom right button)
+      new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
+  
+      // Manual conveyer forward (controller bottom top right)
+      new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
         new StopNoteCommand(m_stopNote, false),
-        new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds)
-      ),
-
-      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
-      new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
-    ));
-
-    // Slow shoot for amp (front top left button)
-    new JoystickButton(otherJoystick, 5).whileTrue(new SequentialCommandGroup(
-      new ParallelCommandGroup(
+        new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, false)
+      ));
+  
+      // Manual conveyer backward (controller bottom top left)
+      new JoystickButton(otherJoystick, 7).whileTrue(new ParallelCommandGroup(
         new StopNoteCommand(m_stopNote, false),
-        new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds)
-      ),
-
-      new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
-      new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
-    ));
-
-    // Bring the shooter up to vertical (front bottom right button)
-    new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
-
-    // Manual conveyer forward (controller bottom top right)
-    new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
-      new StopNoteCommand(m_stopNote, false),
-      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, false)
-    ));
-
-    // Manual conveyer backward (controller bottom top left)
-    new JoystickButton(otherJoystick, 7).whileTrue(new ParallelCommandGroup(
-      new StopNoteCommand(m_stopNote, false),
-      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false)
-    ));
-
-    // Manual aim to speaker (front top right button)
-    new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
-    // Manual aim to amp (front bottom left button)
-    new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+        new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false)
+      ));
+  
+      // Manual aim to speaker (front top right button)
+      new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
+      // Manual aim to amp (front bottom left button)
+      new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+    } else {
+      // XBOX CONTROLLER
+      // Back right trigger, aim
+      new JoystickButton(otherJoystick, 6).whileTrue(new AimShooter(m_shooterTilt, false));
+  
+      // Back left trigger, shoot
+      new JoystickButton(otherJoystick, 5).whileTrue(new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new StopNoteCommand(m_stopNote, false),
+          new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds)
+        ),
+  
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
+        new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      ));
+  
+      // Slow shoot for amp (X)
+      new JoystickButton(otherJoystick, 3).whileTrue(new SequentialCommandGroup(
+        new ParallelCommandGroup(
+          new StopNoteCommand(m_stopNote, false),
+          new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds)
+        ),
+  
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
+        new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      ));
+  
+      // Bring the shooter up to vertical (B)
+      new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
+      
+      // Manual aim to speaker (Y)
+      new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
+      // Manual aim to amp (A)
+      new JoystickButton(otherJoystick, 1).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+      
+      // Manual conveyer forward (controller bottom top right)
+      new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
+        new StopNoteCommand(m_stopNote, false),
+        new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, false)
+      ));
+  
+      // Manual conveyer backward (controller bottom top left)
+      new JoystickButton(otherJoystick, 7).whileTrue(new ParallelCommandGroup(
+        new StopNoteCommand(m_stopNote, false),
+        new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false)
+      ));
+  
+    }
   }
 
   private void oldControllerBindings() {
