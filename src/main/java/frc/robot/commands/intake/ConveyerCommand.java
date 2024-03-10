@@ -51,15 +51,6 @@ public class ConveyerCommand extends Command {
   @Override
   public boolean isFinished() {
     if (!m_stopWhenDetected) { return false; } // Only finishes when you stop pressing the joystick button
-    else { 
-      // return m_detectNote.activated();
-
-      if (m_detectNote.activated()) {
-        System.out.println("ended conveyer");
-        return true;
-      } else {
-        return false;
-      }
-    } // Ends when a note has been detected
+    else { return m_detectNote.activated(); } // Ends when a note has been detected
   }
 }

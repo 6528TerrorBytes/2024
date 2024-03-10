@@ -42,10 +42,6 @@ public class StopNoteCommand extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (m_stopNote.atGoal()) {
-      System.out.println("ended stop note");
-      return true;
-    }
     return m_stopNote.atGoal();
   }
 }
