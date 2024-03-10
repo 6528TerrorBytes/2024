@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -13,6 +14,10 @@ public class DetectNote extends SubsystemBase {
 
   public boolean activated() {
     return !m_limitSwitch.get();
+  }
+
+  public void addToDashboard() {
+    SmartDashboard.putBoolean("HAS RING", activated());
   }
 
   // Make a command that requires this subsystem and the Blinkin subsystem that sets its color

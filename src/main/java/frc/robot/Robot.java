@@ -58,6 +58,8 @@ public class Robot extends TimedRobot {
     // Utility.updateSmartDashboard();
     // m_robotContainer.m_hangerArm.outputLimitSwitches();
     m_robotContainer.m_shooterTilt.outputEncoder();
+
+    m_robotContainer.dashboardStuff();
   }
 
   /** This function is called once each time the robot enters Disabled mode. */

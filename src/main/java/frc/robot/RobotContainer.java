@@ -220,7 +220,7 @@ public class RobotContainer {
       new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
       
       // Manual aim to speaker (Y)
-      new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
+      new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 22)); // was at 25 before
       // Manual aim to amp (A)
       new JoystickButton(otherJoystick, 1).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
       
@@ -320,5 +320,9 @@ public class RobotContainer {
     System.out.println("IS TELEOP:");
     System.out.println(isTeleop);
     m_blinkinCommand.setTeleop(isTeleop);
+  }
+
+  public void dashboardStuff() {
+    m_detectNote.addToDashboard();
   }
 }
