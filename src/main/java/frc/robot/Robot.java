@@ -78,7 +78,7 @@ public class Robot extends TimedRobot {
     Utility.turnOnLimelightLED();
     stopAll();
 
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getNewAuton();
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
     }

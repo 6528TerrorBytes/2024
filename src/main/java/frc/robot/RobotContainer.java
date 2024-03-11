@@ -10,6 +10,10 @@ import frc.robot.subsystems.HangerArm;
 import frc.robot.subsystems.StopNote;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+
+import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
@@ -22,6 +26,7 @@ import frc.robot.subsystems.DetectNote;
 
 // Autonomous imports
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import frc.robot.commands.AimShooter;
@@ -81,8 +86,7 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-    System.out.println(teamColor == DriverStation.Alliance.Blue);
-    System.out.println(teamLocation);
+    registerAutonCommands();
 
     // Drive command
     if (teleopDrive) {
@@ -108,20 +112,44 @@ public class RobotContainer {
     finalControllerBindings();
   }
 
+  private void registerAutonCommands() {
+    // Register Named Comands for PathPlanner auton - https://pathplanner.dev/pplib-named-commands.html
+    // NamedCommands.registerCommand("intake", new IntakeCommand(m_intakeSubsystem, 1));
+    // NamedCommands.registerCommand("conveyer", new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true));
+    // NamedCommands.registerCommand("stopNoteUp", new StopNoteCommand(m_stopNote, false));
+    NamedCommands.registerCommand("stopNoteDown", new StopNoteCommand(m_stopNote, true));
+
+    NamedCommands.registerCommand("aimShooterForever", new AimShooter(m_shooterTilt, false));
+
+    NamedCommands.registerCommand("intakeUntilNote", new ParallelDeadlineGroup(
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
+      new IntakeCommand(m_intakeSubsystem, 1),
+      new StopNoteCommand(m_stopNote, false)
+    ));
+
+    NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
+      new SequentialCommandGroup(
+        new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
+      ),
+      new StopNoteCommand(m_stopNote, true)
+    ));
+  }
+
   private void finalControllerBindings() {
     // ---------- RIGHT JOYSTICK ----------
 
     // Runs intake, conveyer, and stop note down (trigger/back button)
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, true),
-      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 0.75, true),
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
       new IntakeCommand(m_intakeSubsystem, 1)
     ));
     
     // Reverse intake (front bottom center button)
     new JoystickButton(rightJoystick, 2).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
-      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -0.75, false),
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false),
       new IntakeCommand(m_intakeSubsystem, -0.75)
     ));
 
@@ -280,7 +308,11 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 7).onTrue(new AimShooter(m_shooterTilt, false));
   }
 
-  public Command getAutonomousCommand() {
+  public Command getNewAuton() {
+    return new PathPlannerAuto("Test");
+  }
+
+  public Command getOldAuton() {
     String autonChosen = AutonPaths.getAuton();
     System.out.println("Making Autonomous: " + autonChosen);
 

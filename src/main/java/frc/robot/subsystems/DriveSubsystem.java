@@ -21,8 +21,13 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 // import edu.wpi.first.wpilibj.ADIS16470_IMU.IMUAxis;
 // Gyro NAVX:
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import frc.utils.SwerveUtils;
+import frc.robot.Utility;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -89,6 +94,23 @@ public class DriveSubsystem extends SubsystemBase {
   /** Creates a new DriveSubsystem. */
   public DriveSubsystem() {
     SmartDashboard.putData("Field", m_field);
+    
+    // Auton setup for PathPlanner, see https://pathplanner.dev/pplib-getting-started.html#install-pathplannerlib
+    AutoBuilder.configureHolonomic(
+      this::getPose,
+      this::resetOdometry, 
+      this::getRobotRelativeSpeeds,
+      this::driveRobotRelative,
+      new HolonomicPathFollowerConfig(
+        new PIDConstants(1), // Translation PID
+        new PIDConstants(1), // Rotation PID
+        4.5, // Max speed m/s
+        0.4, // Robot radius, distance from center to furthest corner
+        new ReplanningConfig()
+      ),
+      Utility::teamColorIsRed,
+      this
+    );
   }
 
   @Override

@@ -1,0 +1,81 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4,
+      "y": 5.54
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "aimShooterForever"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "SpeakerCenterToTop"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "TopToCenter"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "CenterToBottom"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}
