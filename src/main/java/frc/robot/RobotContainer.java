@@ -8,6 +8,7 @@ import frc.robot.Constants.OIConstants;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.HangerArm;
 import frc.robot.subsystems.StopNote;
+import frc.utils.JoystickAnalogButton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
@@ -62,6 +63,7 @@ public class RobotContainer {
 
   // intake, shooter, and other stuff (and aedan)
   public final Joystick otherJoystick = new Joystick(2);
+  private final boolean useXboxControllerForOther = true;
 
   private final DriveSubsystem m_robotDrive = new DriveSubsystem();
   private final boolean teleopDrive = true;
@@ -152,7 +154,7 @@ public class RobotContainer {
     new JoystickButton(leftJoystick, 15).onTrue(new StopNoteCommand(m_stopNote, true));
 
     // ---------- OTHER JOYSTICK ----------
-    if (false) {
+    if (!useXboxControllerForOther) {
       // Other driver auto shooter tilt aim (thumb button)
       new JoystickButton(otherJoystick, 2).whileTrue(new AimShooter(m_shooterTilt, false));
   
@@ -197,13 +199,15 @@ public class RobotContainer {
       new JoystickButton(otherJoystick, 6).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
       // Manual aim to amp (front bottom left button)
       new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+
+
     } else {
       // XBOX CONTROLLER
-      // Back right trigger, aim
-      new JoystickButton(otherJoystick, 6).whileTrue(new AimShooter(m_shooterTilt, false));
+      // Back left trigger, aim
+      new JoystickAnalogButton(otherJoystick, 2, 0.5).whileTrue(new AimShooter(m_shooterTilt, false));
   
-      // Back left trigger, shoot
-      new JoystickButton(otherJoystick, 5).whileTrue(new SequentialCommandGroup(
+      // Back right trigger, shoot
+      new JoystickAnalogButton(otherJoystick, 3, 0.5).whileTrue(new SequentialCommandGroup(
         new ParallelCommandGroup(
           new StopNoteCommand(m_stopNote, false),
           new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds)
@@ -213,8 +217,8 @@ public class RobotContainer {
         new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
       ));
   
-      // Slow shoot for amp (X)
-      new JoystickButton(otherJoystick, 3).whileTrue(new SequentialCommandGroup(
+      // Slow shoot for amp, back right bumper
+      new JoystickButton(otherJoystick, 6).whileTrue(new SequentialCommandGroup(
         new ParallelCommandGroup(
           new StopNoteCommand(m_stopNote, false),
           new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds)
@@ -224,13 +228,13 @@ public class RobotContainer {
         new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
       ));
   
-      // Bring the shooter up to vertical (B)
-      new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
+      // Bring the shooter up to vertical (A)
+      new JoystickButton(otherJoystick, 1).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
       
       // Manual aim to speaker (Y)
       new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 22)); // was at 25 before
-      // Manual aim to amp (A)
-      new JoystickButton(otherJoystick, 1).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+      // Manual aim to amp, back left bumper
+      new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
       
       // Manual conveyer forward (controller bottom top right)
       new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
