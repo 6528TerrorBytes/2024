@@ -116,36 +116,6 @@ public class RobotContainer {
     finalControllerBindings();
   }
 
-  private void registerAutonCommands() {
-    // Register Named Comands for PathPlanner auton - https://pathplanner.dev/pplib-named-commands.html
-    NamedCommands.registerCommand("stopNoteDown", new StopNoteCommand(m_stopNote, true));
-    NamedCommands.registerCommand("aimShooterForever", new AimShooter(m_shooterTilt, false));
-
-    NamedCommands.registerCommand("intakeUntilNote", new ParallelDeadlineGroup(
-      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
-      new IntakeCommand(m_intakeSubsystem, 1),
-      new StopNoteCommand(m_stopNote, true)
-    ));
-    
-    // Commands for starting and ending intake
-    NamedCommands.registerCommand("startIntake", new ParallelCommandGroup(
-      new StartAutonIntake(m_conveyerSubsystem, m_intakeSubsystem),
-      new StopNoteCommand(m_stopNote, true)
-    ));
-    NamedCommands.registerCommand("endIntake", new EndAutonIntake(m_conveyerSubsystem, m_intakeSubsystem, m_detectNote));
-    
-    // Fires the shooter!
-    NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
-      new SequentialCommandGroup(
-        new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
-      ),
-      new StopNoteCommand(m_stopNote, false)
-    ));
-
-    NamedCommands.registerCommand("zeroShooter", new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
-  }
-
   private void finalControllerBindings() {
     // ---------- RIGHT JOYSTICK ----------
 
@@ -328,6 +298,38 @@ public class RobotContainer {
     m_pathPlannnerChooser.addOption("2 note top auton", "TopNotes");
     m_pathPlannnerChooser.addOption("Test auton", "Test");
     SmartDashboard.putData("Select path planner auton", m_pathPlannnerChooser);
+  }
+
+  private void registerAutonCommands() {
+    // Register Named Comands for PathPlanner auton - https://pathplanner.dev/pplib-named-commands.html
+    NamedCommands.registerCommand("stopNoteDown", new StopNoteCommand(m_stopNote, true));
+    NamedCommands.registerCommand("aimShooterForever", new AimShooter(m_shooterTilt, false));
+
+    NamedCommands.registerCommand("intakeUntilNote", new ParallelDeadlineGroup(
+      new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
+      new IntakeCommand(m_intakeSubsystem, 1),
+      new StopNoteCommand(m_stopNote, true)
+    ));
+    
+    // Commands for starting and ending intake
+    NamedCommands.registerCommand("startIntake", new ParallelCommandGroup(
+      new StartAutonIntake(m_conveyerSubsystem, m_intakeSubsystem),
+      new StopNoteCommand(m_stopNote, true)
+    ));
+    NamedCommands.registerCommand("endIntake", new EndAutonIntake(m_conveyerSubsystem, m_intakeSubsystem, m_detectNote));
+    
+    // Fires the shooter!
+    NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
+      new SequentialCommandGroup(
+        new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
+      ),
+      new StopNoteCommand(m_stopNote, false)
+    ));
+
+    // Potentially combine the SpeedUpShooter process and the EndAutonIntake process to speed this up by 0.5 seconds for each ring
+
+    NamedCommands.registerCommand("zeroShooter", new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
   }
 
   public Command getOldAuton() {
