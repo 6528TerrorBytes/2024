@@ -4,36 +4,42 @@
     {
       "anchor": {
         "x": 0.7672794566368348,
-        "y": 6.7166970697577755
+        "y": 4.371183807302679
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7672794566368344,
-        "y": 6.7166970697577755
+        "x": 1.7672794566368353,
+        "y": 4.371183807302679
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.659682202481288,
-        "y": 6.889945208461845
+        "x": 2.646355422580975,
+        "y": 4.091321429396105
       },
       "prevControl": {
-        "x": 2.113284226568453,
-        "y": 5.943743835539619
+        "x": 1.646355422580975,
+        "y": 4.091321429396105
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.45,
+      "rotationDegrees": -6.5909441882982405,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.65,
       "command": {
         "type": "parallel",
         "data": {
@@ -57,13 +63,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 42.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "TopCenterNotes",
+  "folder": "BottomCenterNotes",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

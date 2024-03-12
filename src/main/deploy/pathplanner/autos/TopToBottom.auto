@@ -84,17 +84,17 @@
                       "data": {
                         "name": "fireShooter"
                       }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "zeroShooter"
-                      }
                     }
                   ]
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "zeroShooter"
           }
         }
       ]

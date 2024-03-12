@@ -26,7 +26,7 @@ public class AutonFaceAprilTag extends Command {
     double rotationSpeed;
 
     // If see a limelight and correct speaker ID
-    if (Utility.aprilTagInView()) { // && Utility.testShooterID()
+    if (Utility.aprilTagInView()) {
       tagTX = Utility.getTX();
       rotationSpeed = Utility.calcSpeedFaceTag(tagTX);
     } else {

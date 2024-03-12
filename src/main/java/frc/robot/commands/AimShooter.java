@@ -34,7 +34,6 @@ public class AimShooter extends Command {
 
     // Test for april tag in view and correct speaker ID
     if (!Utility.aprilTagInView()) { return; }
-    if (!Utility.testShooterID())  { return; }
 
     detected = true;
     double angleGoal = calcShooterAngle();

@@ -28,13 +28,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "1-SpeakerTopToTop"
+                        "pathName": "1-SpeakerBottomToBottom"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "endIntake"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-BottomToShootForCenter"
                       }
                     },
                     {
@@ -46,7 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "2-TopToCenterTop"
+                        "pathName": "3-BottomToBottomCenter"
                       }
                     },
                     {
@@ -58,7 +64,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "3-CenterTopBack"
+                        "pathName": "4-BottomCenterToShoot"
                       }
                     },
                     {

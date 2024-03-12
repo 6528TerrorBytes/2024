@@ -61,7 +61,7 @@
     "rotateFast": true
   },
   "reversed": false,
-  "folder": "CenterNotes",
+  "folder": "TopCenterNotes",
   "previewStartingState": {
     "rotation": 42.0,
     "velocity": 0
