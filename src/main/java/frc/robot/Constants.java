@@ -66,6 +66,9 @@ public final class Constants {
     public static final double ampSpeedUpSeconds = 0.4;
     public static final double ampConveyerRunSeconds = 1;
 
+    // Intake run time before continuing to fire the shooter if no ring was detected
+    public static final double intakeRunTime = 0.5;
+
 
     // Auton driving
     public static final double kMaxSpeedMetersPerSecond = 4;

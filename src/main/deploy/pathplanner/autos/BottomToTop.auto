@@ -34,7 +34,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "SpeakerCenterToTop"
+                        "pathName": "1-SpeakerCenterToBottom"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "endIntake"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-BottomToShoot"
                       }
                     },
                     {
@@ -46,7 +58,13 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "TopToCenter"
+                        "pathName": "3-BottomToCenter"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "endIntake"
                       }
                     },
                     {
@@ -58,13 +76,25 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "CenterToBottom"
+                        "pathName": "4-CenterToTop"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "endIntake"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "fireShooter"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "zeroShooter"
                       }
                     }
                   ]
@@ -76,6 +106,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "Real",
   "choreoAuto": false
 }

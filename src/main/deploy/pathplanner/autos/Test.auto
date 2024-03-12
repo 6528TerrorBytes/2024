@@ -14,12 +14,12 @@
         {
           "type": "path",
           "data": {
-            "pathName": "SpeakerCenterToTop"
+            "pathName": "1-SpeakerCenterToTop"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Tests",
   "choreoAuto": false
 }

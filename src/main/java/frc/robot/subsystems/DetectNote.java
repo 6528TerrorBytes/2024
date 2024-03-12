@@ -12,6 +12,7 @@ import frc.robot.Constants;
 public class DetectNote extends SubsystemBase {
   private final DigitalInput m_limitSwitch = new DigitalInput(Constants.LimitSwitches.detectNote);
 
+  // Tests if the bot has a ring
   public boolean activated() {
     return !m_limitSwitch.get();
   }

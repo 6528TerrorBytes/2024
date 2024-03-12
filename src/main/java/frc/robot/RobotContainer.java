@@ -35,6 +35,8 @@ import frc.robot.commands.auton.AutonFaceAprilTag;
 import frc.robot.commands.auton.AutonPaths;
 import frc.robot.commands.auton.FireShooter;
 import frc.robot.commands.auton.SpeedUpShooter;
+import frc.robot.commands.auton.pathPlanner.EndAutonIntake;
+import frc.robot.commands.auton.pathPlanner.StartAutonIntake;
 import frc.robot.commands.intake.ConveyerCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.ExtendHangerArms;
@@ -114,26 +116,32 @@ public class RobotContainer {
 
   private void registerAutonCommands() {
     // Register Named Comands for PathPlanner auton - https://pathplanner.dev/pplib-named-commands.html
-    // NamedCommands.registerCommand("intake", new IntakeCommand(m_intakeSubsystem, 1));
-    // NamedCommands.registerCommand("conveyer", new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true));
-    // NamedCommands.registerCommand("stopNoteUp", new StopNoteCommand(m_stopNote, false));
     NamedCommands.registerCommand("stopNoteDown", new StopNoteCommand(m_stopNote, true));
-
     NamedCommands.registerCommand("aimShooterForever", new AimShooter(m_shooterTilt, false));
 
     NamedCommands.registerCommand("intakeUntilNote", new ParallelDeadlineGroup(
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
       new IntakeCommand(m_intakeSubsystem, 1),
-      new StopNoteCommand(m_stopNote, false)
+      new StopNoteCommand(m_stopNote, true)
     ));
-
+    
+    // Commands for starting and ending intake
+    NamedCommands.registerCommand("startIntake", new ParallelCommandGroup(
+      new StartAutonIntake(m_conveyerSubsystem, m_intakeSubsystem),
+      new StopNoteCommand(m_stopNote, true)
+    ));
+    NamedCommands.registerCommand("endIntake", new EndAutonIntake(m_conveyerSubsystem, m_intakeSubsystem, m_detectNote));
+    
+    // Fires the shooter!
     NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
       new SequentialCommandGroup(
         new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
       ),
-      new StopNoteCommand(m_stopNote, true)
+      new StopNoteCommand(m_stopNote, false)
     ));
+
+    NamedCommands.registerCommand("zeroShooter", new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
   }
 
   private void finalControllerBindings() {
@@ -150,7 +158,7 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 2).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false),
-      new IntakeCommand(m_intakeSubsystem, -0.75)
+      new IntakeCommand(m_intakeSubsystem, -1)
     ));
 
     // Climbers (up: front left button, retract: front right button)
