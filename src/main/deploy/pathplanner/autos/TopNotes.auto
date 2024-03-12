@@ -1,0 +1,81 @@
+{
+  "version": 1.0,
+  "startingPose": null,
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "aimShooterForever"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "1-SpeakerTopToTop"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "endIntake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-TopToCenterTop"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "endIntake"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "3-CenterTopBack"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Real",
+  "choreoAuto": false
+}

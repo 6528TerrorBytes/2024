@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "BottomToTop",
+    "CenterNotes",
     "TopToBottom"
   ],
   "autoFolders": [
