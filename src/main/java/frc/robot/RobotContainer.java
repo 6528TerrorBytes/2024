@@ -230,11 +230,16 @@ public class RobotContainer {
   
       // Bring the shooter up to vertical (A)
       new JoystickButton(otherJoystick, 1).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
-      
-      // Manual aim to speaker (Y)
-      new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 22)); // was at 25 before
+
       // Manual aim to amp, back left bumper
       new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+      
+      // Shoot across field buttons (B and X)
+      new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 30));
+      new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
+
+      // Manual aim to speaker (Y)
+      new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 22));
       
       // Manual conveyer forward (controller bottom top right)
       new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
