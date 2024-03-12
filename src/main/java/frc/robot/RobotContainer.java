@@ -295,8 +295,12 @@ public class RobotContainer {
   public void setupNewAuton() {
     m_pathPlannnerChooser.addOption("Top to bottom auton", "TopToBottom");
     m_pathPlannnerChooser.setDefaultOption("Bottom to top auton", "BottomToTop");
-    m_pathPlannnerChooser.addOption("2 note top auton", "TopNotes");
-    m_pathPlannnerChooser.addOption("Test auton", "Test");
+    m_pathPlannnerChooser.addOption("2 note top auton", "TopCenterNotes");
+    m_pathPlannnerChooser.addOption("Bottom to bottom", "BottomCenterNotes");
+    m_pathPlannnerChooser.addOption("Ring collector :)", "RingCollector");
+
+    m_pathPlannnerChooser.addOption("Test auton (do not pick during comp)", "Test");
+
     SmartDashboard.putData("Select path planner auton", m_pathPlannnerChooser);
   }
 
@@ -330,6 +334,7 @@ public class RobotContainer {
     // Potentially combine the SpeedUpShooter process and the EndAutonIntake process to speed this up by 0.5 seconds for each ring
 
     NamedCommands.registerCommand("zeroShooter", new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
+    NamedCommands.registerCommand("aimTo45", new TiltShooterCommand(m_shooterTilt, 45));
   }
 
   public Command getOldAuton() {

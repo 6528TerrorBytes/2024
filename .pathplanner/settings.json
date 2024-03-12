@@ -3,9 +3,10 @@
   "robotLength": 1.00965,
   "holonomicMode": true,
   "pathFolders": [
-    "BottomToTop",
-    "TopCenterNotes",
     "BottomCenterNotes",
+    "BottomToTop",
+    "RingCollector",
+    "TopCenterNotes",
     "TopToBottom"
   ],
   "autoFolders": [
