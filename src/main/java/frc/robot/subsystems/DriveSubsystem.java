@@ -106,7 +106,7 @@ public class DriveSubsystem extends SubsystemBase {
         new PIDConstants(2.5), // Translation PID
         new PIDConstants(4), // Rotation PID
         Constants.DriveConstants.kMaxSpeedMetersPerSecond, // Max speed m/s
-        0.61, // Robot radius, distance from center to furthest module
+        0.476, // Robot radius, distance from center to furthest module
         new ReplanningConfig(true, true)
       ),
       Utility::teamColorIsRed,
