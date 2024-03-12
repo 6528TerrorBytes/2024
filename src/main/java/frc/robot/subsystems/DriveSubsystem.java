@@ -27,6 +27,7 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import frc.utils.SwerveUtils;
+import frc.robot.Constants;
 import frc.robot.Utility;
 import frc.robot.Constants.DriveConstants;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -102,11 +103,11 @@ public class DriveSubsystem extends SubsystemBase {
       this::getRobotRelativeSpeeds,
       this::driveRobotRelative,
       new HolonomicPathFollowerConfig(
-        new PIDConstants(1), // Translation PID
-        new PIDConstants(1), // Rotation PID
-        4.5, // Max speed m/s
-        0.4, // Robot radius, distance from center to furthest corner
-        new ReplanningConfig()
+        new PIDConstants(2.5), // Translation PID
+        new PIDConstants(4), // Rotation PID
+        Constants.DriveConstants.kMaxSpeedMetersPerSecond, // Max speed m/s
+        0.61, // Robot radius, distance from center to furthest module
+        new ReplanningConfig(true, true)
       ),
       Utility::teamColorIsRed,
       this
