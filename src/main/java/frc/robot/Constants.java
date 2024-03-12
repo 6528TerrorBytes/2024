@@ -72,7 +72,7 @@ public final class Constants {
 
     // Auton driving
     public static final double kMaxSpeedMetersPerSecond = 4;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 4;
+    public static final double kMaxAccelerationMetersPerSecondSquared = 2;
     public static final double kMaxAngularSpeedRadiansPerSecond = 1.5 * Math.PI;
     public static final double kMaxAngularSpeedRadiansPerSecondSquared = 2 * Math.PI;
 
@@ -109,15 +109,6 @@ public final class Constants {
     public static final double tiltD = 0;
     public static final double speed = 1;
     public static final double tolerance = 2;
-
-    // In meters
-    public static final double tiltMaxVelocity = 3;
-    public static final double tiltMaxAcceleration = 3;
-
-    // Feedforward parameters
-    public static final double tiltFeedforwardkSVolts = 1;
-    public static final double tiltFeedforwardkGVolts = 0;
-    public static final double tiltFeedforwardkVVoltsSecPerRad = 0;
 
     // Angle for bringing the arm all the way up
     public static final double angleAtVertical = 1;
