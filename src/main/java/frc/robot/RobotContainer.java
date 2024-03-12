@@ -17,7 +17,8 @@ import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Joystick;
-
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -80,11 +81,12 @@ public class RobotContainer {
   private final Blinkin m_blinkin = new Blinkin();
 
   private final NoteBlinkinColor m_blinkinCommand;
-  
+
   // Configure information based on the driver station Team Station
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
   public static int teamLocation = DriverStation.getLocation().getAsInt();
-
+  
+  private SendableChooser<String> m_pathPlannnerChooser;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -317,7 +319,15 @@ public class RobotContainer {
   }
 
   public Command getNewAuton() {
-    return new PathPlannerAuto("Test");
+    return new PathPlannerAuto(m_pathPlannnerChooser.getSelected());
+  }
+
+  public void setupNewAuton() {
+    m_pathPlannnerChooser.addOption("Top to bottom auton", "TopToBottom");
+    m_pathPlannnerChooser.setDefaultOption("Bottom to top auton", "BottomToTop");
+    m_pathPlannnerChooser.addOption("2 note top auton", "TopNotes");
+    m_pathPlannnerChooser.addOption("Test auton", "Test");
+    SmartDashboard.putData("Select path planner auton", m_pathPlannnerChooser);
   }
 
   public Command getOldAuton() {
@@ -350,6 +360,11 @@ public class RobotContainer {
 
     System.out.println("INCORRECT SMARTDASHBOARD AUTON SELECTION (somehow)");
     return null; // Something bad happened
+  }
+
+  public void setupOldAuton() {
+    AutonPaths.setupAutonChooser();
+    AutonPaths.setupRingNumberChooser();
   }
 
   public Command getTestCommand() {
