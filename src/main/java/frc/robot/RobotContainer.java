@@ -146,6 +146,8 @@ public class RobotContainer {
     // Speeds up driving (front bottom center)
     new JoystickButton(leftJoystick, 2).whileTrue(new DriveSpeedUp());
 
+    new JoystickButton(leftJoystick, 11).onTrue(new InstantCommand(() -> m_robotDrive.resetGyro()));
+
     // Make wheels into X (bottom of controller, left side, top right button)
     new JoystickButton(leftJoystick, 13).onTrue(new InstantCommand(() -> m_robotDrive.setX()));
 

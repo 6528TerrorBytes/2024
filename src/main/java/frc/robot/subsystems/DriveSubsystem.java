@@ -331,6 +331,10 @@ public class DriveSubsystem extends SubsystemBase {
     return -m_gyro.getAngle();
   }
 
+  public void resetGyro() {
+    m_gyro.reset();
+  }
+
   /**
    * Returns the turn rate of the robot.
    *
