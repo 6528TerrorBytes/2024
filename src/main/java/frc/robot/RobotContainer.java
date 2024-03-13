@@ -11,6 +11,7 @@ import frc.robot.subsystems.StopNote;
 import frc.utils.JoystickAnalogButton;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
@@ -42,6 +43,7 @@ import frc.robot.commands.auton.pathPlanner.StartAutonIntake;
 import frc.robot.commands.intake.ConveyerCommand;
 import frc.robot.commands.intake.IntakeCommand;
 import frc.robot.commands.teleop.ExtendHangerArms;
+import frc.robot.commands.teleop.OverrideShooterDisable;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TeleopFaceAprilTag;
 import frc.robot.commands.teleop.DriveSpeedUp;
@@ -231,7 +233,10 @@ public class RobotContainer {
       ));
   
       // Bring the shooter up to vertical (A)
-      new JoystickButton(otherJoystick, 1).whileTrue(new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
+      new JoystickButton(otherJoystick, 1).whileTrue(new ParallelCommandGroup(
+        new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical),
+        new OverrideShooterDisable()
+      ));
 
       // Manual aim to amp, back left bumper
       new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
@@ -337,6 +342,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
       new SequentialCommandGroup(
         new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
+        new WaitCommand(0.1),
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
       ),
       new StopNoteCommand(m_stopNote, false)

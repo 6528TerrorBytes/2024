@@ -32,11 +32,21 @@ public class AimShooter extends Command {
     m_shooterTilt.check();
     m_shooterTilt.testSwitches();
 
-    // Test for april tag in view and correct speaker ID
+    // Test for april tag in view
     if (!Utility.aprilTagInView()) { return; }
 
     detected = true;
     double angleGoal = calcShooterAngle();
+    if (angleGoal > 70) {
+      System.out.println("PAST 70");
+      System.out.println(angleGoal);
+      
+      Pose3d pos = Utility.aprilTagPos();
+      System.out.println(-pos.getY());
+      System.out.println(pos.getZ());
+
+      angleGoal = 45;
+    }
     m_shooterTilt.setGoal(angleGoal); // Calculate and aim shooter
   }
 

@@ -60,8 +60,8 @@ public final class Constants {
     public static final double aprilTagHorizontalEndRange = 2.5;
 
     // The time allowed to speed up the shooter in seconds before it fires
-    public static final double speedUpShooterSeconds = 1;
-    public static final double conveyerRunSeconds = 0.5;
+    public static final double speedUpShooterSeconds = 0.75;
+    public static final double conveyerRunSeconds = 0.6;
 
     public static final double ampSpeedUpSeconds = 0.4;
     public static final double ampConveyerRunSeconds = 1;
@@ -112,7 +112,7 @@ public final class Constants {
     // Angle of the arm from vertical in radians
     public static final double limelightAngle = 60 * (Math.PI / 180);
     // In meters, the distance from the AprilTag to the speaker
-    public static final double distTagToSpeaker = 0.65;
+    public static final double distTagToSpeaker = 0.68;
 
     // Initial velocity in meters per second of the shooter
     public static final double initialVel = 8.35;

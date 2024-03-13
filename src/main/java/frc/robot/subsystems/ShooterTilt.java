@@ -9,6 +9,8 @@ import frc.robot.Constants;
 public class ShooterTilt extends AngleMotor {
   // private final DigitalInput m_lowerSwitch = new DigitalInput(Constants.LimitSwitches.lowerShooterTilt);
   // private final DigitalInput m_upperSwitch = new DigitalInput(Constants.LimitSwitches.upperShooterTilt);
+
+  public static boolean overrideCheck = true;
   
   /** Creates a new ShooterTilt. */
   public ShooterTilt() {
@@ -40,6 +42,17 @@ public class ShooterTilt extends AngleMotor {
 
   public void outputEncoder() {
     SmartDashboard.putNumber("Shooter encoder angle ", getAngle());
+  }
+
+  @Override
+  public void check() {
+    if (!overrideCheck) { return; }
+
+    double encoderAngle = getEncoder().getPosition();
+
+    if (encoderAngle > Constants.ShooterConstants.maxAngle && encoderAngle < 300) {
+      disable();
+    } 
   }
 
   public void testSwitches() {
