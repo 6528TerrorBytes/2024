@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "BottomCenterNotes",
+    "BottomNotesShoot",
     "BottomToTop",
     "RingCollector",
     "TopCenterNotes",

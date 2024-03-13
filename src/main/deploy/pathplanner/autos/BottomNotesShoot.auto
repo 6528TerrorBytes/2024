@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.77,
-      "y": 6.72
+      "y": 4.37
     },
-    "rotation": 60.0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
@@ -28,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "1-SpeakerTopToTop"
+                        "pathName": "1-SpeakerToBottom"
                       }
                     },
                     {
@@ -46,7 +46,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "2-TopToCenterTop"
+                        "pathName": "2-BottomToSpeakerShoot"
                       }
                     },
                     {
@@ -56,15 +56,21 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
-                        "pathName": "3-CenterTopBack"
+                        "pathName": "3-SpeakerTo2ndBottom"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
-                        "name": "fireShooter"
+                        "name": "endIntake"
                       }
                     }
                   ]
