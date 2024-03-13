@@ -92,13 +92,7 @@ public final class Constants {
   public static class ShooterConstants {
     public static final double angleOffset = 0; // Angle offset to vertical arm
     public static final double minAngle = 0;
-    public static final double maxAngle = 85;
-
-    // Things to do here:
-    // PID Values for shooter tilt (Mar 1):
-    // - Set P to 0.01, put I at like 0.00000001 and test it
-    // - Also test Smart Current Limit to 1 and work my way up
-    //   to limit the torque (power) of the motor
+    public static final double maxAngle = 70;
 
     // You can see graphs in REV Hardware Client, Run -> View graph,
     // with Duty Cycle Position and Duty Cycle Velocity

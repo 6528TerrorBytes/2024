@@ -7,8 +7,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 public class ShooterTilt extends AngleMotor {
-  private final DigitalInput m_lowerSwitch = new DigitalInput(Constants.LimitSwitches.lowerShooterTilt);
-  private final DigitalInput m_upperSwitch = new DigitalInput(Constants.LimitSwitches.upperShooterTilt);
+  // private final DigitalInput m_lowerSwitch = new DigitalInput(Constants.LimitSwitches.lowerShooterTilt);
+  // private final DigitalInput m_upperSwitch = new DigitalInput(Constants.LimitSwitches.upperShooterTilt);
   
   /** Creates a new ShooterTilt. */
   public ShooterTilt() {

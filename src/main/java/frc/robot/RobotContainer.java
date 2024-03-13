@@ -88,7 +88,7 @@ public class RobotContainer {
   public static final DriverStation.Alliance teamColor = DriverStation.getAlliance().get();
   public static int teamLocation = DriverStation.getLocation().getAsInt();
   
-  private SendableChooser<String> m_pathPlannnerChooser;
+  private SendableChooser<String> m_pathPlannnerChooser = new SendableChooser<String>();
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
@@ -364,7 +364,6 @@ public class RobotContainer {
         );
       
       case AutonPaths.speakerCenterAuton: // For starting the robot centered against the front of the subwoofer/speaker
-        System.out.println("centerauton");
         return AutonPaths.createCenteredAuton(
           m_robotDrive, m_shooterTilt, m_stopNote, m_conveyerSubsystem, m_shooterSubsystem, m_detectNote, m_intakeSubsystem
         );
@@ -390,8 +389,6 @@ public class RobotContainer {
   }
 
   public void setTeleop(boolean isTeleop) {
-    System.out.println("IS TELEOP:");
-    System.out.println(isTeleop);
     m_blinkinCommand.setTeleop(isTeleop);
   }
 

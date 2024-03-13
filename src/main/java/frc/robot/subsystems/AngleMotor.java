@@ -95,12 +95,12 @@ public class AngleMotor extends SubsystemBase {
     motor.set(0);
   }
 
-  // Check in the execute function of a command! 
-  public void check() {
-    // double encoderPos = encoder.getPosition();
-    // if (encoderPos < minAngle || encoderPos > maxAngle) {
-    //   disable();
-    // }
+  // Check in the execute function of a command!
+  public void check() { // DISABLE BEFORE COMPETITION
+    double encoderPos = encoder.getPosition();
+    if (encoderPos < minAngle || encoderPos > maxAngle) {
+      disable();
+    }
   }
 
   // Getters
