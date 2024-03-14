@@ -342,10 +342,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
       new SequentialCommandGroup(
         new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new WaitCommand(0.1),
+        new WaitCommand(0.1), // What is this for again?
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
       ),
-      new StopNoteCommand(m_stopNote, false)
+      new SequentialCommandGroup(
+        new WaitCommand(Constants.AutonConstants.speedUpShooterSeconds / 2)
+        new StopNoteCommand(m_stopNote, false)
+      )
     ));
 
     // Potentially combine the SpeedUpShooter process and the EndAutonIntake process to speed this up by 0.5 seconds for each ring
