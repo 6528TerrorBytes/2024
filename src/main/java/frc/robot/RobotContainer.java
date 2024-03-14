@@ -239,11 +239,11 @@ public class RobotContainer {
       ));
 
       // Manual aim to amp, back left bumper
-      new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 17));
+      new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
       
       // Shoot across field buttons (B and X)
       new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 30));
-      new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
+      new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 35));
 
       // Manual aim to speaker (Y)
       new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 22));
@@ -311,7 +311,7 @@ public class RobotContainer {
   public void setupNewAuton() {
     m_pathPlannnerChooser.addOption("Top to bottom auton", "TopToBottom");
     m_pathPlannnerChooser.setDefaultOption("Bottom to top auton", "BottomToTop");
-    m_pathPlannnerChooser.addOption("2 note top auton", "TopCenterNotes");
+    m_pathPlannnerChooser.addOption("3 note top auton", "TopCenterNotes");
     m_pathPlannnerChooser.addOption("Bottom to bottom", "BottomCenterNotes");
     m_pathPlannnerChooser.addOption("Ring collector :)", "RingCollector");
 
@@ -345,7 +345,7 @@ public class RobotContainer {
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
       ),
       new SequentialCommandGroup(
-        new WaitCommand(Constants.AutonConstants.speedUpShooterSeconds / 2)
+        new WaitCommand(Constants.AutonConstants.speedUpShooterSeconds / 2),
         new StopNoteCommand(m_stopNote, false)
       )
     ));
@@ -354,6 +354,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("zeroShooter", new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
     NamedCommands.registerCommand("aimTo45", new TiltShooterCommand(m_shooterTilt, 45));
+
+    NamedCommands.registerCommand("resetGyro", new InstantCommand(() -> m_robotDrive.resetGyro()));
   }
 
   public Command getOldAuton() {

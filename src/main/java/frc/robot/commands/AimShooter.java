@@ -37,7 +37,7 @@ public class AimShooter extends Command {
 
     detected = true;
     double angleGoal = calcShooterAngle();
-    if (angleGoal > 70) {
+    if (angleGoal <= 0 || angleGoal >= 70) {
       System.out.println("PAST 70");
       System.out.println(angleGoal);
       

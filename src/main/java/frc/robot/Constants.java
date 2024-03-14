@@ -90,7 +90,6 @@ public final class Constants {
   }
 
   public static class ShooterConstants {
-    public static final double angleOffset = 0; // Angle offset to vertical arm
     public static final double minAngle = 0;
     public static final double maxAngle = 70;
 
@@ -112,7 +111,11 @@ public final class Constants {
     // Angle of the arm from vertical in radians
     public static final double limelightAngle = 60 * (Math.PI / 180);
     // In meters, the distance from the AprilTag to the speaker
-    public static final double distTagToSpeaker = 0.68;
+    public static final double distTagToSpeaker = 0.65;
+    public static final double minimumTagToSpeaker = 0.56;
+
+    public static final double aimLowerStart = 4;
+    public static final double aimLowerEnd = 6;
 
     // Initial velocity in meters per second of the shooter
     public static final double initialVel = 8.35;

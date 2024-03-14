@@ -20,7 +20,6 @@ public class AngleMotor extends SubsystemBase {
 
   private double angleGoal = 0;
   private double tolerance = 10;
-  private double startingOffset = 0;
 
   private double minAngle;
   private double maxAngle;
@@ -49,10 +48,6 @@ public class AngleMotor extends SubsystemBase {
     motor.burnFlash();
   }
 
-  public void setStartingOffset(double offset) {
-    startingOffset = offset;
-  }
-
   // Need to burn flash after running this function
   public void setSpeed(double speed) {
     // Control speed from -1 to 1 (min/max motor speed)
@@ -61,16 +56,26 @@ public class AngleMotor extends SubsystemBase {
 
   // Moves to the given angle (in degrees)
   public void setGoal(double angle) {
-    angleGoal = angle + startingOffset;
+    angleGoal = angle;
 
     // Clamp the angle goal between the angle limits
     if (angleGoal < minAngle) {
-      angleGoal = minAngle;
-    } else if (angleGoal > maxAngle) {
-      angleGoal = maxAngle;
+      System.out.println("Hit minimum angle: " + Double.toString(minAngle));
+      return;
+    }
+    
+    if (angleGoal > maxAngle) {
+      System.out.println("Hit max angle: " + Double.toString(maxAngle));
+      return;
+    }
+
+    if (Double.isNaN(angleGoal)) {
+      System.out.println("Hit a NaN");
+      return;
     }
 
     // Set the PID controller to move to the angle
+    System.out.println("Goal: " + Double.toString(angleGoal));
     pidController.setReference(angleGoal, CANSparkMax.ControlType.kPosition);
   }
 

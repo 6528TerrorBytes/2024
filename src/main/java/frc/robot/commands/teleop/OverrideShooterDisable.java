@@ -12,12 +12,14 @@ public class OverrideShooterDisable extends Command {
   @Override
   public void initialize() {
     ShooterTilt.overrideCheck = false;
+    System.out.println("overrideCheck false");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     ShooterTilt.overrideCheck = true;
+    System.out.println("overrideCheck true");
   }
 
   // Returns true when the command should end.

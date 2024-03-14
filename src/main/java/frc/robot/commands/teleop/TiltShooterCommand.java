@@ -11,7 +11,7 @@ import frc.robot.subsystems.ShooterTilt;
 public class TiltShooterCommand extends Command {
   private final ShooterTilt m_shooterTilt;
 
-  private double angleTo = 90;
+  private double angleTo = 45;
 
   /** Creates a new TiltShooterAlternate. */
   public TiltShooterCommand(ShooterTilt shooterTilt, double angle) {

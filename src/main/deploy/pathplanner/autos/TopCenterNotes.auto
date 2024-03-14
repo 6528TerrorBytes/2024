@@ -56,6 +56,12 @@
                       }
                     },
                     {
+                      "type": "named",
+                      "data": {
+                        "name": "resetGyro"
+                      }
+                    },
+                    {
                       "type": "path",
                       "data": {
                         "pathName": "3-CenterTopBack"

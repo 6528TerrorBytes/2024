@@ -20,8 +20,6 @@ public class ShooterTilt extends AngleMotor {
       Constants.ShooterConstants.maxAngle
     );
 
-    setStartingOffset(Constants.ShooterConstants.angleOffset);
-
     getController().setP(Constants.ShooterConstants.tiltP, 0);
     getController().setI(Constants.ShooterConstants.tiltI, 0);
     getController().setD(Constants.ShooterConstants.tiltD, 0);
@@ -51,6 +49,7 @@ public class ShooterTilt extends AngleMotor {
     double encoderAngle = getEncoder().getPosition();
 
     if (encoderAngle > Constants.ShooterConstants.maxAngle && encoderAngle < 300) {
+      System.out.println("disabled shooter tilt");
       disable();
     } 
   }
