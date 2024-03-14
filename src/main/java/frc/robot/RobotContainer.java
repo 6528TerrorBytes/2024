@@ -342,7 +342,6 @@ public class RobotContainer {
     NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
       new SequentialCommandGroup(
         new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new WaitCommand(0.1), // What is this for again?
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
       ),
       new SequentialCommandGroup(

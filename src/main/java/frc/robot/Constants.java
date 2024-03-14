@@ -61,7 +61,7 @@ public final class Constants {
 
     // The time allowed to speed up the shooter in seconds before it fires
     public static final double speedUpShooterSeconds = 0.75;
-    public static final double conveyerRunSeconds = 0.6;
+    public static final double conveyerRunSeconds = 0.75;
 
     public static final double ampSpeedUpSeconds = 0.4;
     public static final double ampConveyerRunSeconds = 1;
