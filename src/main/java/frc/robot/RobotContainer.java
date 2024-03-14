@@ -233,7 +233,7 @@ public class RobotContainer {
       ));
   
       // Bring the shooter up to vertical (A)
-      new JoystickButton(otherJoystick, 1).whileTrue(new ParallelCommandGroup(
+      new JoystickButton(otherJoystick, 1).onTrue(new ParallelDeadlineGroup(
         new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical),
         new OverrideShooterDisable()
       ));
