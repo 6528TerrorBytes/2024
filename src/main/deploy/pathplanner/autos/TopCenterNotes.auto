@@ -56,15 +56,15 @@
                       }
                     },
                     {
-                      "type": "named",
-                      "data": {
-                        "name": "resetGyro"
-                      }
-                    },
-                    {
                       "type": "path",
                       "data": {
                         "pathName": "3-CenterTopBack"
+                      }
+                    },
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.3
                       }
                     },
                     {
