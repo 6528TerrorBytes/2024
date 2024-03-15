@@ -115,7 +115,7 @@ public final class Constants {
 
     // Aims to lowTagToSpeaker when z is greater than aimLowerStart
     public static final double lowTagToSpeaker = 0.62;
-    public static final double aimLowerStart = 5;
+    public static final double aimLowerStart = 3;
 
     // Initial velocity in meters per second of the shooter
     public static final double initialVel = 8.35;

@@ -17,7 +17,7 @@ public class MoveAndIntake extends ParallelDeadlineGroup {
     super( // Ends when the conveyer command ends, when a note has been detected
       new ConveyerCommand(conveyerSubsystem, detectNote, 1, true), // "Deadline" command (entire command ends when this ends)
 
-      new IntakeCommand(intakeSubsystem, 1), // Run intake
+      new IntakeCommand(intakeSubsystem, detectNote, 1), // Run intake
       new StopNoteCommand(stopNote, true), // Brings note stopper down
       moveCommand // Command to follow the trajectory
     );

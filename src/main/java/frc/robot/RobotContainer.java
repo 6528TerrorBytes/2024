@@ -127,14 +127,14 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, true),
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
-      new IntakeCommand(m_intakeSubsystem, 1)
+      new IntakeCommand(m_intakeSubsystem, m_detectNote, 1)
     ));
     
     // Reverse intake (front bottom center button)
     new JoystickButton(rightJoystick, 2).whileTrue(new ParallelCommandGroup(
       new StopNoteCommand(m_stopNote, false),
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false),
-      new IntakeCommand(m_intakeSubsystem, -1)
+      new IntakeCommand(m_intakeSubsystem, m_detectNote, -1)
     ));
 
     // Climbers (up: front left button, retract: front right button)
@@ -271,7 +271,7 @@ public class RobotContainer {
     
     new JoystickButton(rightJoystick, 1).whileTrue(new ParallelCommandGroup(
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
-      new IntakeCommand(m_intakeSubsystem, 1),
+      new IntakeCommand(m_intakeSubsystem, m_detectNote, 1),
       new StopNoteCommand(m_stopNote, true)
     ));
 
@@ -279,7 +279,7 @@ public class RobotContainer {
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, -1, false)
     );
 
-    new JoystickButton(rightJoystick, 2).whileTrue(new IntakeCommand(m_intakeSubsystem, -1));
+    new JoystickButton(rightJoystick, 2).whileTrue(new IntakeCommand(m_intakeSubsystem, m_detectNote, -1));
     // new JoystickButton(otherJoystick, 1).whileTrue(new SlowIntakeCommand(m_intakeSubsystem));
 
     // new JoystickButton(otherJoystick, 1).onTrue(new TiltShooterCommand(m_shooterTilt, 20));
@@ -327,7 +327,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("intakeUntilNote", new ParallelDeadlineGroup(
       new ConveyerCommand(m_conveyerSubsystem, m_detectNote, 1, true),
-      new IntakeCommand(m_intakeSubsystem, 1),
+      new IntakeCommand(m_intakeSubsystem, m_detectNote, 1),
       new StopNoteCommand(m_stopNote, true)
     ));
     
