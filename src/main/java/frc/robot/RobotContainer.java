@@ -309,13 +309,13 @@ public class RobotContainer {
   }
 
   public void setupNewAuton() {
-    m_pathPlannnerChooser.addOption("Top to bottom auton", "TopToBottom");
-    m_pathPlannnerChooser.setDefaultOption("Bottom to top auton", "BottomToTop");
-    m_pathPlannnerChooser.addOption("3 note top auton", "TopCenterNotes");
-    m_pathPlannnerChooser.addOption("Bottom to bottom", "BottomCenterNotes");
-    m_pathPlannnerChooser.addOption("Ring collector :)", "RingCollector");
-
-    m_pathPlannnerChooser.addOption("Test auton (do not pick during comp)", "Test");
+    m_pathPlannnerChooser.setDefaultOption("Center 4 Note", "Center 4 Note");
+    m_pathPlannnerChooser.addOption("Amp-side 3 Note", "Amp-side 3 Note");
+    m_pathPlannnerChooser.addOption("Source-side 3 Note", "Source-side 3 Note");
+    
+    // m_pathPlannnerChooser.addOption("Top to bottom auton", "TopToBottom");
+    // m_pathPlannnerChooser.addOption("Ring collector :)", "RingCollector");
+    // m_pathPlannnerChooser.addOption("Bottom notes shoot", "BottomNotesShoot");
 
     SmartDashboard.putData("Select path planner auton", m_pathPlannnerChooser);
   }
