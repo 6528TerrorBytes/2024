@@ -177,7 +177,7 @@ public class DriveSubsystem extends SubsystemBase {
    * @param rateLimit     Whether to enable rate limiting for smoother control.
    */
   public void drive(double xSpeed, double ySpeed, double rot, boolean fieldRelative, boolean rateLimit, boolean multSpeed) {
-    SmartDashboard.putNumber("Gyro Angle ", m_gyro.getAngle());
+    SmartDashboard.putNumber("Gyro Angle", m_gyro.getAngle());
 
     if (multSpeed) {
       // Speed multiplier

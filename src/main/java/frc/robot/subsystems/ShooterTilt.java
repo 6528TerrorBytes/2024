@@ -39,7 +39,7 @@ public class ShooterTilt extends AngleMotor {
   }
 
   public void outputEncoder() {
-    SmartDashboard.putNumber("Shooter encoder angle ", getAngle());
+    SmartDashboard.putNumber("Shooter encoder angle", getAngle());
   }
 
   @Override

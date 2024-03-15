@@ -112,10 +112,10 @@ public final class Constants {
     public static final double limelightAngle = 60 * (Math.PI / 180);
     // In meters, the distance from the AprilTag to the speaker
     public static final double distTagToSpeaker = 0.65;
-    public static final double minimumTagToSpeaker = 0.56;
 
-    public static final double aimLowerStart = 4;
-    public static final double aimLowerEnd = 6;
+    // Aims to lowTagToSpeaker when z is greater than aimLowerStart
+    public static final double lowTagToSpeaker = 0.62;
+    public static final double aimLowerStart = 5;
 
     // Initial velocity in meters per second of the shooter
     public static final double initialVel = 8.35;

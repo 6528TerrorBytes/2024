@@ -70,15 +70,20 @@ public class AimShooter extends Command {
     // USING the above values to calculate the angle offset from the AprilTag
     // to the speaker, using law of cosines and then law of sines:
 
+    double distTagToSpeakerUsed = ShooterConstants.distTagToSpeaker;
+    if (z >= ShooterConstants.aimLowerStart) {
+      distTagToSpeakerUsed = ShooterConstants.lowTagToSpeaker;
+    }
+
     // Find the length from limelight to the speaker based on the above and the law of cosines
     double lengthToSpeaker = Math.sqrt(
-      (Math.pow(depthToTag, 2) + Math.pow(ShooterConstants.distTagToSpeaker, 2)) -
-      (2 * depthToTag * ShooterConstants.distTagToSpeaker * Math.cos(angleAboveTag))
+      (Math.pow(depthToTag, 2) + Math.pow(distTagToSpeakerUsed, 2)) -
+      (2 * depthToTag * distTagToSpeakerUsed * Math.cos(angleAboveTag))
     );
 
     // Using law of sines, find the angle offset needed to aim the arm from the tag to the speaker instead
     double angleOffset = Math.asin(
-      (Math.sin(angleAboveTag) / lengthToSpeaker) * ShooterConstants.distTagToSpeaker
+      (Math.sin(angleAboveTag) / lengthToSpeaker) * distTagToSpeakerUsed
     );
 
     // Angle up from horizontal to face the speaker directly
@@ -106,6 +111,7 @@ public class AimShooter extends Command {
     angle = 90 - (angle * (180 / Math.PI));
     angle -= 90 - ShooterConstants.encoderAngleToHorizontal;
 
+    SmartDashboard.putNumber("Limelight Z", z);
     SmartDashboard.putNumber("Suggested Arm Angle", angle);
     return angle;
   }
