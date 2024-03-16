@@ -3,14 +3,13 @@
   "robotLength": 1.00965,
   "holonomicMode": true,
   "pathFolders": [
-    "AmpSide2Ring",
-    "BottomCenterNotes",
+    "Amp-side 3 Note",
     "BottomNotesShoot",
-    "Center3Ring",
-    "Center4Ring",
-    "SourceStart",
+    "Center 3 Ring",
+    "Center 4 Ring",
     "RingCollector",
-    "TopCenterNotes",
+    "Source-side 3 Note",
+    "Source-side Edge 2 Note",
     "TopToBottom"
   ],
   "autoFolders": [
