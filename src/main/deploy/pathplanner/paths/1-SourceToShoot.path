@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.2,
-        "y": 4.8
+        "x": 0.5455876385813603,
+        "y": 2.100052572198168
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5269059109546788,
-        "y": 5.810476036536488
+        "x": 1.6763851774572966,
+        "y": 2.555308724213156
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.67,
-        "y": 5.5
+        "x": 3.321181597640477,
+        "y": 3.230850111074105
       },
       "prevControl": {
-        "x": 2.444870371275991,
-        "y": 5.5
+        "x": 2.93935385724081,
+        "y": 3.039936240874271
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,25 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "startIntake"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 3.0,
@@ -57,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": -36.67434966957318,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center4Ring",
+  "folder": "SourceStart",
   "previewStartingState": {
-    "rotation": -19.360000000000014,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

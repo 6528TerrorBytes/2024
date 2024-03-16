@@ -3,37 +3,59 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.2,
-        "y": 4.8
+        "x": 3.32,
+        "y": 3.23
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5269059109546788,
-        "y": 5.810476036536488
+        "x": 3.658952291070951,
+        "y": 2.4231375833055786
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.67,
-        "y": 5.5
+        "x": 6.97791649608344,
+        "y": 0.7930268454454622
       },
       "prevControl": {
-        "x": 2.444870371275991,
-        "y": 5.5
+        "x": 5.97791649608344,
+        "y": 0.7930268454454622
+      },
+      "nextControl": {
+        "x": 7.97791649608344,
+        "y": 0.7930268454454622
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.69614132788194,
+        "y": 0.7930268454454622
+      },
+      "prevControl": {
+        "x": 8.359057435467285,
+        "y": 0.8370838924146543
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": 0,
+      "rotateFast": false
+    }
+  ],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.9,
       "command": {
         "type": "parallel",
         "data": {
@@ -61,9 +83,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center4Ring",
+  "folder": "SourceStart",
   "previewStartingState": {
-    "rotation": -19.360000000000014,
+    "rotation": -36.670000000000016,
     "velocity": 0
   },
   "useDefaultConstraints": true
