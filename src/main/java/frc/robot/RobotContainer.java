@@ -212,9 +212,9 @@ public class RobotContainer {
   
       // Back right trigger, shoot
       new JoystickAnalogButton(otherJoystick, 3, 0.5).whileTrue(new SequentialCommandGroup(
-        new ParallelCommandGroup(
-          new StopNoteCommand(m_stopNote, false),
-          new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds)
+        new ParallelDeadlineGroup(
+          new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
+          new StopNoteCommand(m_stopNote, false)
         ),
   
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
@@ -223,9 +223,9 @@ public class RobotContainer {
   
       // Slow shoot for amp, back right bumper
       new JoystickButton(otherJoystick, 6).whileTrue(new SequentialCommandGroup(
-        new ParallelCommandGroup(
-          new StopNoteCommand(m_stopNote, false),
-          new SpeedUpShooter(m_shooterSubsystem, 0.3, Constants.AutonConstants.ampSpeedUpSeconds)
+        new ParallelDeadlineGroup(
+          new SpeedUpShooter(m_shooterSubsystem, 0.3, Constants.AutonConstants.ampSpeedUpSeconds),
+          new StopNoteCommand(m_stopNote, false)
         ),
   
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
@@ -327,6 +327,7 @@ public class RobotContainer {
     m_pathPlannnerChooser.addOption("Amp-side 3 Note", "Amp-side 3 Note");
     m_pathPlannnerChooser.addOption("Source-side Edge 2 Note", "Source-side Edge 2 Note");
     m_pathPlannnerChooser.addOption("Source-side 3 Note", "Source-side 3 Note");
+    m_pathPlannnerChooser.addOption("Source-side Shoot & Out", "Source-side Shoot & Out");
     
     // m_pathPlannnerChooser.addOption("Top to bottom auton", "TopToBottom");
     // m_pathPlannnerChooser.addOption("Ring collector :)", "RingCollector");

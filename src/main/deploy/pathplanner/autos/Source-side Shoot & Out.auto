@@ -1,0 +1,50 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.78,
+      "y": 4.36
+    },
+    "rotation": -60.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "fireShooter"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "aimShooterForever"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "zeroShooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Move"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Real",
+  "choreoAuto": false
+}
