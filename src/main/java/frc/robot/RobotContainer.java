@@ -322,6 +322,7 @@ public class RobotContainer {
     m_pathPlannnerChooser.addOption("Center 3 Note To Amp-side", "Center 3 Note Amp-side");
     m_pathPlannnerChooser.addOption("Center 3 Note To Source-side", "Center 3 Note Source-side");
     m_pathPlannnerChooser.setDefaultOption("Center 4 Note", "Center 4 Note");
+    m_pathPlannnerChooser.setDefaultOption("Center 4 Note To Center", "Center 4 Note To Center");
     m_pathPlannnerChooser.addOption("Amp-side 2 Note", "Amp-side 2 Note");
     m_pathPlannnerChooser.addOption("Amp-side 3 Note", "Amp-side 3 Note");
     m_pathPlannnerChooser.addOption("Source-side Edge 2 Note", "Source-side Edge 2 Note");

@@ -84,6 +84,18 @@
                       "data": {
                         "name": "fireShooter"
                       }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "5-ThrowToCenter"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "endIntake"
+                      }
                     }
                   ]
                 }
