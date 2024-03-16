@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.4,
+      "x": 1.32,
       "y": 5.54
     },
-    "rotation": 0
+    "rotation": -90.0
   },
   "command": {
     "type": "sequential",
@@ -19,6 +19,12 @@
                 "type": "sequential",
                 "data": {
                   "commands": [
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "0.5-MoveOutRotate"
+                      }
+                    },
                     {
                       "type": "named",
                       "data": {
