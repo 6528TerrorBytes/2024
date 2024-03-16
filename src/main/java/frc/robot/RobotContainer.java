@@ -318,7 +318,9 @@ public class RobotContainer {
     m_pathPlannnerChooser.addOption("No Auton", null);
     m_pathPlannnerChooser.addOption("Only Shoot", "Only Shoot");
     m_pathPlannnerChooser.addOption("Center 2 Note", "Center 2 Note");
-    m_pathPlannnerChooser.addOption("Center 3 Note", "Center 3 Note");
+    m_pathPlannnerChooser.addOption("Center 3 Note To Center", "Center 3 Note To Center");
+    m_pathPlannnerChooser.addOption("Center 3 Note To Amp-side", "Center 3 Note Amp-side");
+    m_pathPlannnerChooser.addOption("Center 3 Note To Source-side", "Center 3 Note Source-side");
     m_pathPlannnerChooser.setDefaultOption("Center 4 Note", "Center 4 Note");
     m_pathPlannnerChooser.addOption("Amp-side 2 Note", "Amp-side 2 Note");
     m_pathPlannnerChooser.addOption("Amp-side 3 Note", "Amp-side 3 Note");
@@ -358,6 +360,17 @@ public class RobotContainer {
       ),
       new SequentialCommandGroup(
         new WaitCommand(Constants.AutonConstants.speedUpShooterSeconds / 2),
+        new StopNoteCommand(m_stopNote, false)
+      )
+    ));
+
+    NamedCommands.registerCommand("ampShoot", new ParallelDeadlineGroup(
+      new SequentialCommandGroup(
+        new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds),
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds)
+      ),
+      new SequentialCommandGroup(
+        new WaitCommand(Constants.AutonConstants.ampSpeedUpSeconds / 2),
         new StopNoteCommand(m_stopNote, false)
       )
     ));
