@@ -225,7 +225,7 @@ public class RobotContainer {
       new JoystickButton(otherJoystick, 6).whileTrue(new SequentialCommandGroup(
         new ParallelCommandGroup(
           new StopNoteCommand(m_stopNote, false),
-          new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds)
+          new SpeedUpShooter(m_shooterSubsystem, 0.3, Constants.AutonConstants.ampSpeedUpSeconds)
         ),
   
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
@@ -239,7 +239,7 @@ public class RobotContainer {
       ));
 
       // Manual aim to amp, back left bumper
-      new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 25));
+      new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 19));
       
       // Shoot across field buttons (B and X)
       new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 30));
@@ -305,13 +305,21 @@ public class RobotContainer {
   }
 
   public Command getNewAuton() {
-    return new PathPlannerAuto(m_pathPlannnerChooser.getSelected());
+    String option = m_pathPlannnerChooser.getSelected();
+
+    if (option == null) {
+      return null;
+    }
+
+    return new PathPlannerAuto(option);
   }
 
   public void setupNewAuton() {
     m_pathPlannnerChooser.setDefaultOption("Center 4 Note", "Center 4 Note");
     m_pathPlannnerChooser.addOption("Amp-side 3 Note", "Amp-side 3 Note");
     m_pathPlannnerChooser.addOption("Source-side 3 Note", "Source-side 3 Note");
+    m_pathPlannnerChooser.addOption("Amp-side 2 Note", "Amp-side 2 Note");
+    m_pathPlannnerChooser.addOption("No Auton", null);
     
     // m_pathPlannnerChooser.addOption("Top to bottom auton", "TopToBottom");
     // m_pathPlannnerChooser.addOption("Ring collector :)", "RingCollector");
