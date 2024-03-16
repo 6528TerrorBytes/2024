@@ -1,6 +1,12 @@
 {
   "version": 1.0,
-  "startingPose": null,
+  "startingPose": {
+    "position": {
+      "x": 1.4,
+      "y": 5.54
+    },
+    "rotation": 0
+  },
   "command": {
     "type": "sequential",
     "data": {
@@ -22,13 +28,19 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "1-MiddleToMiddle"
+                        "pathName": "1-SpeakerCenterToBottom"
                       }
                     },
                     {
                       "type": "named",
                       "data": {
                         "name": "endIntake"
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "2-BottomToShoot"
                       }
                     },
                     {
@@ -40,7 +52,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "1-CenterToBottom"
+                        "pathName": "3-BottomToCenter"
                       }
                     },
                     {
