@@ -326,6 +326,7 @@ public class RobotContainer {
     m_pathPlannnerChooser.addOption("Amp-side 2 Note", "Amp-side 2 Note");
     m_pathPlannnerChooser.addOption("Amp-side 3 Note", "Amp-side 3 Note");
     m_pathPlannnerChooser.addOption("Source-side Edge 2 Note", "Source-side Edge 2 Note");
+    m_pathPlannnerChooser.addOption("Source-side Ring Swiper", "Source-side Ring Swiper");
     m_pathPlannnerChooser.addOption("Source-side 3 Note", "Source-side 3 Note");
     m_pathPlannnerChooser.addOption("Source-side Shoot & Out", "Source-side Shoot & Out");
     
@@ -381,6 +382,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("zeroShooter", new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical));
     NamedCommands.registerCommand("aimTo45", new TiltShooterCommand(m_shooterTilt, 45));
+    NamedCommands.registerCommand("aimTo60", new TiltShooterCommand(m_shooterTilt, 60));
 
     NamedCommands.registerCommand("resetGyro", new InstantCommand(() -> m_robotDrive.resetGyro()));
   }

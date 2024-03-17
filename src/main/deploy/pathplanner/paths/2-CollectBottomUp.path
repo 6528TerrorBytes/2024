@@ -3,59 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7672794566368348,
-        "y": 6.7166970697577755
+        "x": 8.67,
+        "y": 0.78
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2211290254423093,
-        "y": 6.711356821640298
+        "x": 6.860431037498927,
+        "y": 1.453882549983347
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2,
-        "y": 6.96
+        "x": 8.358370634451466,
+        "y": 2.4671946302747707
       },
       "prevControl": {
-        "x": 1.884922857882628,
-        "y": 6.972603085684694
-      },
-      "nextControl": {
-        "x": 2.5671420580766027,
-        "y": 6.945314317676937
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.1890104567328996,
-        "y": 6.96
-      },
-      "prevControl": {
-        "x": 2.8218683986562967,
-        "y": 6.989371364646129
+        "x": 7.256944460221657,
+        "y": 2.4671946302747707
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 1.0,
-      "rotationDegrees": 0.0,
-      "rotateFast": false
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 0.4,
       "command": {
         "type": "parallel",
         "data": {
@@ -79,13 +57,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 25.0,
+    "rotation": 18.434948822921978,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp-side 3 Note",
+  "folder": "RingCollector2",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

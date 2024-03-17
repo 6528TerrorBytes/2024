@@ -1,0 +1,73 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.37,
+      "y": 1.6
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1-MoveToCenter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "endIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fireShooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2-CollectBottomUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "endIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fireShooter"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3-2ndBottomUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "endIntake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "fireShooter"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "Real",
+  "choreoAuto": false
+}
