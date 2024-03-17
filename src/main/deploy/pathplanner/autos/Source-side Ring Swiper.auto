@@ -24,12 +24,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "fireShooter"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "2-CollectBottomUp"
@@ -39,12 +33,6 @@
           "type": "named",
           "data": {
             "name": "endIntake"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "fireShooter"
           }
         },
         {
@@ -60,9 +48,39 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "4-3rdBottomUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "endIntake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5-4thBottomUp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "endIntake"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "fireShooter"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "zeroShooter"
           }
         }
       ]

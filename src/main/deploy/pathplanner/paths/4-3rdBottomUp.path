@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.36,
-        "y": 2.47
+        "x": 8.58,
+        "y": 4.14
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.330372871836978,
-        "y": 3.6567348984429637
+        "x": 6.390489203160875,
+        "y": 5.918329976194836
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 8.578655869297428,
-        "y": 4.141362415104079
+        "x": 8.58,
+        "y": 5.815530199933388
       },
       "prevControl": {
-        "x": 6.688248578282902,
-        "y": 4.141362415104079
+        "x": 7.58,
+        "y": 5.815530199933388
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,7 +33,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.35,
+      "waypointRelativePos": 0.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -42,23 +42,6 @@
               "type": "named",
               "data": {
                 "name": "startIntake"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
-      "name": "Shooter 45",
-      "waypointRelativePos": 0,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "aimTo45"
               }
             }
           ]
@@ -81,6 +64,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "Aim to 60",
+      "waypointRelativePos": 0.6,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "aimTo60"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -92,12 +92,12 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": 0,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Ring Swiper",
   "previewStartingState": {
-    "rotation": 18.43,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

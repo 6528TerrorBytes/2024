@@ -47,6 +47,23 @@
           ]
         }
       }
+    },
+    {
+      "name": "Shoot",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "fireShooter"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
@@ -61,7 +78,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "RingCollector2",
+  "folder": "Ring Swiper",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0
