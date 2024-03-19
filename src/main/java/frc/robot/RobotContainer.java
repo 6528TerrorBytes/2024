@@ -207,18 +207,20 @@ public class RobotContainer {
 
     } else {
       // XBOX CONTROLLER
-      // Back left trigger, aim
-      new JoystickAnalogButton(otherJoystick, 2, 0.5).whileTrue(new AimShooter(m_shooterTilt, false));
+      // Back left trigger, aim and speed up shooter
+      new JoystickAnalogButton(otherJoystick, 2, 0.5).whileTrue(new ParallelCommandGroup(
+        new AimShooter(m_shooterTilt, false),
+        new SpeedUpShooter(m_shooterSubsystem, 1, true),
+        new StopNoteCommand(m_stopNote, false)
+      ));
   
       // Back right trigger, shoot
-      new JoystickAnalogButton(otherJoystick, 3, 0.5).whileTrue(new SequentialCommandGroup(
-        new ParallelDeadlineGroup(
-          new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-          new StopNoteCommand(m_stopNote, false)
-        ),
-  
-        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
-        new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+      new JoystickAnalogButton(otherJoystick, 3, 0.5).onTrue(new ParallelCommandGroup(
+        new StopNoteCommand(m_stopNote, false),
+        new SequentialCommandGroup(
+          new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
+          new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+        )
       ));
   
       // Slow shoot for amp, back right bumper

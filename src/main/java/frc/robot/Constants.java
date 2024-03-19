@@ -45,6 +45,8 @@ public final class Constants {
 
     public static final int hangerArmLeft = 8;
     public static final int hangerArmRight = 9;
+    
+    public static final int ampFlap = 25;
   }
 
   public static class LimitSwitches {
@@ -153,6 +155,20 @@ public final class Constants {
 
     public static final double openAngle = 5;
     public static final double closedAngle = 88;
+  }
+
+  public static class AmpFlapConstants {
+    public static final double p = 0.01;
+    public static final double i = 0;
+    public static final double d = 0;
+    public static final double speed = 0.5;
+    public static final double tolerance = 5;
+
+    public static final double minAngle = 0;
+    public static final double maxAngle = 50;
+    
+    public static final double downAngle = 5;
+    public static final double upAngle = 40;
   }
 
   public static class HangerArmConstants {

@@ -18,13 +18,22 @@ public class SpeedUpShooter extends Command {
   private double m_speed;
 
   private double m_speedUpSecs;
+  private boolean m_endWhenInterrupted;
 
   /** Creates a new SpeedUpShooter. */
   public SpeedUpShooter(ShooterSubsystem shooterSubsystem, double speed, double speedUpSecs) {
-    m_shooterSubsystem = shooterSubsystem;
+  m_shooterSubsystem = shooterSubsystem;
     m_speed = speed;
     m_speedUpSecs = speedUpSecs;
+    m_endWhenInterrupted = true;
     addRequirements(m_shooterSubsystem);
+  }
+
+  public SpeedUpShooter(ShooterSubsystem shooterSubsystem, double speed, boolean endWhenInterrupted) {
+    m_shooterSubsystem = shooterSubsystem;
+    m_speed = speed;
+    m_speedUpSecs = -1;
+    m_endWhenInterrupted = endWhenInterrupted;
   }
 
   // Called when the command is initially scheduled.
@@ -32,12 +41,14 @@ public class SpeedUpShooter extends Command {
   public void initialize() {
     m_shooterSubsystem.setSpeed(m_speed);
     m_shooterSubsystem.setForward();
-    m_timeToFinish = Utility.getTime() + m_speedUpSecs;
+    if (m_speedUpSecs >= 0) {
+      m_timeToFinish = Utility.getTime() + m_speedUpSecs;
+    }
   }
 
   @Override
   public void end(boolean interrupted) {
-    if (interrupted) { // Joystick button let go of
+    if (interrupted && m_endWhenInterrupted) { // Joystick button let go of
       m_shooterSubsystem.stop();
     }
   }
@@ -45,6 +56,6 @@ public class SpeedUpShooter extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return Utility.getTime() >= m_timeToFinish;
+    return m_speedUpSecs > 0 && (Utility.getTime() >= m_timeToFinish);
   }
 }

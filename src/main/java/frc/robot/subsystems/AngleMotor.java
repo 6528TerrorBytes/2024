@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.revrobotics.AbsoluteEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkAbsoluteEncoder.Type;
 import com.revrobotics.SparkPIDController;
 
@@ -15,8 +16,12 @@ import frc.robot.Constants;
 
 public class AngleMotor extends SubsystemBase {
   private final CANSparkMax motor;
-  private final AbsoluteEncoder encoder;
   private final SparkPIDController pidController;
+
+  // I wish Typescript unions were a thing in Java
+  private AbsoluteEncoder absoluteEncoder;
+  private RelativeEncoder relativeEncoder;
+  private boolean useRelativeEncoder;
 
   private double angleGoal = 0;
   private double tolerance = 10;
@@ -25,12 +30,27 @@ public class AngleMotor extends SubsystemBase {
   private double maxAngle;
 
   /** Creates a new AngleMotor. */
-  public AngleMotor(int motorID, double minAngle, double maxAngle) {
+  public AngleMotor(int motorID, double minAngle, double maxAngle, boolean useRelativeEncoder) {
+    this.useRelativeEncoder = useRelativeEncoder;
     motor = new CANSparkMax(motorID, MotorType.kBrushless);
-    encoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
     pidController = motor.getPIDController();
 
-    pidController.setFeedbackDevice(encoder);
+    if (!useRelativeEncoder) {
+      absoluteEncoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
+
+      // Setup encoder conversions to use radians and radians per second
+      absoluteEncoder.setPositionConversionFactor(Constants.toDegrees);
+      absoluteEncoder.setVelocityConversionFactor(Constants.toDegreesPerSec);
+
+      pidController.setFeedbackDevice(absoluteEncoder);
+    } else {
+      relativeEncoder = motor.getEncoder();
+
+      relativeEncoder.setPositionConversionFactor(Constants.toDegrees);
+      relativeEncoder.setVelocityConversionFactor(Constants.toDegreesPerSec);
+
+      pidController.setFeedbackDevice(relativeEncoder);
+    }
 
     this.minAngle = minAngle;
     this.maxAngle = maxAngle;
@@ -38,10 +58,6 @@ public class AngleMotor extends SubsystemBase {
     pidController.setPositionPIDWrappingMinInput(0);
     pidController.setPositionPIDWrappingMaxInput(360);
     pidController.setPositionPIDWrappingEnabled(true);
-
-    // Setup encoder conversions to use radians and radians per second
-    encoder.setPositionConversionFactor(Constants.toDegrees);
-    encoder.setVelocityConversionFactor(Constants.toDegreesPerSec);
   }
   
   public void burnFlash() {
@@ -84,7 +100,11 @@ public class AngleMotor extends SubsystemBase {
   }
 
   public double getAngle() {
-    return encoder.getPosition();
+    if (useRelativeEncoder) {
+      return relativeEncoder.getPosition();
+    } else {
+      return absoluteEncoder.getPosition();
+    }
   }
   
   /**
@@ -102,7 +122,7 @@ public class AngleMotor extends SubsystemBase {
 
   // Check in the execute function of a command!
   public void check() { // DISABLE BEFORE COMPETITION
-    double encoderPos = encoder.getPosition();
+    double encoderPos = getAngle();
     if (encoderPos < minAngle || encoderPos > maxAngle) {
       disable();
     }
@@ -111,5 +131,6 @@ public class AngleMotor extends SubsystemBase {
   // Getters
   protected CANSparkMax getMotor() { return motor; }
   protected SparkPIDController getController() { return pidController; }
-  protected AbsoluteEncoder getEncoder() { return encoder; }
+  protected AbsoluteEncoder getAbsoluteEncoder() { return absoluteEncoder; }
+  protected RelativeEncoder getRelativeEncoder() { return relativeEncoder; }
 }
