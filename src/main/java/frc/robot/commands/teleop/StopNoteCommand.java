@@ -30,7 +30,7 @@ public class StopNoteCommand extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    SmartDashboard.putNumber("stop note encoder angle", m_stopNote.getAngle());
+    SmartDashboard.putNumber("Stop note encoder angle", m_stopNote.getAngle());
   }
 
   // Called once the command ends or is interrupted.

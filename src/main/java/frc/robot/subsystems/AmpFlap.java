@@ -6,6 +6,7 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkBase.IdleMode;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import frc.robot.Constants;
 
 /** Add your docs here. */
@@ -15,7 +16,7 @@ public class AmpFlap extends AngleMotor {
       Constants.MotorIDs.ampFlap,
       Constants.AmpFlapConstants.minAngle, 
       Constants.AmpFlapConstants.maxAngle, 
-      true
+      true, (4096 * 25) / 360, (4096 * 25)
     );
 
     getController().setP(Constants.AmpFlapConstants.p, 0);
@@ -24,7 +25,7 @@ public class AmpFlap extends AngleMotor {
     getController().setFF(0, 0); // Feedforward gains (?)
     setSpeed(Constants.AmpFlapConstants.speed);
     
-    getMotor().setInverted(true);
+    getMotor().setInverted(false);
     getMotor().setIdleMode(IdleMode.kBrake);
     getMotor().setSmartCurrentLimit(10); // Just torque (strength), not speed
 
@@ -35,9 +36,15 @@ public class AmpFlap extends AngleMotor {
 
   public void setDown() {
     setGoal(Constants.AmpFlapConstants.downAngle);
+    System.out.println("to 5 degrees");
   }
 
   public void setUp() {
     setGoal(Constants.AmpFlapConstants.upAngle);
+    System.out.println("to 40 degrees");
+  }
+
+  public void outputEncoder() {
+    SmartDashboard.putNumber("Amp flap encoder angle", getAngle());
   }
 }

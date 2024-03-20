@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+import frc.robot.subsystems.AmpFlap;
 import frc.robot.subsystems.Blinkin;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ConveyerSubsystem;
@@ -46,6 +47,7 @@ import frc.robot.commands.teleop.ExtendHangerArms;
 import frc.robot.commands.teleop.OverrideShooterDisable;
 import frc.robot.commands.teleop.StopNoteCommand;
 import frc.robot.commands.teleop.TeleopFaceAprilTag;
+import frc.robot.commands.teleop.AmpFlapCommand;
 import frc.robot.commands.teleop.DriveSpeedUp;
 import frc.robot.subsystems.ShooterTilt;
 import frc.robot.commands.teleop.TiltShooterCommand;
@@ -77,6 +79,7 @@ public class RobotContainer {
 
   public final ShooterTilt m_shooterTilt = new ShooterTilt();
   private final StopNote m_stopNote = new StopNote();
+  private final AmpFlap m_ampFlap = new AmpFlap();
 
   public final HangerArm m_hangerArm = new HangerArm();
 
@@ -140,6 +143,10 @@ public class RobotContainer {
     // Climbers (up: front left button, retract: front right button)
     new JoystickButton(rightJoystick, 3).whileTrue(new ExtendHangerArms(m_hangerArm, false));
     new JoystickButton(rightJoystick, 4).whileTrue(new ExtendHangerArms(m_hangerArm, true));
+
+    // Stop note up (bottom of controller, left side, bottom right button)
+    new JoystickButton(rightJoystick, 14).whileTrue(new AmpFlapCommand(m_ampFlap, false));
+    new JoystickButton(rightJoystick, 15).whileTrue(new AmpFlapCommand(m_ampFlap, true));
 
     // ---------- LEFT JOYSTICK ----------
 
@@ -336,7 +343,7 @@ public class RobotContainer {
     // m_pathPlannnerChooser.addOption("Ring collector :)", "RingCollector");
     // m_pathPlannnerChooser.addOption("Bottom notes shoot", "BottomNotesShoot");
 
-    SmartDashboard.putData("Select path planner auton", m_pathPlannnerChooser);
+    SmartDashboard.putData("Select PathPlaner auton", m_pathPlannnerChooser);
   }
 
   private void registerAutonCommands() {
@@ -435,5 +442,7 @@ public class RobotContainer {
 
   public void dashboardStuff() {
     m_detectNote.addToDashboard();
+    m_shooterTilt.outputEncoder();
+    m_ampFlap.outputEncoder();
   }
 }

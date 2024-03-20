@@ -18,7 +18,7 @@ public class ShooterTilt extends AngleMotor {
       Constants.MotorIDs.shooterTilt,
       Constants.ShooterConstants.minAngle,
       Constants.ShooterConstants.maxAngle,
-      false
+      false, 1, 360
     );
 
     getController().setP(Constants.ShooterConstants.tiltP, 0);

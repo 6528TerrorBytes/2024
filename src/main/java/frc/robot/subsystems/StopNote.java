@@ -14,7 +14,7 @@ public class StopNote extends AngleMotor {
       Constants.MotorIDs.stopNote,
       Constants.StopNoteConstants.minAngle,
       Constants.StopNoteConstants.maxAngle,
-      false
+      false, 1, 360
     );
 
     getController().setP(Constants.StopNoteConstants.p, 0);

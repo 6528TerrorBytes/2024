@@ -26,11 +26,12 @@ public class AngleMotor extends SubsystemBase {
   private double angleGoal = 0;
   private double tolerance = 10;
 
-  private double minAngle;
-  private double maxAngle;
+  private double m_minAngle;
+  private double m_maxAngle;
+  private double m_scale;
 
   /** Creates a new AngleMotor. */
-  public AngleMotor(int motorID, double minAngle, double maxAngle, boolean useRelativeEncoder) {
+  public AngleMotor(int motorID, double minAngle, double maxAngle, boolean useRelativeEncoder, double scale, double maxDegrees) {
     this.useRelativeEncoder = useRelativeEncoder;
     motor = new CANSparkMax(motorID, MotorType.kBrushless);
     pidController = motor.getPIDController();
@@ -39,24 +40,22 @@ public class AngleMotor extends SubsystemBase {
       absoluteEncoder = motor.getAbsoluteEncoder(Type.kDutyCycle);
 
       // Setup encoder conversions to use radians and radians per second
-      absoluteEncoder.setPositionConversionFactor(Constants.toDegrees);
-      absoluteEncoder.setVelocityConversionFactor(Constants.toDegreesPerSec);
+      absoluteEncoder.setPositionConversionFactor(Constants.toDegrees * scale);
+      absoluteEncoder.setVelocityConversionFactor(Constants.toDegreesPerSec * scale);
 
       pidController.setFeedbackDevice(absoluteEncoder);
     } else {
       relativeEncoder = motor.getEncoder();
-
-      relativeEncoder.setPositionConversionFactor(Constants.toDegrees);
-      relativeEncoder.setVelocityConversionFactor(Constants.toDegreesPerSec);
-
+      relativeEncoder.setPositionConversionFactor(4096);
       pidController.setFeedbackDevice(relativeEncoder);
     }
 
-    this.minAngle = minAngle;
-    this.maxAngle = maxAngle;
+    m_minAngle = minAngle;
+    m_maxAngle = maxAngle;
+    m_scale = scale;
         
     pidController.setPositionPIDWrappingMinInput(0);
-    pidController.setPositionPIDWrappingMaxInput(360);
+    pidController.setPositionPIDWrappingMaxInput(maxDegrees);
     pidController.setPositionPIDWrappingEnabled(true);
   }
   
@@ -75,13 +74,13 @@ public class AngleMotor extends SubsystemBase {
     angleGoal = angle;
 
     // Clamp the angle goal between the angle limits
-    if (angleGoal < minAngle) {
-      System.out.println("Hit minimum angle: " + Double.toString(minAngle));
+    if (angleGoal < m_minAngle) {
+      System.out.println("Hit minimum angle: " + Double.toString(m_minAngle));
       return;
     }
     
-    if (angleGoal > maxAngle) {
-      System.out.println("Hit max angle: " + Double.toString(maxAngle));
+    if (angleGoal > m_maxAngle) {
+      System.out.println("Hit max angle: " + Double.toString(m_maxAngle));
       return;
     }
 
@@ -89,6 +88,8 @@ public class AngleMotor extends SubsystemBase {
       System.out.println("Hit a NaN");
       return;
     }
+
+    angleGoal *= m_scale;
 
     // Set the PID controller to move to the angle
     System.out.println("Goal: " + Double.toString(angleGoal));
@@ -123,7 +124,7 @@ public class AngleMotor extends SubsystemBase {
   // Check in the execute function of a command!
   public void check() { // DISABLE BEFORE COMPETITION
     double encoderPos = getAngle();
-    if (encoderPos < minAngle || encoderPos > maxAngle) {
+    if (encoderPos < m_minAngle || encoderPos > m_maxAngle) {
       disable();
     }
   }

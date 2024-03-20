@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.util.Color;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -161,7 +162,7 @@ public final class Constants {
     public static final double p = 0.01;
     public static final double i = 0;
     public static final double d = 0;
-    public static final double speed = 0.5;
+    public static final double speed = 0.05;
     public static final double tolerance = 5;
 
     public static final double minAngle = 0;
@@ -194,6 +195,19 @@ public final class Constants {
 
     public static final double strobeRed = -0.11;
     public static final double strobeBlue = -0.09;
+  }
+
+  public static class LEDConstants {
+    public static final int PWMPort = 0;
+
+    public static final int amountOfLEDs = 100;
+
+    public static final int bounceStart = 10;
+    public static final double bounceSpeed = 0;
+    public static final int bounceEnd = 25;
+    public static final int bounceWidth = 5;
+    public static final Color bounceColor = new Color(0, 255, 0);
+
   }
 
   // default copy-pasted stuff here:

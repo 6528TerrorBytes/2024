@@ -54,7 +54,6 @@ public class Robot extends TimedRobot {
     // SmartDashboard updating stuff:
     // Utility.updateSmartDashboard();
     // m_robotContainer.m_hangerArm.outputLimitSwitches();
-    m_robotContainer.m_shooterTilt.outputEncoder();
 
     m_robotContainer.dashboardStuff();
   }

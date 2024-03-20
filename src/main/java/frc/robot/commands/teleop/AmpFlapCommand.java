@@ -25,6 +25,20 @@ public class AmpFlapCommand extends Command {
   }
 
   @Override
+  public void execute() {
+    // if (m_isDown) {
+    //   m_ampFlap.setSpeed(0.05);
+    // } else {
+    //   m_ampFlap.setSpeed(-0.05);
+    // }
+  }
+
+  @Override
+  public void end(boolean interrupted) {
+    m_ampFlap.disable();
+  }
+
+  @Override
   public boolean isFinished() {
     return m_ampFlap.atGoal();
   }

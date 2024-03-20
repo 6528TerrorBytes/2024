@@ -111,8 +111,7 @@ public class AimShooter extends Command {
     angle = 90 - (angle * (180 / Math.PI));
     angle -= 90 - ShooterConstants.encoderAngleToHorizontal;
 
-    SmartDashboard.putNumber("Limelight Z", z);
-    SmartDashboard.putNumber("Suggested Arm Angle", angle);
+    SmartDashboard.putNumber("Suggested shooter angle", angle);
     return angle;
   }
 
