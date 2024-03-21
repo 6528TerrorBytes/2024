@@ -14,7 +14,7 @@ public class ShooterSubsystem extends SubsystemBase {
   public final CANSparkMax shooterLeft =  new CANSparkMax(Constants.MotorIDs.shooterLeft,  MotorType.kBrushless);
   public final CANSparkMax shooterRight = new CANSparkMax(Constants.MotorIDs.shooterRight, MotorType.kBrushless);
 
-  private double m_speed = 1;
+  private double m_speed = 0;
 
   /** Creates a new ShooterSubsystem. */
   public ShooterSubsystem() {
@@ -30,6 +30,10 @@ public class ShooterSubsystem extends SubsystemBase {
     m_speed = speed;
   }
 
+  public double getSpeed() {
+    return m_speed;
+  }
+
   public void setForward() {
     shooterLeft.set(-m_speed);
     shooterRight.set(m_speed);
@@ -41,7 +45,7 @@ public class ShooterSubsystem extends SubsystemBase {
   }
 
   public void stop() {
-    shooterLeft.set(0);
-    shooterRight.set(0);
+    setSpeed(0);
+    setForward();
   }
 }

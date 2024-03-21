@@ -36,12 +36,10 @@ public class AmpFlap extends AngleMotor {
 
   public void setDown() {
     setGoal(Constants.AmpFlapConstants.downAngle);
-    System.out.println("to 5 degrees");
   }
 
   public void setUp() {
     setGoal(Constants.AmpFlapConstants.upAngle);
-    System.out.println("to 40 degrees");
   }
 
   public void outputEncoder() {

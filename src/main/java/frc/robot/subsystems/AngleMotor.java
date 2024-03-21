@@ -46,7 +46,7 @@ public class AngleMotor extends SubsystemBase {
       pidController.setFeedbackDevice(absoluteEncoder);
     } else {
       relativeEncoder = motor.getEncoder();
-      relativeEncoder.setPositionConversionFactor(4096);
+      relativeEncoder.setPositionConversionFactor(2000);
       pidController.setFeedbackDevice(relativeEncoder);
     }
 
@@ -89,11 +89,8 @@ public class AngleMotor extends SubsystemBase {
       return;
     }
 
-    angleGoal *= m_scale;
-
     // Set the PID controller to move to the angle
-    System.out.println("Goal: " + Double.toString(angleGoal));
-    pidController.setReference(angleGoal, CANSparkMax.ControlType.kPosition);
+    pidController.setReference(angleGoal * m_scale, CANSparkMax.ControlType.kPosition);
   }
 
   public void setTolerance(double angleOffset) {
@@ -102,9 +99,9 @@ public class AngleMotor extends SubsystemBase {
 
   public double getAngle() {
     if (useRelativeEncoder) {
-      return relativeEncoder.getPosition();
+      return relativeEncoder.getPosition() / m_scale;
     } else {
-      return absoluteEncoder.getPosition();
+      return absoluteEncoder.getPosition() / m_scale;
     }
   }
   
@@ -123,7 +120,7 @@ public class AngleMotor extends SubsystemBase {
 
   // Check in the execute function of a command!
   public void check() { // DISABLE BEFORE COMPETITION
-    double encoderPos = getAngle();
+    double encoderPos = getAngle() / m_scale;
     if (encoderPos < m_minAngle || encoderPos > m_maxAngle) {
       disable();
     }

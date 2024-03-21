@@ -24,7 +24,7 @@ public class FireShooter extends Command {
     m_conveyerSubsystem = conveyerSubsystem;
     m_shooterSubsystem = shooterSubsystem;
     m_fireTimeSecs = fireTimeSecs;
-    addRequirements(m_conveyerSubsystem, m_shooterSubsystem); 
+    addRequirements(m_conveyerSubsystem); 
   }
 
   @Override

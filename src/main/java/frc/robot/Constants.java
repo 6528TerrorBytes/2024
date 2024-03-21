@@ -162,14 +162,14 @@ public final class Constants {
     public static final double p = 0.01;
     public static final double i = 0;
     public static final double d = 0;
-    public static final double speed = 0.05;
-    public static final double tolerance = 5;
+    public static final double speed = 0.2;
+    public static final double tolerance = 1;
 
     public static final double minAngle = 0;
-    public static final double maxAngle = 50;
+    public static final double maxAngle = 100;
     
     public static final double downAngle = 5;
-    public static final double upAngle = 40;
+    public static final double upAngle = 83;
   }
 
   public static class HangerArmConstants {

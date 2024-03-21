@@ -145,8 +145,8 @@ public class RobotContainer {
     new JoystickButton(rightJoystick, 4).whileTrue(new ExtendHangerArms(m_hangerArm, true));
 
     // Stop note up (bottom of controller, left side, bottom right button)
-    new JoystickButton(rightJoystick, 14).whileTrue(new AmpFlapCommand(m_ampFlap, false));
-    new JoystickButton(rightJoystick, 15).whileTrue(new AmpFlapCommand(m_ampFlap, true));
+    new JoystickButton(rightJoystick, 14).onTrue(new AmpFlapCommand(m_ampFlap, false));
+    new JoystickButton(rightJoystick, 15).onTrue(new AmpFlapCommand(m_ampFlap, true));
 
     // ---------- LEFT JOYSTICK ----------
 
@@ -217,7 +217,7 @@ public class RobotContainer {
       // Back left trigger, aim and speed up shooter
       new JoystickAnalogButton(otherJoystick, 2, 0.5).whileTrue(new ParallelCommandGroup(
         new AimShooter(m_shooterTilt, false),
-        new SpeedUpShooter(m_shooterSubsystem, 1, true),
+        new SpeedUpShooter(m_shooterSubsystem, 1, false),
         new StopNoteCommand(m_stopNote, false)
       ));
   
@@ -233,12 +233,16 @@ public class RobotContainer {
       // Slow shoot for amp, back right bumper
       new JoystickButton(otherJoystick, 6).whileTrue(new SequentialCommandGroup(
         new ParallelDeadlineGroup(
-          new SpeedUpShooter(m_shooterSubsystem, 0.3, Constants.AutonConstants.ampSpeedUpSeconds),
+          new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds),
           new StopNoteCommand(m_stopNote, false)
         ),
   
         new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.ampConveyerRunSeconds),
-        new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+
+        new ParallelCommandGroup(
+          new AmpFlapCommand(m_ampFlap, true),
+          new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
+        )
       ));
   
       // Bring the shooter up to vertical (A)
@@ -248,7 +252,10 @@ public class RobotContainer {
       ));
 
       // Manual aim to amp, back left bumper
-      new JoystickButton(otherJoystick, 5).whileTrue(new TiltShooterCommand(m_shooterTilt, 19));
+      new JoystickButton(otherJoystick, 5).onTrue(new ParallelCommandGroup(
+        new AmpFlapCommand(m_ampFlap, false),
+        new TiltShooterCommand(m_shooterTilt, 25)
+      ));
       
       // Shoot across field buttons (B and X)
       new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 30));
