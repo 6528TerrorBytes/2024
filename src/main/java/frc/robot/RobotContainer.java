@@ -220,6 +220,12 @@ public class RobotContainer {
         new SpeedUpShooter(m_shooterSubsystem, 1, false),
         new StopNoteCommand(m_stopNote, false)
       ));
+      
+      // Backup spool shooter (X)
+      new JoystickButton(otherJoystick, 3).whileTrue(new ParallelCommandGroup(
+        new SpeedUpShooter(m_shooterSubsystem, 1, false),
+        new StopNoteCommand(m_stopNote, false)
+      ));
   
       // Back right trigger, shoot
       new JoystickAnalogButton(otherJoystick, 3, 0.5).onTrue(new ParallelCommandGroup(
@@ -228,6 +234,12 @@ public class RobotContainer {
           new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds),
           new TiltShooterCommand(m_shooterTilt, Constants.ShooterConstants.angleAtVertical)
         )
+      ));
+
+      // Manual aim to amp, back left bumper
+      new JoystickButton(otherJoystick, 5).onTrue(new ParallelCommandGroup(
+        new AmpFlapCommand(m_ampFlap, false),
+        new TiltShooterCommand(m_shooterTilt, 25)
       ));
   
       // Slow shoot for amp, back right bumper
@@ -252,15 +264,8 @@ public class RobotContainer {
         new OverrideShooterDisable()
       ));
 
-      // Manual aim to amp, back left bumper
-      new JoystickButton(otherJoystick, 5).onTrue(new ParallelCommandGroup(
-        new AmpFlapCommand(m_ampFlap, false),
-        new TiltShooterCommand(m_shooterTilt, 25)
-      ));
-      
-      // Shoot across field buttons (B and X)
-      new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 30));
-      new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 35));
+      // Shoot across field button (B)
+      new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 35));
 
       // Manual aim to speaker (Y)
       new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 22));
