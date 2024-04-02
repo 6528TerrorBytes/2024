@@ -4,35 +4,36 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+// import edu.wpi.first.wpilibj.AddressableLED;
+// import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+// import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import frc.robot.Constants;
 
-public class LEDs extends SubsystemBase {
-  private final AddressableLED m_led;
-  private final AddressableLEDBuffer m_ledBuffer;
+// For individually addressable LEDs (which we're not using)
+// public class LEDs extends SubsystemBase {
+//   private final AddressableLED m_led;
+//   private final AddressableLEDBuffer m_ledBuffer;
 
-  private final int bouncePos = Constants.LEDConstants.bounceStart;
+//   private final int bouncePos = Constants.LEDConstants.bounceStart;
 
-  /** Creates a new LEDs. */
-  public LEDs() {
-    m_led = new AddressableLED(Constants.LEDConstants.PWMPort);
+//   /** Creates a new LEDs. */
+//   public LEDs() {
+//     m_led = new AddressableLED(Constants.LEDConstants.PWMPort);
 
-    m_ledBuffer = new AddressableLEDBuffer(Constants.LEDConstants.amountOfLEDs);
-    m_led.setLength(m_ledBuffer.getLength());
-  }
+//     m_ledBuffer = new AddressableLEDBuffer(Constants.LEDConstants.amountOfLEDs);
+//     m_led.setLength(m_ledBuffer.getLength());
+//   }
 
-  public void updateBounce() {
+//   public void updateBounce() {
     
-  }
+//   }
 
-  @Override
-  public void periodic() {
+//   @Override
+//   public void periodic() {
 
-  }
+//   }
 
-  public void updateLEDs() {
-    m_led.setData(m_ledBuffer);
-  }
-}
+//   public void updateLEDs() {
+//     m_led.setData(m_ledBuffer);
+//   }
+// }

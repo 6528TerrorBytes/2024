@@ -197,18 +197,19 @@ public final class Constants {
     public static final double strobeBlue = -0.09;
   }
 
-  public static class LEDConstants {
-    public static final int PWMPort = 0;
+  // For individually addressable LEDs (which we're not using)
+  // public static class LEDConstants {
+  //   public static final int PWMPort = 0;
 
-    public static final int amountOfLEDs = 100;
+  //   public static final int amountOfLEDs = 100;
 
-    public static final int bounceStart = 10;
-    public static final double bounceSpeed = 0;
-    public static final int bounceEnd = 25;
-    public static final int bounceWidth = 5;
-    public static final Color bounceColor = new Color(0, 255, 0);
+  //   public static final int bounceStart = 10;
+  //   public static final double bounceSpeed = 0;
+  //   public static final int bounceEnd = 25;
+  //   public static final int bounceWidth = 5;
+  //   public static final Color bounceColor = new Color(0, 255, 0);
 
-  }
+  // }
 
   // default copy-pasted stuff here:
   // https://github.com/REVrobotics/MAXSwerve-Java-Template/blob/main/src/main/java/frc/robot/Constants.java
