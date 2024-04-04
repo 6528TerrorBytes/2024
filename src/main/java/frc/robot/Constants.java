@@ -169,7 +169,7 @@ public final class Constants {
     public static final double maxAngle = 100;
     
     public static final double downAngle = 5;
-    public static final double upAngle = 83;
+    public static final double upAngle = 80; // 83 to max
   }
 
   public static class HangerArmConstants {

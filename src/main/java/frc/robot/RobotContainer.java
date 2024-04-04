@@ -220,12 +220,19 @@ public class RobotContainer {
         new SpeedUpShooter(m_shooterSubsystem, 1, false),
         new StopNoteCommand(m_stopNote, false)
       ));
-      
-      // Backup spool shooter (X)
-      new JoystickButton(otherJoystick, 3).whileTrue(new ParallelCommandGroup(
+
+      // Manual aim to speaker (Y)
+      new JoystickButton(otherJoystick, 4).whileTrue(new ParallelCommandGroup(
+        new TiltShooterCommand(m_shooterTilt, 22),  
         new SpeedUpShooter(m_shooterSubsystem, 1, false),
         new StopNoteCommand(m_stopNote, false)
       ));
+      
+      // Backup spool shooter (X)
+      // new JoystickButton(otherJoystick, 3).whileTrue(new ParallelCommandGroup(
+      //   new SpeedUpShooter(m_shooterSubsystem, 1, false),
+      //   new StopNoteCommand(m_stopNote, false)
+      // ));
   
       // Back right trigger, shoot
       new JoystickAnalogButton(otherJoystick, 3, 0.5).onTrue(new ParallelCommandGroup(
@@ -239,13 +246,13 @@ public class RobotContainer {
       // Manual aim to amp, back left bumper
       new JoystickButton(otherJoystick, 5).onTrue(new ParallelCommandGroup(
         new AmpFlapCommand(m_ampFlap, false),
-        new TiltShooterCommand(m_shooterTilt, 25)
+        new TiltShooterCommand(m_shooterTilt, 20)
       ));
   
       // Slow shoot for amp, back right bumper
       new JoystickButton(otherJoystick, 6).whileTrue(new SequentialCommandGroup(
         new ParallelDeadlineGroup(
-          new SpeedUpShooter(m_shooterSubsystem, 0.5, Constants.AutonConstants.ampSpeedUpSeconds),
+          new SpeedUpShooter(m_shooterSubsystem, 0.4, Constants.AutonConstants.ampSpeedUpSeconds),
           new StopNoteCommand(m_stopNote, false)
         ),
   
@@ -266,10 +273,9 @@ public class RobotContainer {
 
       // Shoot across field button (B)
       new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 35));
+      // Shoot across field other angle (X)
+      new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 30));
 
-      // Manual aim to speaker (Y)
-      new JoystickButton(otherJoystick, 4).whileTrue(new TiltShooterCommand(m_shooterTilt, 22));
-      
       // Manual conveyer forward (controller bottom top right)
       new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(
         new StopNoteCommand(m_stopNote, false),
