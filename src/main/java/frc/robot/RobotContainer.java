@@ -346,6 +346,7 @@ public class RobotContainer {
     m_pathPlannnerChooser.addOption("No Auton", null);
     m_pathPlannnerChooser.addOption("Only Shoot", "Only Shoot");
     m_pathPlannnerChooser.addOption("Center 2 Note", "Center 2 Note");
+    m_pathPlannnerChooser.addOption("Center 2 Note to Source-side", "Center 2 Note Source-side");
     m_pathPlannnerChooser.addOption("Center 3 Note To Center", "Center 3 Note To Center");
     m_pathPlannnerChooser.addOption("Center 3 Note To Amp-side", "Center 3 Note Amp-side");
     m_pathPlannnerChooser.addOption("Center 3 Note To Source-side", "Center 3 Note Source-side");
