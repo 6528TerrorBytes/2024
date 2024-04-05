@@ -220,13 +220,6 @@ public class RobotContainer {
         new SpeedUpShooter(m_shooterSubsystem, 1, false),
         new StopNoteCommand(m_stopNote, false)
       ));
-
-      // Manual aim to speaker (Y)
-      new JoystickButton(otherJoystick, 4).whileTrue(new ParallelCommandGroup(
-        new TiltShooterCommand(m_shooterTilt, 22),  
-        new SpeedUpShooter(m_shooterSubsystem, 1, false),
-        new StopNoteCommand(m_stopNote, false)
-      ));
       
       // Backup spool shooter (X)
       // new JoystickButton(otherJoystick, 3).whileTrue(new ParallelCommandGroup(
@@ -271,10 +264,26 @@ public class RobotContainer {
         new OverrideShooterDisable()
       ));
 
+      // Manual aim to speaker (Y)
+      new JoystickButton(otherJoystick, 4).whileTrue(new ParallelCommandGroup(
+        new TiltShooterCommand(m_shooterTilt, 22),  
+        new SpeedUpShooter(m_shooterSubsystem, 1, false),
+        new StopNoteCommand(m_stopNote, false)
+      ));
+
       // Shoot across field button (B)
-      new JoystickButton(otherJoystick, 2).whileTrue(new TiltShooterCommand(m_shooterTilt, 35));
+      new JoystickButton(otherJoystick, 2).whileTrue(new ParallelCommandGroup(
+        new TiltShooterCommand(m_shooterTilt, 35),
+        new SpeedUpShooter(m_shooterSubsystem, 1, false),
+        new StopNoteCommand(m_stopNote, false)
+      ));
+
       // Shoot across field other angle (X)
-      new JoystickButton(otherJoystick, 3).whileTrue(new TiltShooterCommand(m_shooterTilt, 30));
+      new JoystickButton(otherJoystick, 3).whileTrue(new ParallelCommandGroup(
+        new TiltShooterCommand(m_shooterTilt, 30),  
+        new SpeedUpShooter(m_shooterSubsystem, 1, false),
+        new StopNoteCommand(m_stopNote, false)
+      ));
 
       // Manual conveyer forward (controller bottom top right)
       new JoystickButton(otherJoystick, 8).whileTrue(new ParallelCommandGroup(

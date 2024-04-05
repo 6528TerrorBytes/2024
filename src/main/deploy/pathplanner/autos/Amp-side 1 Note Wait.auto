@@ -28,7 +28,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 10.0
+                        "waitTime": 8.0
                       }
                     },
                     {
@@ -41,6 +41,12 @@
                       "type": "named",
                       "data": {
                         "name": "endIntake"
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "fireShooter"
                       }
                     }
                   ]
