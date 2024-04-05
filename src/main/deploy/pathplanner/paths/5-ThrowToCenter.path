@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.66,
-        "y": 6.88
+        "x": 2.81,
+        "y": 7.09
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.66,
-        "y": 6.88
+        "x": 3.81,
+        "y": 7.09
       },
       "isLocked": false,
       "linkedName": null
@@ -63,7 +63,7 @@
   "reversed": false,
   "folder": "Center 4 Note",
   "previewStartingState": {
-    "rotation": 30.72,
+    "rotation": 22.83,
     "velocity": 0
   },
   "useDefaultConstraints": true

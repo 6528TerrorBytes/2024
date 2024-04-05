@@ -3,12 +3,12 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.66,
+        "x": 2.82,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5164144034781577,
+        "x": 2.6764144034781574,
         "y": 5.953743835539619
       },
       "isLocked": false,
@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 2.66,
-        "y": 6.88
+        "x": 2.8062767813847316,
+        "y": 7.089846906966541
       },
       "prevControl": {
-        "x": 1.4069648918518611,
-        "y": 6.316893672748384
+        "x": 1.456099942611335,
+        "y": 6.637928410024977
       },
       "nextControl": null,
       "isLocked": false,
@@ -57,8 +57,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 30.72,
-    "rotateFast": true
+    "rotation": 29.365912080571956,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Center 4 Note",

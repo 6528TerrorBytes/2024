@@ -58,8 +58,8 @@ public class HangerArm extends SubsystemBase {
   }
 
   public void outputLimitSwitches() {
-    SmartDashboard.putBoolean("leftLimitSwitch", !m_leftLimitSwitch.get());
-    SmartDashboard.putBoolean("rightLimitSwitch", !m_rightLimitSwitch.get());
+    SmartDashboard.putBoolean("Left Arm LimitSwitch", !m_leftLimitSwitch.get());
+    SmartDashboard.putBoolean("Right Arm LimitSwitch", !m_rightLimitSwitch.get());
   }
 
   // Set speeds

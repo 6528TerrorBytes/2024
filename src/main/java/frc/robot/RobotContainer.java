@@ -472,6 +472,7 @@ public class RobotContainer {
 
   public void dashboardStuff() {
     m_detectNote.addToDashboard();
+    m_hangerArm.outputLimitSwitches();
     m_shooterTilt.outputEncoder();
     m_ampFlap.outputEncoder();
   }
