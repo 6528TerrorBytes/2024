@@ -364,7 +364,8 @@ public class RobotContainer {
     m_pathPlannnerChooser.addOption("Amp-side 1 Note Wait", "Amp-side 1 Note Wait");
     m_pathPlannnerChooser.addOption("Amp-side 2 Note", "Amp-side 2 Note");
     m_pathPlannnerChooser.addOption("Amp-side 3 Note", "Amp-side 3 Note");
-    m_pathPlannnerChooser.addOption("Source-side Edge 2 Note", "Source-side Edge 2 Note");
+    // m_pathPlannnerChooser.addOption("Source-side Edge 2 Note", "Source-side Edge 2 Note");
+    m_pathPlannnerChooser.addOption("Source-side 2 Note", "Source-side 2 Note");
     m_pathPlannnerChooser.addOption("Source-side Ring Swiper", "Source-side Ring Swiper");
     m_pathPlannnerChooser.addOption("Source-side 3 Note", "Source-side 3 Note");
     m_pathPlannnerChooser.addOption("Source-side Shoot & Out", "Source-side Shoot & Out");
@@ -398,7 +399,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("fireShooter", new ParallelDeadlineGroup(
       new SequentialCommandGroup(
         new SpeedUpShooter(m_shooterSubsystem, 1, Constants.AutonConstants.speedUpShooterSeconds),
-        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, Constants.AutonConstants.conveyerRunSeconds)
+        new FireShooter(m_conveyerSubsystem, m_shooterSubsystem, 1)
       ),
       new SequentialCommandGroup(
         new WaitCommand(Constants.AutonConstants.speedUpShooterSeconds / 2),

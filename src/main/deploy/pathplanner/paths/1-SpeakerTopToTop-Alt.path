@@ -4,40 +4,56 @@
     {
       "anchor": {
         "x": 0.7672794566368348,
-        "y": 6.72
+        "y": 6.7166970697577755
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.309243119380694,
-        "y": 6.817459528143972
+        "x": 1.2211290254423093,
+        "y": 6.711356821640298
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2,
-        "y": 7.07
-      },
-      "prevControl": {
-        "x": 1.884922857882628,
-        "y": 7.082603085684695
-      },
-      "nextControl": {
-        "x": 2.5671420580766027,
-        "y": 7.055314317676937
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 3.1890104567328996,
+        "x": 1.602956765841976,
         "y": 6.96
       },
       "prevControl": {
-        "x": 2.8218683986562967,
-        "y": 6.989371364646129
+        "x": 1.2876276627550163,
+        "y": 6.96
+      },
+      "nextControl": {
+        "x": 1.970392420173477,
+        "y": 6.96
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.66,
+        "y": 6.96550713087115
+      },
+      "prevControl": {
+        "x": 2.446818386219101,
+        "y": 6.96550713087115
+      },
+      "nextControl": {
+        "x": 2.71,
+        "y": 6.96550713087115
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.66,
+        "y": 6.96
+      },
+      "prevControl": {
+        "x": 2.6100000000000003,
+        "y": 6.96
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,6 +64,11 @@
     {
       "waypointRelativePos": 1.0,
       "rotationDegrees": 0.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 2,
+      "rotationDegrees": 0,
       "rotateFast": false
     }
   ],
@@ -79,8 +100,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 25.0,
-    "rotateFast": false
+    "rotation": 28.0,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Amp-side 3 Note",

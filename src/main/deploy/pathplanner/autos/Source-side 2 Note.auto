@@ -20,12 +20,6 @@
                 "data": {
                   "commands": [
                     {
-                      "type": "path",
-                      "data": {
-                        "pathName": "1-SourceToShoot"
-                      }
-                    },
-                    {
                       "type": "named",
                       "data": {
                         "name": "fireShooter"
@@ -34,7 +28,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "2-SourceToBottom"
+                        "pathName": "1-idk"
                       }
                     },
                     {
@@ -46,7 +40,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "3-BottomCenterToShoot"
+                        "pathName": "2-idk"
                       }
                     },
                     {

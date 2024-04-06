@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.7672794566368348,
-        "y": 6.72
+        "x": 0.78,
+        "y": 4.36
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.309243119380694,
-        "y": 6.817459528143972
+        "x": 2.146327011795348,
+        "y": 2.7021655474437964
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 2.2,
-        "y": 7.07
+        "x": 4.231693901670451,
+        "y": 1.3217114090757707
       },
       "prevControl": {
-        "x": 1.884922857882628,
-        "y": 7.082603085684695
+        "x": 3.2330675037020917,
+        "y": 1.7622818787676937
       },
       "nextControl": {
-        "x": 2.5671420580766027,
-        "y": 7.055314317676937
+        "x": 5.590344753835618,
+        "y": 0.7223066213558437
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.1890104567328996,
-        "y": 6.96
+        "x": 8.48,
+        "y": 0.7489697984762701
       },
       "prevControl": {
-        "x": 2.8218683986562967,
-        "y": 6.989371364646129
+        "x": 7.040803132339718,
+        "y": 0.7636554807993345
       },
       "nextControl": null,
       "isLocked": false,
@@ -46,7 +46,7 @@
   ],
   "rotationTargets": [
     {
-      "waypointRelativePos": 1.0,
+      "waypointRelativePos": 1,
       "rotationDegrees": 0.0,
       "rotateFast": false
     }
@@ -55,7 +55,7 @@
   "eventMarkers": [
     {
       "name": "Intake",
-      "waypointRelativePos": 0.55,
+      "waypointRelativePos": 1.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -79,13 +79,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 25.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Amp-side 3 Note",
+  "folder": "Source-side 2 Note",
   "previewStartingState": {
-    "rotation": 60.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true
